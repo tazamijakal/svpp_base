@@ -4,7 +4,6 @@
     <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Spieler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Spieler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -24,6 +23,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="28Tb3KSdCbG6KPpDVxPwY9lXX2A" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -64,6 +66,14 @@
       <option name="presentableId" value="Default" />
       <updated>1651243326336</updated>
     </task>
+    <task id="LOCAL-00001" summary="Aenderungen um den Vorgaben naeher zu kommen">
+      <created>1651598716642</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1651598716642</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -76,6 +86,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Aenderungen um den Vorgaben naeher zu kommen" />
+    <option name="LAST_COMMIT_MESSAGE" value="Aenderungen um den Vorgaben naeher zu kommen" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

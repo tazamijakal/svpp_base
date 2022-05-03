@@ -10,7 +10,7 @@ public class Game {
     public int[] availableShips;
     public int[] smallFieldAvailableShips = {2, 3, 4, 5};
     public int[] bigFieldAvailableShips = {3, 4, 5, 6};
-    public static int[][] shipPool = { {0, 1, 2, 3, 4, 5, 6},
+    public int[][] shipPool = { {0, 1, 2, 3, 4, 5, 6},
                                 {0, 0, 0, 0, 0, 0, 0}};
 
     public Game() {
@@ -29,10 +29,12 @@ public class Game {
         String player1name = userInput.next();
         System.out.println("Name fuer Spieler 2: ..");
         String player2name = userInput.next();
-        Spieler spieler1 = new Spieler(player1name, mapSize, hp);
-        Spieler spieler2 = new Spieler(player2name, mapSize, hp);
+        Spieler spieler1 = new Spieler(player1name, mapSize, hp, shipPool);
+        Spieler spieler2 = new Spieler(player2name, mapSize, hp, shipPool);
         spieler1.cPrintBoth(spieler1, spieler2);
+        spieler1.showRemainingShips();
         startPlacingShips(spieler1, spieler2);
+        spieler2.showRemainingShips();
         startPlacingShips(spieler2, spieler1);
         startWar(spieler1, spieler2);
     }
@@ -173,7 +175,7 @@ public class Game {
     public void startPlacingShips(Spieler player1, Spieler player2) {
         System.out.println("Platziere deine Schiffe " + player1.name + ": ..");
         while (player1.hp > 0) {
-            player1.placeShipRequest(shipPool);
+            player1.placeShipRequest();
             player1.cPrintBoth(player1, player2);
         }
         System.out.println("Folgende Schiffe wurden platziert:");

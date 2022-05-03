@@ -15,6 +15,7 @@ public class Spieler {
     public final Object[][] board;      //Spielfeld ist eine Matrix und kann leicht navigiert und bearbeitet werden
     private int[][] collisionMap;        //wird ueberprueft um zu wissen ob Schiff genug Abstand zu den anderen Schiffen hat
     private int[][] hitMap;                //Zwischenspeicher für die einzelnen Koordinaten aus denen Schiff besteht
+    private int[][] remainingShips;
     public ArrayList<Ship> shipList = new ArrayList<>();        //Liste mit all den Schiffen eines Spielers
     Scanner userinput = new Scanner(System.in); //wird fuer Userinput benoetigt
 
@@ -37,10 +38,11 @@ public class Spieler {
      * @param mapSize   Groesse der Map (mapSize*mapSize == laenge*breite)
      * @param hp        Legt fest wie viele Felder mit Schiffen belegt werden koennen und wird gleichzeitig als health points verwendet.
      */
-    public Spieler(String name, int mapSize, int hp) {     //
+    public Spieler(String name, int mapSize, int hp, int[][]remainingShips) {     //
         this.name = name;
         this.hp = hp;
         this.mapSize = mapSize;
+        this.remainingShips = remainingShips;
         playerNumber = pCounter;
         pCounter++;                   //der 2te Spieler der erstellt wird bekommt automatisch die #2 zugewiesen
         collisionMap = new int[mapSize][mapSize];
@@ -56,10 +58,10 @@ public class Spieler {
     /**
      * Fraegt den Spieler wo er Schiffe haben will. Ist in einem loop, bis passende Position gefunden wurde.
      */
-    public boolean placeShipRequest(int[][] remainingShips) {
+    public boolean placeShipRequest() {
         while(true) {
             System.out.print("Folgende Schiffe muessen noch platziert werden: ");      //mögliche Längen werden aus remainingShips[] ermittelt
-            showRemainingShips(remainingShips);
+            showRemainingShips();
             System.out.println("\nX-Koordinate bei der das Schiff anfangen soll: ...");
             x = userinput.nextInt() - 1;                  //-1 da User nicht davon ausgeht das Matrix mit [0] startet
             System.out.println("Y-Koordinate bei der das Schiff anfangen soll: ...");
@@ -81,9 +83,9 @@ public class Spieler {
         int index;
         while(true) {
             System.out.println("Laenge des Schiffs auswaehlen, moegliche Laengen waeren:");
-            showRemainingShips(remainingShips);
+            showRemainingShips();
             length = userinput.nextInt();
-            index = isInMatrix(remainingShips, length);
+            index = isInMatrix(this.remainingShips, length);
             if (index>0){
                 break;
             }
@@ -91,7 +93,7 @@ public class Spieler {
         }
         if (spaceCheck()) {
             placeShip(true);
-            remainingShips[1][index]--;
+            this.remainingShips[1][index]--;
             System.out.println("HP before hp-: "+hp);
             hp -= length;
             System.out.println("HP after hp-: "+hp);
@@ -99,7 +101,7 @@ public class Spieler {
             return true;
         } else {
             System.out.println("Schiff konnte nicht gesetzt werden, da kein Platz oder out of bounds!");
-            placeShipRequest(remainingShips);
+            placeShipRequest();
             return false;
         }
     }
@@ -317,10 +319,10 @@ public class Spieler {
         }
     }
 
-    public void showRemainingShips(int[][] remainingShips){
-        for (int i = 0; i < remainingShips[0].length; i++) {
-            if(remainingShips[1][i]>0){
-                System.out.print(remainingShips[1][i]+"x "+remainingShips[0][i]+"-er Schiff, ");
+    public void showRemainingShips(){
+        for (int i = 0; i < this.remainingShips[0].length; i++) {
+            if(this.remainingShips[1][i]>0){
+                System.out.print(this.remainingShips[1][i]+"x "+this.remainingShips[0][i]+"-er Schiff, ");
             }
         }
     }
