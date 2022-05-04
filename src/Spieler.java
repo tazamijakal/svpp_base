@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -7,17 +8,17 @@ import java.util.Scanner;
  */
 public class Spieler {
     public final String name;       //damit wird der Spieler angesprochen
-    int x, y, xd, yd, direction, length; //wird fuer Schiffplatzierung benutzt
-    public int hp;          //hp = felder die schiffe sind bzw. HP welche 0 erreichen wenn alle Schiffe zerstoert sind
-    public int mapSize;         //mapSize = laenge/breite
+    int x, y, xd, yd, direction, length; //wird für Schiffplatzierung benutzt
+    public int hp;          //hp = felder die schiffe sind bzw. HP welche 0 erreichen wenn alle Schiffe zerstört sind
+    public int mapSize;         //mapSize = länge/breite
     static int pCounter = 1;       //wird benötigt damit Spielfeld 1 immer links ist und vice versa
     public int playerNumber;         //currently not used, automatically incremented on player creation
     public final Object[][] board;      //Spielfeld ist eine Matrix und kann leicht navigiert und bearbeitet werden
-    private int[][] collisionMap;        //wird ueberprueft um zu wissen ob Schiff genug Abstand zu den anderen Schiffen hat
+    private int[][] collisionMap;        //wird überprüft um zu wissen ob Schiff genug Abstand zu den anderen Schiffen hat
     private int[][] hitMap;                //Zwischenspeicher für die einzelnen Koordinaten aus denen Schiff besteht
-    private int[][] remainingShips;
+    private int[] remainingShips;
     public ArrayList<Ship> shipList = new ArrayList<>();        //Liste mit all den Schiffen eines Spielers
-    Scanner userinput = new Scanner(System.in); //wird fuer Userinput benoetigt
+    Scanner userinput = new Scanner(System.in); //wird für Userinput benötigt
 
     /**
      * Ersetzt bei Treffer Schiffsobjekt auf dem Spielfeld.
@@ -35,19 +36,19 @@ public class Spieler {
      * Konstruktor erzeugt neuen Spieler mit eigener Map.
      *
      * @param name      Name des Spielers
-     * @param mapSize   Groesse der Map (mapSize*mapSize == laenge*breite)
-     * @param hp        Legt fest wie viele Felder mit Schiffen belegt werden koennen und wird gleichzeitig als health points verwendet.
+     * @param mapSize   Größe der Map (mapSize*mapSize == länge*breite)
+     * @param hp        Legt fest wie viele Felder mit Schiffen belegt werden können und wird gleichzeitig als health points verwendet.
      */
-    public Spieler(String name, int mapSize, int hp, int[][]remainingShips) {     //
+    public Spieler(String name, int mapSize, int hp, int[]remainingShips) {     //
         this.name = name;
         this.hp = hp;
         this.mapSize = mapSize;
-        this.remainingShips = remainingShips;
+        this.remainingShips = remainingShips.clone();
         playerNumber = pCounter;
         pCounter++;                   //der 2te Spieler der erstellt wird bekommt automatisch die #2 zugewiesen
         collisionMap = new int[mapSize][mapSize];
         board = new Object[mapSize][mapSize];       //Spielfeld
-        for (int y = 0; y < mapSize; y++) {         //fuellt die map mit ~, soll Wasser darstellen
+        for (int y = 0; y < mapSize; y++) {         //füllt die map mit ~, soll Wasser darstellen
             for (int x = 0; x < mapSize; x++) {
                 board[x][y] = null;
                 collisionMap[x][y] = 0;
@@ -56,11 +57,11 @@ public class Spieler {
     }
 
     /**
-     * Fraegt den Spieler wo er Schiffe haben will. Ist in einem loop, bis passende Position gefunden wurde.
+     * Frägt den Spieler wo er Schiffe haben will. Ist in einem loop, bis passende Position gefunden wurde.
      */
     public boolean placeShipRequest() {
         while(true) {
-            System.out.print("Folgende Schiffe muessen noch platziert werden: ");      //mögliche Längen werden aus remainingShips[] ermittelt
+            System.out.print("Folgende Schiffe müssen noch platziert werden: ");      //mögliche Längen werden aus remainingShips[] ermittelt
             showRemainingShips();
             System.out.println("\nX-Koordinate bei der das Schiff anfangen soll: ...");
             x = userinput.nextInt() - 1;                  //-1 da User nicht davon ausgeht das Matrix mit [0] startet
@@ -82,21 +83,18 @@ public class Spieler {
         }
         int index;
         while(true) {
-            System.out.println("Laenge des Schiffs auswaehlen, moegliche Laengen waeren:");
+            System.out.println("Länge des Schiffs auswählen, mögliche Längen wären:");
             showRemainingShips();
             length = userinput.nextInt();
-            index = isInMatrix(this.remainingShips, length);
-            if (index>0){
+            if(this.remainingShips[length]>0) {
                 break;
             }
-            System.out.println("Gewuenschte Laenge nicht verfügbar!");
+            System.out.println("Gewünschte Länge nicht verfügbar!");
         }
         if (spaceCheck()) {
             placeShip(true);
-            this.remainingShips[1][index]--;
-            System.out.println("HP before hp-: "+hp);
+            this.remainingShips[length]--;
             hp -= length;
-            System.out.println("HP after hp-: "+hp);
             System.out.println(length+"-er Schiff wurde platziert!");
             return true;
         } else {
@@ -107,24 +105,24 @@ public class Spieler {
     }
 
     /**
-     * Ueberprueft  mittels der in placeShip aktualisierten collision map ob an der gewuenschten Stelle Platz fuer das Schiff ist
+     * überprüft  mittels der in placeShip aktualisierten collision map ob an der gewünschten Stelle Platz für das Schiff ist
      *
-     * @return false = kein Platz fuer das Schiff
+     * @return false = kein Platz für das Schiff
      */
     public boolean spaceCheck() {
-//        xd = 0;      // xd/yd variable wird angeben in welche Richtung Schiff beim platzieren waechst             //TODO REMOVE THIS
+//        xd = 0;      // xd/yd variable wird angeben in welche Richtung Schiff beim platzieren wächst             //TODO REMOVE THIS
 //        yd = 0;
 //        if(!directionCheck()){return false;}
         int xCheck = xd * length + x;         //wenn xCheck<0 clipped das Schiff mit der linken Wand, bei xCheck>mapSize clipped es rechts
         int yCheck = yd * length + y;         //same wie xCheck nur vertikal
         if (xCheck > mapSize || xCheck+1 < 0 || yCheck > mapSize || yCheck + 1 < 0) {      //wallclipchecker
-            System.out.println("Schiff ueberschreitet Spielfeldgrenzen!");
+            System.out.println("Schiff überschreitet Spielfeldgrenzen!");
             return false;
         }
 
-        int tempX = x;      //damit x und y nicht ueberschrieben werden
+        int tempX = x;      //damit x und y nicht überschrieben werden
         int tempY = y;
-        for (int i = 0; i < length; i++) {    //prueft ob Felder (+deren angrenzende Felder) bereits belegt sind
+        for (int i = 0; i < length; i++) {    //prüft ob Felder (+deren angrenzende Felder) bereits belegt sind
             if (collisionMap[tempX][tempY]>0) {
                 System.out.println("Nicht genug Platz für das Schiff!");
                 return false;
@@ -136,12 +134,13 @@ public class Spieler {
     }
 
     /**
-     * Platziert oder entfernt Schiff und aktualisiert collision map. Aufruf nur ueber interne Funktionen damit Platzierung auch valid ist
+     * Platziert oder entfernt Schiff und aktualisiert collision map. Aufruf nur über interne Funktionen damit Platzierung auch valid ist
      *
      * @param placeRemoveToggle true um Schiffe zu platzieren, false um Schiffe zu entfernen
      */
+    //TODO Wenn man mehrmals erfolglos versucht Schiff zu platzieren kann das nächste broken sein
     protected void placeShip(boolean placeRemoveToggle) {
-        int[] startingPoint = {x, y};       //x+y werden spaeter für Schiffserstellung benoetigt und deswegen zwischengespeichert
+        int[] startingPoint = {x, y};       //x+y werden später für Schiffserstellung benötigt und deswegen zwischengespeichert
         int[][] hitMap = new int[length][2];     //speichert die einzelnen Koordinaten aus dene ein Schiff bestehen
         for (int i = 0; i < length; i++) {
             hitMap[i][0] = x;
@@ -174,7 +173,7 @@ public class Spieler {
                 endPoint = temp;
             }
         }
-        startingPoint[0] -= 1;  //Erweiterung um die angrenzenden Felder da Schiffe 1 Feld Abstand zueinander brauchen
+        startingPoint[0] -= 1;  //Erweiterung um die angrenzenden Felder da Schiffe 1 Feld Abstand züinander brauchen
         startingPoint[1] -= 1;
         endPoint[0] += 1;
         endPoint[1] += 1;
@@ -203,7 +202,7 @@ public class Spieler {
      * @param x         x wert
      * @param y         y wert
      * @param direction richtung
-     * @param length    laenge
+     * @param length    länge
      */
     public void manualShipPlacement(int x, int y, int direction, int length) {
         this.x = x - 1;
@@ -218,7 +217,7 @@ public class Spieler {
     }
 
     /**
-     * Ueberprueft ob Schiff auf dem Feld liegt, liest die Koordinaten aus und entfernt das komplette Schiff vom Spielfeld und der shipList[]
+     * überprüft ob Schiff auf dem Feld liegt, liest die Koordinaten aus und entfernt das komplette Schiff vom Spielfeld und der shipList[]
      *
      * @param x x-Achse
      * @param y y-Achse
@@ -231,7 +230,7 @@ public class Spieler {
             this.y = schiff.initialY;
             direction = schiff.initialD;
             length = schiff.length;
-            xd = 0;      // xd/yd variable wird angeben in welche Richtung Schiff beim platzieren waechst
+            xd = 0;      // xd/yd variable wird angeben in welche Richtung Schiff beim platzieren wächst
             yd = 0;
             directionCheck();       //legt xd/yd fest
             placeShip(false);
@@ -263,7 +262,7 @@ public class Spieler {
     }
 
     /**
-     * Fraegt den Spieler nach Zielkoordinaten, ueberprueft ob bereits auf Feld geschossen wurde.
+     * Frägt den Spieler nach Zielkoordinaten, überprüft ob bereits auf Feld geschossen wurde.
      */
     public void shootrequest(Spieler player1, Spieler player2) {
         try{
@@ -278,8 +277,8 @@ public class Spieler {
                 if (board[xAxis][yAxis] instanceof Ship) {
                     board[xAxis][yAxis] = trefferObject;
                     System.out.println("TREFFER!!!");
-                    hp--;
-                    if(hp>0){
+                    this.hp--;
+                    if(this.hp>0){
                         cPrintBoth(player1, player2);
                         shootrequest(player1, player2);
                     }
@@ -295,34 +294,34 @@ public class Spieler {
     }
 
     /**
-     * Schiesst auf angegebene Koordinaten, soll nur von shootrequest() aufgerufen werden da dieses prüft ob bereits auf das Feld geschossen wurde.
-     * Nach einem Treffer darf der Spieler erneut schiessen.
+     * Schießt auf angegebene Koordinaten, soll nur von shootrequest() aufgerufen werden da dieses prüft ob bereits auf das Feld geschossen wurde.
+     * Nach einem Treffer darf der Spieler erneut schießen.
      * @param x x-Achse
      * @param y y-Achse
      */
     public void shoot(int x, int y, Spieler player1, Spieler player2) {
         if (board[x][y] instanceof Ship) {
-            ((Ship) board[x][y]).length--;
-            if(((Ship) board[x][y]).length==0){
+            if(((Ship) board[x][y]).length == 1){
                 System.out.println("Treffer, versenkt!!!");
-            } else{
+            } else {
                 System.out.println("TREFFER!!!");
             }
+            ((Ship) board[x][y]).length--;
             board[x][y] = trefferObject;
-            hp--;
+            this.hp--;
             if(hp>0){
                 shootrequest(player1, player2);
             }
-        } else {
+            } else {
             board[x][y] = misfireObject;
             System.out.println("Nichts getroffen..");
         }
     }
 
     public void showRemainingShips(){
-        for (int i = 0; i < this.remainingShips[0].length; i++) {
-            if(this.remainingShips[1][i]>0){
-                System.out.print(this.remainingShips[1][i]+"x "+this.remainingShips[0][i]+"-er Schiff, ");
+        for (int i = 0; i < this.remainingShips.length; i++) {
+            if(this.remainingShips[i]>0){
+                System.out.print(this.remainingShips[i]+"x "+ i +"-er Schiff, ");
             }
         }
     }
@@ -426,16 +425,6 @@ public class Spieler {
         for (int x = 0; x < mapSize; x++) {
             System.out.print(collisionMap[x][row] + "    ");
         }
-    }
-
-    public int isInMatrix(int[][]array, int value){
-        for (int i=0; i<array[0].length; i++) {
-//            System.out.println("Comparing "+array[1][i]+" with "+value);      //TODO delete this
-            if (array[0][i] == value && array[1][i]>0) {
-                return i;
-            }
-        }
-        return 0;
     }
 
 }
