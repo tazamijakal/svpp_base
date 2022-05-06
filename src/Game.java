@@ -64,14 +64,14 @@ public class Game {
     }
 
     /**
-     * Frägt Spieler nach der gewünschten Spielfeldgröße, berechnet Mindestkapazität, und schließt Schiffslängen aus, welche nicht regelkonform sind.
+     * Frägt Spieler nach der gewünschten Spielfeldgröße, berechnet Kapazität, und schließt Schiffslängen aus, welche nicht regelkonform sind.
      */
     public void requestMapSize() {
         System.out.println("Spielfeldgröße zwischen 5 und 30 auswählen:");
         mapSize = userInput.nextInt();
         if (mapSize < 31 && mapSize > 4) {
             minCapacity = (int) ((double) mapSize * mapSize / 100 * 30);            //nicht unbedingt genau 30% da es nur ganze Felder gibt
-            String netSize = String.format("size %d", mapSize);                     //TODO für netzwerk
+            String netSize = String.format("size %d", mapSize);                     //todo netzwerk
             if (mapSize < 19)
                 availableShips = smallFieldAvailableShips;           //gibt die möglichen Schiffslängen vor
             else availableShips = bigFieldAvailableShips;
@@ -102,7 +102,7 @@ public class Game {
         int shipType;           //2er, 3er, 4er, .. 6er-Schiff
         while (true) {
             while (true) {
-                System.out.println("Mindestkapazität: "+minCapacity+"\tAktuelle Kapazität: "+hp);
+                System.out.println("Erforderliche Kapazität: " + minCapacity + "\tAktuelle Kapazität: " + hp);
                 System.out.println("Schiffstyp hinzufügen(1), entfernen(2) oder Auswahl beenden(3)?");
                 whatDo = userInput.nextInt();
                 if (whatDo > 0 && whatDo < 4) {
@@ -116,7 +116,7 @@ public class Game {
                 break;
             } else if (whatDo == 2) {
                 while (true) {
-                    if(hp<=0){
+                    if (hp <= 0) {
                         System.out.println("Keine Schiffe zum entfernen vorhanden!");
                         break;
                     } else {
@@ -136,25 +136,42 @@ public class Game {
             } else if (whatDo == 1) {
                 while (true) {
                     System.out.println("Von welchem Schiffstyp (Länge) sollen Schiffe hinzugefügt werden?");
+                    showPossibleShips();
                     shipType = userInput.nextInt();
-                    if (shipType>=availableShips[0] && shipType<=availableShips[availableShips.length-1]) {
-                            adjustShipPool(true, shipType);
-                            break;
-                        } else {
+                    if (shipType >= availableShips[0] && shipType <= availableShips[availableShips.length - 1]) {
+                        adjustShipPool(true, shipType);
+                        break;
+                    } else {
                         System.out.println("Keine legitime Schiffslänge!\n");
                     }
                 }
             }
         }
-        if (hp >= minCapacity) {
-            System.out.println("Mindestkapazität erfüllt!");
+        if (hp == minCapacity) {
+            System.out.println("Erforderliche Kapazität erfüllt!");
             printShipPool();
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("ships ");
+            for (int i = shipPool.length - 1; i >= 0; i--) {
+                for (int c = 1; c <= shipPool[i]; c++) {
+                    stringBuilder.append(i);
+                    stringBuilder.append(" ");
+                }
+            }
+            stringBuilder.deleteCharAt(stringBuilder.length()-1);
+            String shipsLength = stringBuilder.toString();
+            System.out.println("Netzwerk-Antwort: " + shipsLength);             //TODO netzwerk
+        } else if (hp < minCapacity) {
+            System.out.println("Erforderliche Kapazität nicht erreicht, bitte weitere Schiffe auswählen!\nFolgende Schiffe wurden bereits platziert:");
+            printShipPool();
+            requestShipTypes();
         } else {
-            System.out.println("Mindestkapazität nicht erfüllt, bitte weitere Schiffe auswählen!\nFolgende Schiffe wurden bereits platziert:");
+            System.out.println("Erforderliche Kapazität überschritten, bitte Schiffe entfernen!\nFolgende Schiffe wurden bereits platziert:");
             printShipPool();
             requestShipTypes();
         }
     }
+
 
     public void adjustShipPool(boolean addRemoveToggle, int length) {
         if (addRemoveToggle) {
@@ -187,6 +204,13 @@ public class Game {
     public void printShipPool(){
         for (int i = availableShips[0]; i < availableShips[availableShips.length-1]+1; i++) {
             System.out.println(shipPool[i] + "x " + i + "-er Schiff");              //TODO nur mögliche Schiffstypen auflisten
+        }
+    }
+
+    public void showPossibleShips(){
+        System.out.println("Verfügbare Schiffslängen wären: ");
+        for (int i = availableShips[0]; i < availableShips[availableShips.length-1]+1; i++) {
+            System.out.print("["+ i + "] ");              //TODO nur mögliche Schiffstypen auflisten
         }
     }
 }

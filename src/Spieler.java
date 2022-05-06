@@ -12,7 +12,7 @@ public class Spieler {
     public int hp;          //hp = felder die schiffe sind bzw. HP welche 0 erreichen wenn alle Schiffe zerstört sind
     public int mapSize;         //mapSize = länge/breite
     static int pCounter = 1;       //wird benötigt damit Spielfeld 1 immer links ist und vice versa
-    public int playerNumber;         //currently not used, automatically incremented on player creation
+    public int playerNumber;         //wird als Index verwendet damit Spielfeld von Spieler 1 immer auf der linken Seite ist
     public final Object[][] board;      //Spielfeld ist eine Matrix und kann leicht navigiert und bearbeitet werden
     private int[][] collisionMap;        //wird überprüft um zu wissen ob Schiff genug Abstand zu den anderen Schiffen hat
     private int[][] hitMap;                //Zwischenspeicher für die einzelnen Koordinaten aus denen Schiff besteht
