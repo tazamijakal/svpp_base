@@ -59,11 +59,14 @@ public class Server {
                 //"ships" + *shipscount* <= muss noch nachgetragen werden =======================================================================
 
                 //Dummy statement zum testen
-                TextClient("ships 5 5 5 4 4 4 3 3 2 1");
+                TextClient("ships 5 5 5 4 4 4 3 3 2");
 
                 //Warten auf "ok"
-                done = in.readLine();
-                System.out.println("Opponent: " + done);
+                String okay = in.readLine();
+                System.out.println("Opponent: " + okay);
+
+                //Dummy "ready"      ============================================
+                TextClient("ready");
 
                 //"ready" check von Server wird intern geschickt sobald alle Schiffe plaziert sind
                 //und "ready" on Client kommt erst nach "ready" von Server
@@ -76,6 +79,7 @@ public class Server {
 
                 //Spiel starten
                 //Wenn Client am Zug war (load) pass texten
+                TextClient("okay :)");
 
                 //Ping-Pong Prinzip warten auf Befehle
                 while(true){

@@ -45,7 +45,7 @@ public class Client {
             //Kommunikationsprotokoll
 
             //Test
-            TextServer("hey :)"); //=================================================================================================
+            //TextServer("hey :)"); //=================================================================================================
             //Test
 
             //size oder load von Server   => first message
@@ -121,6 +121,7 @@ public class Client {
         }
         catch(Exception e){
             this.status = -2;
+            e.printStackTrace();
             return;
         }
     }
