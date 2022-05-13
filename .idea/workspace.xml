@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="Netzwerk Klassen / Client + Server">
-      <change afterPath="$PROJECT_DIR$/src/Socket/Client.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Socket/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Spieler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Spieler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +45,7 @@
     "project.structure.last.edited": "SDKs",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
   <component name="RunManager">
@@ -91,7 +92,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651689790766</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Kapazität/HP sind jetzt genau 30%, Stringverkettung für Netzwerk vorbereitet">
+      <created>1651835179134</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1651835179134</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -120,7 +128,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Aenderungen um den Vorgaben naeher zu kommen" />
     <MESSAGE value="paar Verbesserungen, Umlaute wieder hinzugefügt" />
-    <option name="LAST_COMMIT_MESSAGE" value="paar Verbesserungen, Umlaute wieder hinzugefügt" />
+    <MESSAGE value="Kapazität/HP sind jetzt genau 30%, Stringverkettung für Netzwerk vorbereitet" />
+    <option name="LAST_COMMIT_MESSAGE" value="Kapazität/HP sind jetzt genau 30%, Stringverkettung für Netzwerk vorbereitet" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -129,6 +138,11 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="3" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Spieler.java</url>
+          <line>365</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

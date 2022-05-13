@@ -30,9 +30,29 @@ public class Game {
         String player2name = userInput.next();
         Spieler spieler1 = new Spieler(player1name, mapSize, hp, shipPool);
         Spieler spieler2 = new Spieler(player2name, mapSize, hp, shipPool);
-        spieler1.cPrintBoth(spieler1, spieler2);
+        spieler1.printAll(spieler1, spieler2);
         startPlacingShips(spieler1, spieler2);
         startPlacingShips(spieler2, spieler1);
+        startWar(spieler1, spieler2);
+    }
+
+    public void demoGame() {
+        mapSize = 5;
+        minCapacity = (int) ((double) mapSize * mapSize / 100 * 30);
+        hp = 7;
+        adjustShipPool(true, 4);
+        adjustShipPool(true, 3);
+        Spieler spieler1 = new Spieler("RECHTS", mapSize, hp, shipPool);
+        Spieler spieler2 = new Spieler("LINKS", mapSize, hp, shipPool);
+        spieler1.printAll(spieler1, spieler2);
+        spieler1.manualShipPlacement(1,1,6,4);
+        spieler1.manualShipPlacement(1,3,6,3);
+        spieler2.manualShipPlacement(5,5,4,4);
+        spieler2.manualShipPlacement(5,3,4,3);
+        spieler1.radar(4,4,spieler1,spieler2);
+        System.out.println("Radar map for Player 1 at R5|5: "+spieler1.radarMap[4][4]);
+        spieler1.printAll(spieler1, spieler2);
+//        gameCoordinator(spieler1, spieler2);
         startWar(spieler1, spieler2);
     }
 
@@ -44,14 +64,14 @@ public class Game {
      */
     public void startWar(Spieler player1, Spieler player2) {
         player1.hp = minCapacity;              //hier bezeichnet hp die Anzahl an Feldern auf welchen noch Schiffe liegen
-        player2.hp = minCapacity;               //TODO HP FALSCH
+        player2.hp = minCapacity;
         while (player1.hp > 0 && player2.hp > 0) {
-            player1.cPrintBoth(player1, player2);
+            player1.printAll(player1, player2);
             System.out.println("Zielkoordinaten eingeben " + player1.name);
-            player2.shootrequest(player2, player1);
-            player1.cPrintBoth(player1, player2);
+            player2.shootrequest(player1, player2);
+            player1.printAll(player1, player2);
             System.out.println("Zielkoordinaten eingeben " + player2.name);
-            player1.shootrequest(player1, player2);
+            player1.shootrequest(player2, player1);
         }
         if (player1.hp == player2.hp) {
             System.out.println("Unentschieden!");
@@ -61,6 +81,39 @@ public class Game {
             System.out.println(player1.name + " hat gewonnen!");
         }
         System.out.println("GG WP");
+    }
+
+
+    public void gameCoordinator(Spieler spieler1, Spieler spieler2){
+        spieler1.hp = minCapacity;              //hier bezeichnet hp die Anzahl an Feldern auf welchen noch Schiffe liegen
+        spieler2.hp = minCapacity;
+        int whatDo;
+        Spieler attacker = spieler1;
+        Spieler defender = spieler2;
+        while (spieler1.hp > 0 && spieler2.hp > 0) {
+            if (attacker == spieler1) {
+                attacker = spieler2;
+                defender = spieler1;
+            } else if (attacker == spieler2) {
+                attacker = spieler1;
+                defender = spieler2;
+            }
+            attacker.printAll(attacker, defender);
+            while (true) {
+                System.out.println("Was willst du tun, "+attacker.name+": Schießen(1)\tRadar(2)\tAirstrike(not implemented)");
+                whatDo = userInput.nextInt();
+                if (whatDo == 1) {
+                    attacker.shootrequest(attacker, defender);
+                    break;
+                } else if (whatDo == 2) {
+                    attacker.radarRequest(attacker, defender);
+                    break;
+                } else {
+                    System.err.print("Keine mögliche Option!");
+                }
+            }
+        }
+        System.out.println("Spiel vorbei.");
     }
 
     /**
@@ -194,11 +247,12 @@ public class Game {
         System.out.println("Platziere deine Schiffe " + player1.name + ": ..");
         while (player1.hp > 0) {
             player1.placeShipRequest();
-            player1.cPrintBoth(player1, player2);
+            System.out.println("Non working printAll()");
+            player1.printAll(player1, player2);
         }
         System.out.println("Folgende Schiffe wurden platziert:");
         player1.printShipList();
-        player1.cPrintBoth(player1, player2);
+        player1.printAll(player1, player2);
     }
 
     public void printShipPool(){

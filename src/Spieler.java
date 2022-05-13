@@ -14,6 +14,8 @@ public class Spieler {
     static int pCounter = 1;       //wird benötigt damit Spielfeld 1 immer links ist und vice versa
     public int playerNumber;         //wird als Index verwendet damit Spielfeld von Spieler 1 immer auf der linken Seite ist
     public final Object[][] board;      //Spielfeld ist eine Matrix und kann leicht navigiert und bearbeitet werden
+    public final Object[][] visibleBoard;
+    public int[][] radarMap;   //TODO für Radar
     private int[][] collisionMap;        //wird überprüft um zu wissen ob Schiff genug Abstand zu den anderen Schiffen hat
     private int[][] hitMap;                //Zwischenspeicher für die einzelnen Koordinaten aus denen Schiff besteht
     private int[] remainingShips;
@@ -48,10 +50,14 @@ public class Spieler {
         pCounter++;                   //der 2te Spieler der erstellt wird bekommt automatisch die #2 zugewiesen
         collisionMap = new int[mapSize][mapSize];
         board = new Object[mapSize][mapSize];       //Spielfeld
+        visibleBoard = new Object[mapSize][mapSize];
+        radarMap = new int[mapSize][mapSize];
         for (int y = 0; y < mapSize; y++) {         //füllt die map mit ~, soll Wasser darstellen
             for (int x = 0; x < mapSize; x++) {
                 board[x][y] = null;
+                visibleBoard[x][y] = null;
                 collisionMap[x][y] = 0;
+                radarMap[x][y] = 0;
             }
         }
     }
@@ -173,7 +179,7 @@ public class Spieler {
                 endPoint = temp;
             }
         }
-        startingPoint[0] -= 1;  //Erweiterung um die angrenzenden Felder da Schiffe 1 Feld Abstand züinander brauchen
+        startingPoint[0] -= 1;  //Erweiterung um die angrenzenden Felder da Schiffe 1 Feld Abstand zueinander brauchen
         startingPoint[1] -= 1;
         endPoint[0] += 1;
         endPoint[1] += 1;
@@ -205,15 +211,15 @@ public class Spieler {
      * @param length    länge
      */
     public void manualShipPlacement(int x, int y, int direction, int length) {
-        this.x = x - 1;
-        this.y = y - 1;
+        this.x = x-1;
+        this.y = y-1;
         this.direction = direction;
         this.length = length;
-        if (spaceCheck()) {
-            placeShip(true);
-        } else {
-            System.out.println("Manual ship placement failed!");
-        }
+        directionCheck();
+        placeShip(true);
+        this.remainingShips[length]--;
+        hp -= length;
+        System.out.println(length+"-er Schiff wurde platziert!");
     }
 
     /**
@@ -246,6 +252,8 @@ public class Spieler {
      * @return true/false
      */
     public boolean directionCheck() {        //sucht nach passendem xd oder yd wert
+        xd=0;
+        yd=0;
         if (direction == 4) {
             xd = -1;
         } else if (direction == 6) {
@@ -264,32 +272,39 @@ public class Spieler {
     /**
      * Frägt den Spieler nach Zielkoordinaten, überprüft ob bereits auf Feld geschossen wurde.
      */
-    public void shootrequest(Spieler player1, Spieler player2) {
+    public void shootrequest(Spieler attacker, Spieler defender) {
         try{
             System.out.println("X-Koordinate eingeben: ...");
             int xAxis = userinput.nextInt() - 1;  // Read user input
             System.out.println("Y-Koordinate eingeben: ...");
             int yAxis = userinput.nextInt() - 1;
-            if (board[xAxis][yAxis] instanceof TrefferObject || board[xAxis][yAxis] instanceof MisfireObject) {
+            if (attacker.visibleBoard[xAxis][yAxis] instanceof TrefferObject || attacker.visibleBoard[xAxis][yAxis] instanceof MisfireObject) {
                 System.out.println("Bereits auf Feld geschossen!");
-                shootrequest(player1, player2);
+                shootrequest(attacker, defender);
             } else {
-                if (board[xAxis][yAxis] instanceof Ship) {
-                    board[xAxis][yAxis] = trefferObject;
-                    System.out.println("TREFFER!!!");
+                if (defender.board[xAxis][yAxis] instanceof Ship) {
+                    if(((Ship) defender.board[xAxis][yAxis]).length==1){
+                        System.out.println("TREFFER, VERSENKT!");
+                    } else {
+                        System.out.println("TREFFER!!!");
+                    }
+                    ((Ship) defender.board[xAxis][yAxis]).length--;
+                    attacker.visibleBoard[xAxis][yAxis] = trefferObject;
+                    defender.board[xAxis][yAxis] = trefferObject;
                     this.hp--;
                     if(this.hp>0){
-                        cPrintBoth(player1, player2);
-                        shootrequest(player1, player2);
+                        printAll(attacker, defender);
+                        shootrequest(attacker, defender);
                     }
                 } else {
-                    board[xAxis][yAxis] = misfireObject;
+                    defender.board[xAxis][yAxis] = misfireObject;
+                    attacker.visibleBoard[xAxis][yAxis] = misfireObject;
                     System.out.println("NICHTS GETROFFEN");
                 }
             }
         }catch (ArrayIndexOutOfBoundsException E){
             System.out.println("Out of bounds!");
-            shootrequest(player1, player2);
+            shootrequest(attacker, defender);
         }
     }
 
@@ -299,7 +314,7 @@ public class Spieler {
      * @param x x-Achse
      * @param y y-Achse
      */
-    public void shoot(int x, int y, Spieler player1, Spieler player2) {
+    public void shoot(int x, int y, Spieler defender, Spieler attacker) {
         if (board[x][y] instanceof Ship) {
             if(((Ship) board[x][y]).length == 1){
                 System.out.println("Treffer, versenkt!!!");
@@ -308,14 +323,48 @@ public class Spieler {
             }
             ((Ship) board[x][y]).length--;
             board[x][y] = trefferObject;
+            visibleBoard[x][y] = trefferObject;
             this.hp--;
             if(hp>0){
-                shootrequest(player1, player2);
+                shootrequest(attacker, defender);
             }
             } else {
             board[x][y] = misfireObject;
+            visibleBoard[x][y] = misfireObject;
             System.out.println("Nichts getroffen..");
         }
+    }
+
+    public void radarRequest(Spieler attacker, Spieler defender){
+        while(true){
+            System.out.println("Wo soll Radar sein?");
+            System.out.println("X-Koordinate eingeben..");
+            int x = userinput.nextInt()-1;
+            System.out.println("Y-Koordinate eingeben..");
+            int y = userinput.nextInt()-1;
+            if(x>0 && x<mapSize-1 && y>0 && y<mapSize-1){
+                attacker.radar(x,y, attacker, defender);
+                break;
+            } else {
+                System.out.println("mapsize: "+mapSize);
+                System.err.println("Out of bounds!");
+            }
+        }
+    }
+
+    public void radar(int x, int y, Spieler attacker, Spieler defender) {
+        int enemies = 0;
+        for(int i=x-1; i<x+1; i++){
+            for(int c=y-1; c<y+1; c++){
+                System.out.println(x+" "+y);
+                if(defender.board[x][y] instanceof Ship){
+                    enemies++;
+                }
+            }
+        }
+        System.out.println("Detected "+enemies+" enemies at ["+x+"]["+y+"]");
+        attacker.radarMap[x][y]=enemies;
+        System.out.println(attacker.radarMap[x][y]);
     }
 
     public void showRemainingShips(){
@@ -358,60 +407,107 @@ public class Spieler {
      * @param one Spieler 1
      * @param two Spieler 2
      */
-    public void printBoth(Spieler one, Spieler two) {
+    public void printAll(Spieler one, Spieler two) {
+        Spieler dummy;
+        if(one.playerNumber < two.playerNumber){            //stellt sicher das Spielfeld von Spieler 1 immer links ist
+            dummy = one;
+        } else {dummy = two;}
         System.out.println();
+        StringBuilder stringBuilder = new StringBuilder();      //TODO REMOVE
+        stringBuilder.append("one P#:"+one.playerNumber+" two P#: "+two.playerNumber+"\t");
         for (int y = 0; y < one.mapSize; y++) {
-            one.printRow(y);
-            System.out.print("     ");
-            two.printRow(y);
+            for(int i=0; i<=1; i++){
+                printRow(dummy, y);
+
+                stringBuilder.append(dummy.playerNumber);
+                System.out.print("     ");
+//                printCollisionRow(dummy, y);
+//                System.out.print("     ");
+                printVisibleRow(dummy, y);
+                System.out.print("   |     ");
+                if(dummy.playerNumber==1){
+                    stringBuilder.append("S-->");
+                    dummy = two;
+                } else {dummy = one;
+                    stringBuilder.append("S-->");}
+            }
             System.out.println("\n");
         }
+        System.out.println("Player switcher: "+stringBuilder.toString());
+
     }
 
-    /**
-     * Printet zusätzlich die collision maps, ansonsten gleich wie printBoth()
-     *
-     * @param one Spieler 1
-     * @param two Spieler 2
-     */
-    public void cPrintBoth(Spieler one, Spieler two) {
-        System.out.println();
-        Spieler temp;
-        if(one.playerNumber > two.playerNumber){
-            temp = one;
-            one = two;
-            two = temp;
-        }
-        for (int y = 0; y < mapSize; y++) {
-            one.printRow(y);
-            System.out.print("     ");
-            one.printCollisionRow(y);
-            System.out.print("     ");
-            two.printRow(y);
-            System.out.print("     ");
-            two.printCollisionRow(y);
-            System.out.println("\n");
-        }
-    }
+
+//    /**
+//     * Printet zusätzlich die collision maps, ansonsten gleich wie printBoth()
+//     *
+//     * @param one Spieler 1
+//     * @param two Spieler 2
+//     */
+//    public void cPrintBoth(Spieler one, Spieler two) {
+//        System.out.println();
+//        Spieler temp;
+//        if(one.playerNumber > two.playerNumber){
+//            temp = one;
+//            one = two;
+//            two = temp;
+//        }
+//        for (int y = 0; y < mapSize; y++) {
+//            one.printRow(y);
+//            System.out.print("     ");
+//            one.printCollisionRow(y);
+//            System.out.print("     ");
+//            two.printRow(y);
+//            System.out.print("     ");
+//            two.printCollisionRow(y);
+//            System.out.println("\n");
+//        }
+//    }
 
     /**
      * printet nur 1 Reihe, wird in printBoth() verwendet
      *
      * @param row       Zeilenangabe
      */
-    public void printRow(int row) {
+    public void printRow(Spieler player, int row) {
         for (int x = 0; x < mapSize; x++) {
-            if(board[x][row] instanceof Ship) {
-                System.out.print("@" + "    ");
+//            if(x==3 && row==3){
+//                System.out.println("Should "+ this.radarMap[x][row] +" now create "+x+" "+row+" radar map");
+//            }
+//            if (radarMap[x][row] > 0) {
+//                System.err.println(radarMap[x][row]);
+//                System.out.print(radarMap[x][row] + "    ");
+//            } else {
+                if (player.board[x][row] instanceof Ship) {
+                    System.out.print("@" + "    ");
+                }
+                if (player.board[x][row] instanceof TrefferObject) {
+                    System.out.print("X" + "    ");
+                }
+                if (player.board[x][row] == null) {
+                    System.out.print("~" + "    ");
+                }
+                if (player.board[x][row] instanceof MisfireObject) {
+                    System.out.print("Z" + "    ");
+                }
+//            }
+        }
+    }
+
+    public void printVisibleRow(Spieler player, int row){
+
+        for (int x = 0; x < mapSize; x++) {
+            if (player.visibleBoard[x][row] instanceof Ship) {
+                System.out.print("@\t");
             }
-            if(board[x][row] instanceof TrefferObject) {
-                System.out.print("X" + "    ");
+            if (player.visibleBoard[x][row] instanceof TrefferObject) {
+                System.out.print("X\t");
             }
-            if(board[x][row] == null) {
-                System.out.print("~" + "    ");
+            if (player.visibleBoard[x][row] == null) {
+                System.out.print("~\t");
             }
-            if(board[x][row] instanceof MisfireObject) {
-                System.out.print("Z" + "    ");
+            if (player.visibleBoard[x][row] instanceof MisfireObject) {
+                System.out.print("Z\t");
             }
         }
     }
@@ -421,9 +517,9 @@ public class Spieler {
      *
      * @param row       Zeilenangabe
      */
-    public void printCollisionRow(int row){
+    public void printCollisionRow(Spieler player, int row){
         for (int x = 0; x < mapSize; x++) {
-            System.out.print(collisionMap[x][row] + "    ");
+            System.out.print(player.collisionMap[x][row] + "    ");
         }
     }
 
