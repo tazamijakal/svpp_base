@@ -110,7 +110,7 @@ public class Client {
                                 //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
                         }
                     case "pass":    //Client wieder am Zug nachdem Server Wasser getroffen hat
-                        //Client/Spieler ist wieder am Zug <= muss noch nachgetragen werden =======================================================================
+                        //Client/Logik.Spieler ist wieder am Zug <= muss noch nachgetragen werden =======================================================================
                     case "shot":    //Opponent hat aufs eigene Spielfeld geschossen
                         //Ueberpruefen ob Opponent getroffen hat und dann richtiges "answer" zurueckschicken ?Spiel zu ende?========================================
                     case "save":

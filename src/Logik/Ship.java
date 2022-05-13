@@ -1,5 +1,7 @@
+package Logik;
+
 /**
- * Die Klasse Ship beinhaltet den Konstruktor für die Schiffe und eine Funktion um dem Schiff seine einzelnen Koordinaten zuzuweisen.
+ * Die Klasse Logik.Ship beinhaltet den Konstruktor für die Schiffe und eine Funktion um dem Schiff seine einzelnen Koordinaten zuzuweisen.
  */
 public class Ship {
     int length;
@@ -49,13 +51,13 @@ public class Ship {
 
 //    /**
 //     * Schießt auf angegebene Koordinaten, soll nur von shootrequest() aufgerufen werden da dieses prüft ob bereits auf das Feld geschossen wurde.
-//     * Nach einem Treffer darf der Spieler erneut schießen.
+//     * Nach einem Treffer darf der Logik.Spieler erneut schießen.
 //     * @param x x-Achse
 //     * @param y y-Achse
 //     */
-//    public void shoot(int x, int y, Spieler player1, Spieler player2) {
-//        if (board[x][y] instanceof Ship) {
-//            int result = ((Ship) board[x][y]).shoot();
+//    public void shoot(int x, int y, Logik.Spieler player1, Logik.Spieler player2) {
+//        if (board[x][y] instanceof Logik.Ship) {
+//            int result = ((Logik.Ship) board[x][y]).shoot();
 //            if(result == 3){
 //                System.out.println("Treffer, versenkt!!!");
 //            } else if (result == 2) {

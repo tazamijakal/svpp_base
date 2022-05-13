@@ -1,5 +1,5 @@
-import java.util.ArrayList;
-import java.util.Arrays;
+package Logik;
+
 import java.util.Scanner;
 
 public class Game {
@@ -19,14 +19,14 @@ public class Game {
     Scanner userInput = new Scanner(System.in);  // Create a Scanner object
 
     /**
-     * Bereitet das Spiel vor (Spielfeldgröße und festlegen, Spieler und deren Spielfelder erzeugen, Schiffe platzieren und Spiel mit startWar() starten.
+     * Bereitet das Spiel vor (Spielfeldgröße und festlegen, Logik.Spieler und deren Spielfelder erzeugen, Schiffe platzieren und Spiel mit startWar() starten.
      */
     public void startGame() {
         requestMapSize();
         requestShipTypes();
-        System.out.println("Name für Spieler 1: ..");
+        System.out.println("Name für Logik.Spieler 1: ..");
         String player1name = userInput.next();
-        System.out.println("Name für Spieler 2: ..");
+        System.out.println("Name für Logik.Spieler 2: ..");
         String player2name = userInput.next();
         Spieler spieler1 = new Spieler(player1name, mapSize, hp, shipPool);
         Spieler spieler2 = new Spieler(player2name, mapSize, hp, shipPool);
@@ -46,6 +46,7 @@ public class Game {
         Spieler spieler2 = new Spieler("LINKS", mapSize, hp, shipPool);
         spieler1.printAll(spieler1, spieler2);
         spieler1.manualShipPlacement(1,1,6,4);
+        spieler1.manualShipPlacement(1,1,6,4);
         spieler1.manualShipPlacement(1,3,6,3);
         spieler2.manualShipPlacement(5,5,4,4);
         spieler2.manualShipPlacement(5,3,4,3);
@@ -57,7 +58,7 @@ public class Game {
     }
 
     /**
-     * Lässt beide Spieler abwechselnd aufeinander schießen bis ein Spieler gewinnt oder es zum Unentschieden kommt.
+     * Lässt beide Logik.Spieler abwechselnd aufeinander schießen bis ein Logik.Spieler gewinnt oder es zum Unentschieden kommt.
      *
      * @param player1
      * @param player2
@@ -117,7 +118,7 @@ public class Game {
     }
 
     /**
-     * Frägt Spieler nach der gewünschten Spielfeldgröße, berechnet Kapazität, und schließt Schiffslängen aus, welche nicht regelkonform sind.
+     * Frägt Logik.Spieler nach der gewünschten Spielfeldgröße, berechnet Kapazität, und schließt Schiffslängen aus, welche nicht regelkonform sind.
      */
     public void requestMapSize() {
         System.out.println("Spielfeldgröße zwischen 5 und 30 auswählen:");
@@ -237,7 +238,7 @@ public class Game {
     }
 
     /**
-     * Fordert Spieler so lange auf Schiffe zu setzen bis Kapazitäten aufgebraucht sind.
+     * Fordert Logik.Spieler so lange auf Schiffe zu setzen bis Kapazitäten aufgebraucht sind.
      *
      * @param player1
      * @param player2

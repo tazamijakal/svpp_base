@@ -1,18 +1,19 @@
+package Logik;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 /**
- * Die Klasse Spieler beinhaltet momentan Methoden zur Spieler- und Spielfelderzeugung, Schiffsplatzierung und Kollisionsabfrage.
+ * Die Klasse Logik.Spieler beinhaltet momentan Methoden zur Logik.Spieler- und Spielfelderzeugung, Schiffsplatzierung und Kollisionsabfrage.
  */
 public class Spieler {
-    public final String name;       //damit wird der Spieler angesprochen
+    public final String name;       //damit wird der Logik.Spieler angesprochen
     int x, y, xd, yd, direction, length; //wird für Schiffplatzierung benutzt
     public int hp;          //hp = felder die schiffe sind bzw. HP welche 0 erreichen wenn alle Schiffe zerstört sind
     public int mapSize;         //mapSize = länge/breite
     static int pCounter = 1;       //wird benötigt damit Spielfeld 1 immer links ist und vice versa
-    public int playerNumber;         //wird als Index verwendet damit Spielfeld von Spieler 1 immer auf der linken Seite ist
+    public int playerNumber;         //wird als Index verwendet damit Spielfeld von Logik.Spieler 1 immer auf der linken Seite ist
     public final Object[][] board;      //Spielfeld ist eine Matrix und kann leicht navigiert und bearbeitet werden
     public final Object[][] visibleBoard;
     public int[][] radarMap;   //TODO für Radar
@@ -23,19 +24,7 @@ public class Spieler {
     Scanner userinput = new Scanner(System.in); //wird für Userinput benötigt
 
     /**
-     * Ersetzt bei Treffer Schiffsobjekt auf dem Spielfeld.
-     */
-    public static class TrefferObject{ public TrefferObject(){}}
-    TrefferObject trefferObject = new TrefferObject();
-
-    /**
-     * Ersetzt "Wasser"-Felder(null-Onjekte) wenn man nichts trifft.
-     */
-    public static class MisfireObject{ public MisfireObject(){}}
-    MisfireObject misfireObject = new MisfireObject();
-
-    /**
-     * Konstruktor erzeugt neuen Spieler mit eigener Map.
+     * Konstruktor erzeugt neuen Logik.Spieler mit eigener Map.
      *
      * @param name      Name des Spielers
      * @param mapSize   Größe der Map (mapSize*mapSize == länge*breite)
@@ -47,7 +36,7 @@ public class Spieler {
         this.mapSize = mapSize;
         this.remainingShips = remainingShips.clone();
         playerNumber = pCounter;
-        pCounter++;                   //der 2te Spieler der erstellt wird bekommt automatisch die #2 zugewiesen
+        pCounter++;                   //der 2te Logik.Spieler der erstellt wird bekommt automatisch die #2 zugewiesen
         collisionMap = new int[mapSize][mapSize];
         board = new Object[mapSize][mapSize];       //Spielfeld
         visibleBoard = new Object[mapSize][mapSize];
@@ -63,7 +52,19 @@ public class Spieler {
     }
 
     /**
-     * Frägt den Spieler wo er Schiffe haben will. Ist in einem loop, bis passende Position gefunden wurde.
+     * Ersetzt bei Treffer Schiffsobjekt auf dem Spielfeld.
+     */
+    public static class TrefferObject{ public TrefferObject(){}}
+    TrefferObject trefferObject = new TrefferObject();
+
+    /**
+     * Ersetzt "Wasser"-Felder(null-Onjekte) wenn man nichts trifft.
+     */
+    public static class MisfireObject{ public MisfireObject(){}}
+    MisfireObject misfireObject = new MisfireObject();
+
+    /**
+     * Frägt den Logik.Spieler wo er Schiffe haben will. Ist in einem loop, bis passende Position gefunden wurde.
      */
     public boolean placeShipRequest() {
         while(true) {
@@ -151,7 +152,7 @@ public class Spieler {
         for (int i = 0; i < length; i++) {
             hitMap[i][0] = x;
             hitMap[i][1] = y;
-            board[x][y] = null;     //wird zwar null gesetzt aber später durch Ship ersetzt, falls placeRemoveToggle true ist
+            board[x][y] = null;     //wird zwar null gesetzt aber später durch Logik.Ship ersetzt, falls placeRemoveToggle true ist
             x = x + xd;
             y = y + yd;
         }
@@ -270,7 +271,7 @@ public class Spieler {
     }
 
     /**
-     * Frägt den Spieler nach Zielkoordinaten, überprüft ob bereits auf Feld geschossen wurde.
+     * Frägt den Logik.Spieler nach Zielkoordinaten, überprüft ob bereits auf Feld geschossen wurde.
      */
     public void shootrequest(Spieler attacker, Spieler defender) {
         try{
@@ -310,7 +311,7 @@ public class Spieler {
 
     /**
      * Schießt auf angegebene Koordinaten, soll nur von shootrequest() aufgerufen werden da dieses prüft ob bereits auf das Feld geschossen wurde.
-     * Nach einem Treffer darf der Spieler erneut schießen.
+     * Nach einem Treffer darf der Logik.Spieler erneut schießen.
      * @param x x-Achse
      * @param y y-Achse
      */
@@ -376,7 +377,7 @@ public class Spieler {
     }
 
     /**
-     * Gibt Liste mit all den Schiffen aus welche ein Spieler platziert hat.
+     * Gibt Liste mit all den Schiffen aus welche ein Logik.Spieler platziert hat.
      */
     protected void printShipList(){
         int c = 1;
@@ -404,12 +405,12 @@ public class Spieler {
     /**
      * Printet beide Spielfelder nebeneinander. Da die Reihenfolge gleich bleibt kann man immer abwechselnd one und two abrufen.
      *
-     * @param one Spieler 1
-     * @param two Spieler 2
+     * @param one Logik.Spieler 1
+     * @param two Logik.Spieler 2
      */
     public void printAll(Spieler one, Spieler two) {
         Spieler dummy;
-        if(one.playerNumber < two.playerNumber){            //stellt sicher das Spielfeld von Spieler 1 immer links ist
+        if(one.playerNumber < two.playerNumber){            //stellt sicher das Spielfeld von Logik.Spieler 1 immer links ist
             dummy = one;
         } else {dummy = two;}
         System.out.println();
@@ -441,12 +442,12 @@ public class Spieler {
 //    /**
 //     * Printet zusätzlich die collision maps, ansonsten gleich wie printBoth()
 //     *
-//     * @param one Spieler 1
-//     * @param two Spieler 2
+//     * @param one Logik.Spieler 1
+//     * @param two Logik.Spieler 2
 //     */
-//    public void cPrintBoth(Spieler one, Spieler two) {
+//    public void cPrintBoth(Logik.Spieler one, Logik.Spieler two) {
 //        System.out.println();
-//        Spieler temp;
+//        Logik.Spieler temp;
 //        if(one.playerNumber > two.playerNumber){
 //            temp = one;
 //            one = two;
