@@ -81,6 +81,7 @@ class testKI extends KI {
             //testKI.manualShipPlacement(3,4,8,2);
             testKI.KIplazieren(new int[]{2,5,3});
             Hilffunktion.printField(testKI.mapSize,testKI.board);
+            //
 
         }
 }

@@ -41,3 +41,4 @@ public class leichte_KI_zufall extends KI {
         Hilffunktion.printField(leichte_ki_zufall.mapSize,leichte_ki_zufall.board);
     }
 }
+//help
