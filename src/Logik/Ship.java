@@ -5,7 +5,8 @@ package Logik;
  */
 public class Ship {
     int length;
-    int initialX, initialY, initialD;       //Zwischenspeicher
+    boolean initialD;
+    int initialX, initialY;       //Zwischenspeicher
     int[][] coordinates;        //beinhaltet alle [x][y]-Paare aus denen ein Schiff besteht
 
     /**
@@ -17,7 +18,7 @@ public class Ship {
      * @param initialD
      * @param length
      */
-    public Ship(int initialX, int initialY, int initialD, int length) {
+    public Ship(int initialX, int initialY, boolean initialD, int length) {
         this.initialX = initialX;
         this.initialY = initialY;
         this.initialD = initialD;

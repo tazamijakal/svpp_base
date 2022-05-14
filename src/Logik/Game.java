@@ -19,14 +19,14 @@ public class Game {
     Scanner userInput = new Scanner(System.in);  // Create a Scanner object
 
     /**
-     * Bereitet das Spiel vor (Spielfeldgröße und festlegen, Logik.Spieler und deren Spielfelder erzeugen, Schiffe platzieren und Spiel mit startWar() starten.
+     * Bereitet das Spiel vor (Spielfeldgröße und festlegen, Spieler und deren Spielfelder erzeugen, Schiffe platzieren und Spiel mit startWar() starten.
      */
     public void startGame() {
         requestMapSize();
         requestShipTypes();
-        System.out.println("Name für Logik.Spieler 1: ..");
+        System.out.println("Name für Spieler 1: ..");
         String player1name = userInput.next();
-        System.out.println("Name für Logik.Spieler 2: ..");
+        System.out.println("Name für Spieler 2: ..");
         String player2name = userInput.next();
         Spieler spieler1 = new Spieler(player1name, mapSize, hp, shipPool);
         Spieler spieler2 = new Spieler(player2name, mapSize, hp, shipPool);
@@ -45,20 +45,16 @@ public class Game {
         Spieler spieler1 = new Spieler("RECHTS", mapSize, hp, shipPool);
         Spieler spieler2 = new Spieler("LINKS", mapSize, hp, shipPool);
         spieler1.printAll(spieler1, spieler2);
-        spieler1.manualShipPlacement(1,1,6,4);
-        spieler1.manualShipPlacement(1,1,6,4);
-        spieler1.manualShipPlacement(1,3,6,3);
-        spieler2.manualShipPlacement(5,5,4,4);
-        spieler2.manualShipPlacement(5,3,4,3);
-        spieler1.radar(4,4,spieler1,spieler2);
-        System.out.println("Radar map for Player 1 at R5|5: "+spieler1.radarMap[4][4]);
+        spieler1.placeRemoveShip(true,1,1,5,false);
+        spieler1.placeRemoveShip(true,3,1,2,true);
         spieler1.printAll(spieler1, spieler2);
 //        gameCoordinator(spieler1, spieler2);
-        startWar(spieler1, spieler2);
+//        startWar(spieler1, spieler2);
     }
 
     /**
-     * Lässt beide Logik.Spieler abwechselnd aufeinander schießen bis ein Logik.Spieler gewinnt oder es zum Unentschieden kommt.
+     *
+     * Lässt beide Spieler abwechselnd aufeinander schießen bis ein Spieler gewinnt oder es zum Unentschieden kommt.
      *
      * @param player1
      * @param player2
@@ -84,7 +80,6 @@ public class Game {
         System.out.println("GG WP");
     }
 
-
     public void gameCoordinator(Spieler spieler1, Spieler spieler2){
         spieler1.hp = minCapacity;              //hier bezeichnet hp die Anzahl an Feldern auf welchen noch Schiffe liegen
         spieler2.hp = minCapacity;
@@ -107,7 +102,7 @@ public class Game {
                     attacker.shootrequest(attacker, defender);
                     break;
                 } else if (whatDo == 2) {
-                    attacker.radarRequest(attacker, defender);
+                    //TODO attacker.radarRequest(attacker, defender);
                     break;
                 } else {
                     System.err.print("Keine mögliche Option!");
@@ -118,15 +113,16 @@ public class Game {
     }
 
     /**
-     * Frägt Logik.Spieler nach der gewünschten Spielfeldgröße, berechnet Kapazität, und schließt Schiffslängen aus, welche nicht regelkonform sind.
+     *
+     * Frägt Spieler nach der gewünschten Spielfeldgröße, berechnet Kapazität, und schließt Schiffslängen aus, welche nicht regelkonform sind.
      */
     public void requestMapSize() {
         System.out.println("Spielfeldgröße zwischen 5 und 30 auswählen:");
         mapSize = userInput.nextInt();
         if (mapSize < 31 && mapSize > 4) {
             minCapacity = (int) ((double) mapSize * mapSize / 100 * 30);            //nicht unbedingt genau 30% da es nur ganze Felder gibt
-            String netSize = String.format("size %d", mapSize);                     //todo netzwerk
-            if (mapSize < 19)
+            String netSize = String.format("size %d", mapSize);                     //TODO netzwerk
+            if (mapSize < 20)                                                       //TODO
                 availableShips = smallFieldAvailableShips;           //gibt die möglichen Schiffslängen vor
             else availableShips = bigFieldAvailableShips;
         } else if (mapSize > 30) {
@@ -139,6 +135,7 @@ public class Game {
     }
 
     /**
+     *
      * Legt Spielfeldgröße fest, berechnet Mindestkapazität, und schließt Schiffslängen aus, welche nicht regelkonform sind.
      *
      * @param size  size*size = länge*breite
@@ -238,7 +235,8 @@ public class Game {
     }
 
     /**
-     * Fordert Logik.Spieler so lange auf Schiffe zu setzen bis Kapazitäten aufgebraucht sind.
+     *
+     * Fordert Spieler so lange auf Schiffe zu setzen bis Kapazitäten aufgebraucht sind.
      *
      * @param player1
      * @param player2
@@ -247,7 +245,7 @@ public class Game {
     public void startPlacingShips(Spieler player1, Spieler player2) {
         System.out.println("Platziere deine Schiffe " + player1.name + ": ..");
         while (player1.hp > 0) {
-            player1.placeShipRequest();
+            player1.uInputPlaceShipRequest();
             System.out.println("Non working printAll()");
             player1.printAll(player1, player2);
         }
