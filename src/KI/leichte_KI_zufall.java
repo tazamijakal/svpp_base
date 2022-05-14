@@ -1,4 +1,4 @@
-package com.company;
+package KI;
 
 public class leichte_KI_zufall extends KI {
 
@@ -7,20 +7,21 @@ public class leichte_KI_zufall extends KI {
      *
      * @param name     Name des Spielers
      * @param mapSize  Groesse der Map (mapSize*mapSize == x*y)
-     * @param capacity Legt fest wie viele Felder mit Schiffen belegt sein koennen-
+     * @param hp
+     * @param remainingShips
      */
 
-    public leichte_KI_zufall(String name, int mapSize, int capacity) {
-        super(name, mapSize, capacity);
+    public leichte_KI_zufall(String name, int mapSize, int hp, int[] remainingShips) {
+        super(name, mapSize, hp, remainingShips);
     }
 
     @Override
     public void KIplazieren(int[] Schiffgroessen) {
         fieldposition rdmZielpos = RdmZielpos();
         int direction = randInt(1,4);
-        int length =
+        //int length =
         for (int groesse: Schiffgroessen) {
-            placeShipRequest(rdmZielpos.x,rdmZielpos.y,);
+           // placeShipRequest(rdmZielpos.x,rdmZielpos.y,);
         }
     }
 
@@ -32,10 +33,10 @@ public class leichte_KI_zufall extends KI {
             KIshoot();
             return;
         }
-        shoot(rdmZielpos.x, rdmZielpos.y);
+       // shoot(rdmZielpos.x, rdmZielpos.y);
     }
     public static void main(String[] args) {
-        KI leichte_ki_zufall = new leichte_KI_zufall("easy", 5, 1);
+        KI leichte_ki_zufall = new leichte_KI_zufall("easy", 5, 5, new int[1]);
         leichte_ki_zufall.KIshoot();
         Hilffunktion.printField(leichte_ki_zufall.mapSize,leichte_ki_zufall.board);
     }

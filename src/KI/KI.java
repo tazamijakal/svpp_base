@@ -1,4 +1,6 @@
-package com.company;
+package KI;
+
+import Logik.Spieler;
 
 import java.util.Random;
 
@@ -38,10 +40,11 @@ public abstract class KI extends Spieler {
      *
      * @param name     Name des Spielers
      * @param mapSize  Groesse der Map (mapSize*mapSize == x*y)
-     * @param capacity Legt fest wie viele Felder mit Schiffen belegt sein koennen-
+     * @param hp Legt fest wie hp man noch hat
+     * @param remainingShips  legt die anzahl der verbleibenden schiffe fest
      */
-    public KI(String name, int mapSize, int capacity) {
-        super(name, mapSize, capacity);
+    public KI(String name, int mapSize, int hp, int[]remainingShips) {
+        super(name, mapSize, hp, remainingShips);
     }
 
     /**
@@ -58,15 +61,8 @@ public abstract class KI extends Spieler {
 
 class testKI extends KI {
 
-    /**
-     * Konstruktor erzeugt neuer KI mit eigenem Spielfeld.
-     * System Print out wird entfernt, wenn in gui integriert.
-     * @param name     Name des Spielers
-     * @param mapSize  Groesse der Map (mapSize*mapSize == x*y)
-     * @param capacity Legt fest wie viele Felder mit Schiffen belegt sein koennen-
-     */
-    public testKI(String name, int mapSize, int capacity) {
-        super(name, mapSize, capacity);
+    public testKI(String name, int mapSize, int hp, int[]remainingShips) {
+        super(name, mapSize, hp, remainingShips);
     }
 
     @Override
@@ -81,8 +77,7 @@ class testKI extends KI {
 
 
     public static void main(String[] args) {
-            KI testKI = new testKI("halp",5,1);
-
+            KI testKI = new testKI("halp",5,5, new int [5]);
             //testKI.manualShipPlacement(3,4,8,2);
             testKI.KIplazieren(new int[]{2,5,3});
             Hilffunktion.printField(testKI.mapSize,testKI.board);

@@ -1,7 +1,7 @@
-package com.company;
+package KI;
 
 public class Hilffunktion {
-    public static void printField(int mapSize, String board[][]) {
+    public static void printField(int mapSize, Object[][] board) {
         for (int y = 0; y < mapSize; y++) {
             for (int x = 0; x < mapSize; x++) {
                 if (x == mapSize - 1) {
