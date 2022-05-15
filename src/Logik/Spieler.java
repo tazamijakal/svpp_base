@@ -13,6 +13,7 @@ import java.util.Scanner;
 public class Spieler {
     public final String name;       //damit wird der Spieler angesprochen
     public Spieler opponent;
+    public int x, y;
     public int xd, yd;
     public int hp;          //hp = felder die schiffe sind bzw. HP welche 0 erreichen wenn alle Schiffe zerstört sind
     public int mapSize;         //mapSize = länge/breite
@@ -55,6 +56,10 @@ public class Spieler {
             }
         }
     }
+
+
+//----------------------PLACE-METHODEN--------------------------------------------------------------------------------------
+
 
     /**
      *
@@ -233,45 +238,36 @@ public class Spieler {
     }
 
 
-//------------------------------------------------------------------------------------------------------------------------------------
+//------------------------SHOOT-METHODEN--------------------------------------------------------------------------------------------------
+
+
+    //TODO x und y nur beim schießen vertauscht???? betrifft alle shoot methoden
+    public void setTargetCoordinates(int x, int y){
+        this.x = x;
+        this.y = y;
+   }
+
     /**
      *
-     * Frägt den Logik.Spieler nach Zielkoordinaten, überprüft ob bereits auf Feld geschossen wurde.
+     * Frägt den Spieler nach Zielkoordinaten, überprüft ob bereits auf Feld geschossen wurde.
      */
-    public void shootrequest(Spieler attacker, Spieler defender) {
+    public String uInputShootRequest() {
         try{
             System.out.println("X-Koordinate eingeben: ...");
-            int xAxis = userinput.nextInt() - 1;  // Read user input
+            x = userinput.nextInt() - 1;  // Read user input
             System.out.println("Y-Koordinate eingeben: ...");
-            int yAxis = userinput.nextInt() - 1;
-            if (attacker.visibleBoard[xAxis][yAxis] instanceof TrefferObject || attacker.visibleBoard[xAxis][yAxis] instanceof MisfireObject) {
+            y = userinput.nextInt() - 1;
+            if (visibleBoard[x][y] instanceof TrefferObject || visibleBoard[x][y] instanceof MisfireObject) {
                 System.out.println("Bereits auf Feld geschossen!");
-                shootrequest(attacker, defender);
+                uInputShootRequest();
             } else {
-                if (defender.board[xAxis][yAxis] instanceof Ship) {
-                    if(((Ship) defender.board[xAxis][yAxis]).length==1){
-                        System.out.println("TREFFER, VERSENKT!");
-                    } else {
-                        System.out.println("TREFFER!!!");
-                    }
-                    ((Ship) defender.board[xAxis][yAxis]).length--;
-                    attacker.visibleBoard[xAxis][yAxis] = trefferObject;
-                    defender.board[xAxis][yAxis] = trefferObject;
-                    this.hp--;
-                    if(this.hp>0){
-                        printAll(attacker, defender);
-                        shootrequest(attacker, defender);
-                    }
-                } else {
-                    defender.board[xAxis][yAxis] = misfireObject;
-                    attacker.visibleBoard[xAxis][yAxis] = misfireObject;
-                    System.out.println("NICHTS GETROFFEN");
-                }
+                return shot(x,y);
             }
         }catch (ArrayIndexOutOfBoundsException E){
             System.out.println("Out of bounds!");
-            shootrequest(attacker, defender);
+            return uInputShootRequest();
         }
+        return uInputShootRequest();        //TODO WARUM BRAUCH ICH RETURN??
     }
 
     /**
@@ -283,6 +279,13 @@ public class Spieler {
      */
     public String shot(int x, int y){
         return "shot "+y+" "+x;
+    }
+
+    public int[] shotReader(String shot){
+        int[] shotCoordinates = new int[2];
+        shotCoordinates[0] = Integer.parseInt(shot.substring(5,6));
+        shotCoordinates[1] = Integer.parseInt(shot.substring(7,8));
+        return shotCoordinates;
     }
 
     /**
@@ -314,22 +317,31 @@ public class Spieler {
 
     /**
      *
-     * Reaktion auf generische Schussantwort (visibleBoard[][] aktualisieren)
+     * Reaktion auf gegnerische Schussantwort (visibleBoard[][] aktualisieren)
      * @param x
      * @param y
-     * @param answer
+     * @param answerString
      */
-    public void enemyShot(int x, int y, int answer){
+    public boolean answerReader(int x, int y, String answerString){
+        int answer = Integer.parseInt(answerString.substring(7,8));
         switch(answer){
             case 0: visibleBoard[x][y]=misfireObject;
-                break;
+                return false;
             case 1: visibleBoard[x][y]=trefferObject;
-                break;
+                return true;
             case 2: visibleBoard[x][y]=trefferObject;       //TODO sollte das gesamte Schiff als zerstört markieren
-                break;
+                return true;
+            default:
+                System.err.println("DEFAULT CASE");
+                return true;
         }
+
     }
-    //------------------------------------------------------------------------------------------------------------------------------------
+
+
+//--------------------TERMINAL-DARSTELLUNGS-Methoden-----------------------------------------------------------------------------------
+
+
     public void showRemainingShips(){
         for (int i = 0; i < this.remainingShips.length; i++) {
             if(this.remainingShips[i]>0){
@@ -369,6 +381,7 @@ public class Spieler {
     /**
      *
      * Printet beide Spielfelder nebeneinander. Da die Reihenfolge gleich bleibt kann man immer abwechselnd one und two abrufen.
+     * ist iwie verbuggt, oldPrintAll() mnomentan besser
      *
      * @param one Logik.Spieler 1
      * @param two Logik.Spieler 2
@@ -400,7 +413,20 @@ public class Spieler {
             System.out.println("\n");
         }
         System.out.println("Player switcher: "+stringBuilder.toString());
+    }
 
+    public void oldPrintAll(Spieler one, Spieler two){
+        System.out.println();
+        for (int y = 0; y < one.mapSize; y++) {
+            printRow(one, y);
+            System.out.print("     ");
+            printVisibleRow(one, y);
+            System.out.print("     ");
+            printRow(two, y);
+            System.out.print("     ");
+            printVisibleRow(two, y);
+            System.out.println("\n");
+        }
     }
 
     /**
@@ -463,7 +489,6 @@ public class Spieler {
             System.out.print(player.collisionMap[x][row] + "    ");
         }
     }
-
 }
 
 
