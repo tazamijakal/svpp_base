@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Game {
 
     public int mapSize; /** test */
-    public int minCapacity;
+    public int shipCapacity;
     public int hp = 0;
     public int[] availableShips;
     public int[] smallFieldAvailableShips = {2, 3, 4, 5};
@@ -37,19 +37,20 @@ public class Game {
     }
 
     public void demoGame() {
-        mapSize = 5;
-        minCapacity = (int) ((double) mapSize * mapSize / 100 * 30);
+        setMapSize(5);
         hp = 7;
-        adjustShipPool(true, 4);
-        adjustShipPool(true, 3);
-        Spieler spieler1 = new Spieler("RECHTS", mapSize, hp, shipPool);
-        Spieler spieler2 = new Spieler("LINKS", mapSize, hp, shipPool);
+        adjustShipPool(true, 5);
+        adjustShipPool(true, 2);
+        Spieler spieler1 = new Spieler("Spieler_1", mapSize, hp, shipPool);
+        Spieler spieler2 = new Spieler("Spieler_2", mapSize, hp, shipPool);
         spieler1.oldPrintAll(spieler1, spieler2);
-        spieler1.placeRemoveShip(true,1,1,5,false);
-        spieler1.placeRemoveShip(true,3,1,2,true);
+        spieler1.placeRemoveShip(true,0,0,5,true);
+        spieler1.placeRemoveShip(true,0,2,2,true);
         spieler1.oldPrintAll(spieler1, spieler2);
+        spieler2.placeRemoveShip(true,0,4,2,true);
+        spieler2.placeRemoveShip(true,4,0,5,false);
 //        gameCoordinator(spieler1, spieler2);
-//        startWar(spieler1, spieler2);
+        startWar(spieler1, spieler2);
     }
 
     /**
@@ -60,8 +61,8 @@ public class Game {
      * @param player2
      */
     public void startWar(Spieler player1, Spieler player2) {
-        player1.hp = minCapacity;              //hier bezeichnet hp die Anzahl an Feldern auf welchen noch Schiffe liegen
-        player2.hp = minCapacity;
+        player1.hp = shipCapacity;              //hier bezeichnet hp die Anzahl an Feldern auf welchen noch Schiffe liegen
+        player2.hp = shipCapacity;
         int[]shotCoordinates;
         int x, y;
         boolean attackToken;
@@ -69,7 +70,7 @@ public class Game {
         while (player1.hp > 0 && player2.hp > 0) {
             player1.oldPrintAll(player1, player2);
             attackToken = true;
-            while (attackToken) {
+            while (attackToken && player2.hp>0) {
                 System.out.println("Zielkoordinaten eingeben " + player1.name);
                 shotCoordinates = player2.shotReader(player1.uInputShootRequest());
                 x = shotCoordinates[0];
@@ -78,7 +79,7 @@ public class Game {
                 player1.oldPrintAll(player1, player2);
             }
             attackToken = true;
-            while (attackToken) {
+            while (attackToken && player1.hp>0) {
                 System.out.println("Zielkoordinaten eingeben " + player2.name);
                 shotCoordinates = player1.shotReader(player2.uInputShootRequest());
                 x = shotCoordinates[0];
@@ -101,15 +102,16 @@ public class Game {
      *
      * Frägt Spieler nach der gewünschten Spielfeldgröße, berechnet Kapazität, und schließt Schiffslängen aus, welche nicht regelkonform sind.
      */
-    public void requestMapSize() {
+    public String requestMapSize() {
         System.out.println("Spielfeldgröße zwischen 5 und 30 auswählen:");
         mapSize = userInput.nextInt();
         if (mapSize < 31 && mapSize > 4) {
-            minCapacity = (int) ((double) mapSize * mapSize / 100 * 30);            //nicht unbedingt genau 30% da es nur ganze Felder gibt
-            String netSize = String.format("size %d", mapSize);                     //TODO netzwerk
-            if (mapSize < 20)                                                       //TODO
+            shipCapacity = (int) ((double) mapSize * mapSize / 100 * 30);            //nicht unbedingt genau 30% da es nur ganze Felder gibt
+            String netSize = "size "+mapSize;
+            if (mapSize < 20)
                 availableShips = smallFieldAvailableShips;           //gibt die möglichen Schiffslängen vor
             else availableShips = bigFieldAvailableShips;
+            return netSize;
         } else if (mapSize > 30) {
             System.out.println("Maximale Spielfeldgröße überschritten");
             requestMapSize();
@@ -117,17 +119,18 @@ public class Game {
             System.out.println("Spielfeld zu klein!");
             requestMapSize();
         }
+        return requestMapSize();
     }
 
     /**
      *
-     * Legt Spielfeldgröße fest, berechnet Mindestkapazität, und schließt Schiffslängen aus, welche nicht regelkonform sind.
+     * Manuelle Variante von requestMapSize(). Legt Spielfeldgröße fest, berechnet Mindestkapazität, und schließt Schiffslängen aus, welche nicht regelkonform sind.
      *
      * @param size  size*size = länge*breite
      */
-    public void requestMapSize(int size) {
+    public void setMapSize(int size) {
         mapSize = size;
-        minCapacity = (int) ((double) mapSize * mapSize / 100 * 30);
+        shipCapacity = (int) ((double) mapSize * mapSize / 100 * 30);
         if (mapSize < 19)
             availableShips = smallFieldAvailableShips;           //gibt die möglichen Schiffslängen vor
         else availableShips = bigFieldAvailableShips;
@@ -138,7 +141,7 @@ public class Game {
         int shipType;           //2er, 3er, 4er, .. 6er-Schiff
         while (true) {
             while (true) {
-                System.out.println("Erforderliche Kapazität: " + minCapacity + "\tAktuelle Kapazität: " + hp);
+                System.out.println("Erforderliche Kapazität: " + shipCapacity + "\tAktuelle Kapazität: " + hp);
                 System.out.println("Schiffstyp hinzufügen(1), entfernen(2) oder Auswahl beenden(3)?");
                 whatDo = userInput.nextInt();
                 if (whatDo > 0 && whatDo < 4) {
@@ -161,7 +164,7 @@ public class Game {
                         shipType = userInput.nextInt();
                         if (shipType >= availableShips[0] && shipType <= availableShips[availableShips.length - 1]) {
                             if (shipPool[shipType] > 0) {
-                                adjustShipPool(false, shipType);
+                                adjustShipPool(false, shipType);;
                                 break;
                             }
                         } else {
@@ -183,7 +186,7 @@ public class Game {
                 }
             }
         }
-        if (hp == minCapacity) {
+        if (hp == shipCapacity) {
             System.out.println("Erforderliche Kapazität erfüllt!");
             printShipPool();
             StringBuilder stringBuilder = new StringBuilder();
@@ -197,7 +200,7 @@ public class Game {
             stringBuilder.deleteCharAt(stringBuilder.length()-1);
             String shipsLength = stringBuilder.toString();
             System.out.println("Netzwerk-Antwort: " + shipsLength);             //TODO netzwerk
-        } else if (hp < minCapacity) {
+        } else if (hp < shipCapacity) {
             System.out.println("Erforderliche Kapazität nicht erreicht, bitte weitere Schiffe auswählen!\nFolgende Schiffe wurden bereits platziert:");
             printShipPool();
             requestShipTypes();
@@ -208,14 +211,13 @@ public class Game {
         }
     }
 
-
-    public void adjustShipPool(boolean addRemoveToggle, int length) {
-        if (addRemoveToggle) {
-            shipPool[length]++;
-            hp += length;
+    public void adjustShipPool(boolean addRemoveToggle, int shipType){
+        if(addRemoveToggle){
+            shipPool[shipType]++;
+            hp +=shipType;
         } else {
-            shipPool[length]--;
-            hp -= length;
+            shipPool[shipType]--;
+            hp -= shipType;
         }
     }
 
@@ -238,16 +240,24 @@ public class Game {
         player1.oldPrintAll(player1, player2);
     }
 
+    /**
+     *
+     * Listet alle laut Regeln erlaubte Schiffstypen auf.
+     */
     public void printShipPool(){
         for (int i = availableShips[0]; i < availableShips[availableShips.length-1]+1; i++) {
             System.out.println(shipPool[i] + "x " + i + "-er Schiff");              //TODO nur mögliche Schiffstypen auflisten
         }
     }
 
+    /**
+     *
+     * Listet alle bereits ausgewählten Schiffstypen und deren Anzahl auf, berücksichtigt aber nicht Zustand oder Position des Schiffs.
+     */
     public void showPossibleShips(){
         System.out.println("Verfügbare Schiffslängen wären: ");
         for (int i = availableShips[0]; i < availableShips[availableShips.length-1]+1; i++) {
-            System.out.print("["+ i + "] ");              //TODO nur mögliche Schiffstypen auflisten
+            System.out.print("["+ i + "] ");
         }
     }
 }
@@ -255,8 +265,8 @@ public class Game {
 
 //----------trash-------------
 //    public void gameCoordinator(Spieler spieler1, Spieler spieler2){
-//        spieler1.hp = minCapacity;              //hier bezeichnet hp die Anzahl an Feldern auf welchen noch Schiffe liegen
-//        spieler2.hp = minCapacity;
+//        spieler1.hp = shipCapacity;              //hier bezeichnet hp die Anzahl an Feldern auf welchen noch Schiffe liegen
+//        spieler2.hp = shipCapacity;
 //        int whatDo;
 //        Spieler attacker = spieler1;
 //        Spieler defender = spieler2;

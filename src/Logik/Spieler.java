@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 /**
  *
- * Die Klasse Logik.Spieler beinhaltet momentan Methoden zur Logik.Spieler- und Spielfelderzeugung, Schiffsplatzierung und Kollisionsabfrage.
+ * Die Klasse Spieler beinhaltet momentan Methoden zur Spieler- und Spielfelderzeugung, Schiffsplatzierung und Kollisionsabfrage.
  */
 
 
@@ -18,7 +18,7 @@ public class Spieler {
     public int hp;          //hp = felder die schiffe sind bzw. HP welche 0 erreichen wenn alle Schiffe zerstört sind
     public int mapSize;         //mapSize = länge/breite
     static int pCounter = 1;       //wird benötigt damit Spielfeld 1 immer links ist und vice versa
-    public int playerNumber;         //wird als Index verwendet damit Spielfeld von Logik.Spieler 1 immer auf der linken Seite ist
+    public int playerNumber;         //wird als Index verwendet damit Spielfeld von Spieler 1 immer auf der linken Seite ist
     public final Object[][] board;      //Spielfeld ist eine Matrix und kann leicht navigiert und bearbeitet werden
     public final Object[][] visibleBoard;
     public int[][] radarMap;   //TODO für Radar
@@ -30,7 +30,7 @@ public class Spieler {
 
     /**
      *
-     * Konstruktor erzeugt neuen Logik.Spieler mit eigener Map.
+     * Konstruktor erzeugt neuen Spieler mit eigener Map.
      *
      * @param name      Name des Spielers
      * @param mapSize   Größe der Map (mapSize*mapSize == länge*breite)
@@ -42,7 +42,7 @@ public class Spieler {
         this.mapSize = mapSize;
         this.remainingShips = remainingShips.clone();
         playerNumber = pCounter;
-        pCounter++;                   //der 2te Logik.Spieler der erstellt wird bekommt automatisch die #2 zugewiesen
+        pCounter++;                   //der 2te Spieler der erstellt wird bekommt automatisch die #2 zugewiesen
         collisionMap = new int[mapSize][mapSize];
         board = new Object[mapSize][mapSize];       //Spielfeld
         visibleBoard = new Object[mapSize][mapSize];
@@ -82,12 +82,13 @@ public class Spieler {
      * @param placeRemoveToggle true um Schiffe zu platzieren, false um Schiffe zu entfernen
      */
     protected void placeRemoveShip(boolean placeRemoveToggle, int x, int y, int l, boolean d) {
+        directionSetter(d);
         int[] startingPoint = {x, y};       //x+y werden später für Schiffserstellung benötigt und deswegen zwischengespeichert
         int[][] hitMap = new int[l][2];     //speichert die einzelnen Koordinaten aus denen ein Schiff bestehen
         for (int i = 0; i < l; i++) {
             hitMap[i][0] = x;
             hitMap[i][1] = y;
-            board[x][y] = null;     //wird zwar null gesetzt aber später durch Logik.Ship ersetzt, falls placeRemoveToggle true ist
+            board[x][y] = null;     //wird zwar null gesetzt aber später durch Ship ersetzt, falls placeRemoveToggle true ist
             x += xd;
             y += yd;
         }
@@ -129,7 +130,7 @@ public class Spieler {
 
     /**
      *
-     * Frägt den Logik.Spieler wo er Schiffe haben will. Ist in einem loop, bis passende Position gefunden wurde.
+     * Frägt den Spieler wo er Schiffe haben will. Ist in einem loop, bis passende Position gefunden wurde.
      */
     public boolean uInputPlaceShipRequest() {
         int x, y, l;
@@ -259,7 +260,7 @@ public class Spieler {
             y = userinput.nextInt() - 1;
             if (visibleBoard[x][y] instanceof TrefferObject || visibleBoard[x][y] instanceof MisfireObject) {
                 System.out.println("Bereits auf Feld geschossen!");
-                uInputShootRequest();
+                return uInputShootRequest();
             } else {
                 return shot(x,y);
             }
@@ -267,7 +268,6 @@ public class Spieler {
             System.out.println("Out of bounds!");
             return uInputShootRequest();
         }
-        return uInputShootRequest();        //TODO WARUM BRAUCH ICH RETURN??
     }
 
     /**
@@ -278,7 +278,7 @@ public class Spieler {
      * @return shot row col (gemäß Kommunikationsprotokoll)
      */
     public String shot(int x, int y){
-        return "shot "+y+" "+x;
+        return "shot "+x+" "+y;
     }
 
     public int[] shotReader(String shot){
@@ -301,11 +301,13 @@ public class Spieler {
                 System.out.println("Treffer, versenkt!");
                 ((Ship) board[x][y]).length--;
                 board[x][y] = trefferObject;
+                hp--;
                 return "answer 2";
             } else {
                 System.out.println("Treffer!");
                 ((Ship) board[x][y]).length--;
                 board[x][y] = trefferObject;
+                hp--;
                 return "answer 1";
             }
         } else {
@@ -352,7 +354,7 @@ public class Spieler {
 
     /**
      *
-     * Gibt Liste mit all den Schiffen aus welche ein Logik.Spieler platziert hat.
+     * Gibt Liste mit all den Schiffen aus welche ein Spieler platziert hat.
      */
     protected void printShipList(){
         int c = 1;
@@ -381,14 +383,14 @@ public class Spieler {
     /**
      *
      * Printet beide Spielfelder nebeneinander. Da die Reihenfolge gleich bleibt kann man immer abwechselnd one und two abrufen.
-     * ist iwie verbuggt, oldPrintAll() mnomentan besser
+     * Funktion ist iwie verbuggt, oldPrintAll() mnomentan besser.
      *
-     * @param one Logik.Spieler 1
-     * @param two Logik.Spieler 2
+     * @param one Spieler 1
+     * @param two Spieler 2
      */
     public void printAll(Spieler one, Spieler two) {
         Spieler dummy;
-        if(one.playerNumber < two.playerNumber){            //stellt sicher das Spielfeld von Logik.Spieler 1 immer links ist
+        if(one.playerNumber < two.playerNumber){            //stellt sicher das Spielfeld von Spieler 1 immer links ist
             dummy = one;
         } else {dummy = two;}
         System.out.println();
@@ -416,6 +418,12 @@ public class Spieler {
     }
 
     public void oldPrintAll(Spieler one, Spieler two){
+        Spieler temp;
+        if(one.playerNumber > two.playerNumber){
+            temp = one;
+            one = two;
+            two = temp;
+        }
         System.out.println();
         for (int y = 0; y < one.mapSize; y++) {
             printRow(one, y);
@@ -497,12 +505,12 @@ public class Spieler {
 //    /**
 //     * Printet zusätzlich die collision maps, ansonsten gleich wie printBoth()
 //     *
-//     * @param one Logik.Spieler 1
-//     * @param two Logik.Spieler 2
+//     * @param one Spieler 1
+//     * @param two Spieler 2
 //     */
-//    public void cPrintBoth(Logik.Spieler one, Logik.Spieler two) {
+//    public void cPrintBoth(Spieler one, Spieler two) {
 //        System.out.println();
-//        Logik.Spieler temp;
+//        Spieler temp;
 //        if(one.playerNumber > two.playerNumber){
 //            temp = one;
 //            one = two;
