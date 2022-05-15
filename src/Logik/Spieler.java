@@ -24,7 +24,7 @@ public class Spieler {
     public int[][] radarMap;   //TODO für Radar
     private int[][] collisionMap;        //wird überprüft um zu wissen ob Schiff genug Abstand zu den anderen Schiffen hat
     private int[][] hitMap;                //Zwischenspeicher für die einzelnen Koordinaten aus denen Schiff besteht
-    private int[] remainingShips;
+    protected int[] remainingShips;
     public ArrayList<Ship> shipList = new ArrayList<>();        //Liste mit all den Schiffen eines Spielers
     Scanner userinput = new Scanner(System.in); //wird für Userinput benötigt
 
@@ -82,6 +82,7 @@ public class Spieler {
      * @param placeRemoveToggle true um Schiffe zu platzieren, false um Schiffe zu entfernen
      */
     protected void placeRemoveShip(boolean placeRemoveToggle, int x, int y, int l, boolean d) {
+        directionSetter(d);
         int[] startingPoint = {x, y};       //x+y werden später für Schiffserstellung benötigt und deswegen zwischengespeichert
         int[][] hitMap = new int[l][2];     //speichert die einzelnen Koordinaten aus denen ein Schiff bestehen
         for (int i = 0; i < l; i++) {

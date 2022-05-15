@@ -1,7 +1,7 @@
 package KI;
 
 import Logik.Spieler;
-
+import Logik.Ship;
 import java.util.Random;
 
 public abstract class KI extends Spieler {
@@ -49,39 +49,11 @@ public abstract class KI extends Spieler {
 
     /**
      * KI plaziert hiermiet spaeter die Schiffe
-     * @param Schiffgroessen Array mit Schiffgroessen
      */
-    public abstract void KIplazieren(int Schiffgroessen[]);
+    public abstract void KIplazieren();
 
     /**
      * KI schiesst auf ein Feld, entweder zufaellig, oder mit logik.
      */
     public abstract void KIshoot();
-}
-
-class testKI extends KI {
-
-    public testKI(String name, int mapSize, int hp, int[]remainingShips) {
-        super(name, mapSize, hp, remainingShips);
-    }
-
-    @Override
-    public void KIplazieren(int[] Schiffgroessen) {
-        for(int groesse: Schiffgroessen){
-            System.out.println("Bot soll Schiff der Groesse "+groesse+" platzieren!");
-        }
-    }
-    @Override
-    public void KIshoot() {;
-    }
-
-
-    public static void main(String[] args) {
-            KI testKI = new testKI("halp",5,5, new int [5]);
-            //testKI.manualShipPlacement(3,4,8,2);
-            testKI.KIplazieren(new int[]{2,5,3});
-            Hilffunktion.printField(testKI.mapSize,testKI.board);
-            //
-
-        }
 }
