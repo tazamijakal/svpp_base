@@ -24,7 +24,7 @@ public class Spieler {
     public int[][] radarMap;   //TODO für Radar
     private int[][] collisionMap;        //wird überprüft um zu wissen ob Schiff genug Abstand zu den anderen Schiffen hat
     private int[][] hitMap;                //Zwischenspeicher für die einzelnen Koordinaten aus denen Schiff besteht
-    protected int[] remainingShips;
+    public int[] remainingShips;
     public ArrayList<Ship> shipList = new ArrayList<>();        //Liste mit all den Schiffen eines Spielers
     Scanner userinput = new Scanner(System.in); //wird für Userinput benötigt
 

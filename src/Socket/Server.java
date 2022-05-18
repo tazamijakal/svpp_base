@@ -2,6 +2,9 @@ package Socket;
 
 import java.net.*;
 import java.io.*;
+import Logik.*;
+import static java.lang.Integer.parseInt;
+
 
 public class Server {
     // Verwendete Portnummer
@@ -10,11 +13,15 @@ public class Server {
     public final int ID;
     BufferedReader in;
     static Writer out;
+    public Spieler player;  //This is me
+    public Spieler player2; //Opponent
 
-    public Server(int p, int id){
+    public Server(int p, int id, Spieler a, Spieler b){
         this.port = p;
         this.ID = id;
         this.status = 0;
+        this.player = a;
+        this.player2 = b;
     }
     
     
@@ -51,15 +58,19 @@ public class Server {
                 TextClient("load " + this.ID);
             }
             else{
-                TextClient("size " + 10 /*Spielfeldgroesse ==============*/); //===========================================================
+                TextClient("size " + this.player.mapSize);
                 //Warten auf "ok"
                 String done = in.readLine();
                 System.out.println("Opponent: " + done);
 
-                //"ships" + *shipscount* <= muss noch nachgetragen werden =======================================================================
+                String ships = "ships ";
+                for(int i = player.remainingShips.length-1;i>1;i--){
+                    for(int k = 0; k<player.remainingShips[i]; k++){
+                        ships = ships + i + " ";
+                    }
+                }
 
-                //Dummy statement zum testen
-                TextClient("ships 5 5 5 4 4 4 3 3 2");
+                TextClient(ships);
 
                 //Warten auf "ok"
                 String okay = in.readLine();
@@ -79,7 +90,7 @@ public class Server {
 
                 //Spiel starten
                 //Wenn Client am Zug war (load) pass texten
-                TextClient("okay :)");
+                TextClient("okay");
 
                 //Ping-Pong Prinzip warten auf Befehle
                 while(true){
@@ -96,15 +107,26 @@ public class Server {
                                     //Getroffen (nicht versenkt) Server ist wieder am Zug =================================================================
                                 case "2":
                                     //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
+
+                                    if(player2.hp == 0){
+                                        System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
+                                    }
                             }
                         case "pass":    //Server wieder am Zug nachdem Client Wasser getroffen hat
                             //Server/Logik.Spieler ist wieder am Zug <= muss noch nachgetragen werden =======================================================================
                         case "shot":    //Opponent hat aufs eigene Spielfeld geschossen
-                            //Ueberpruefen ob Opponent getroffen hat und dann richtiges "answer" zurueckschicken ?Spiel zu ende?========================================
+                            int x = parseInt(Osplit[1]);
+                            int y = parseInt(Osplit[2]);
+                            String answer = player.shootYourself(x, y);
+                            TextClient(answer);
+                            if(player.hp == 0){
+                                System.out.println("SPIEL VERLOREN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                                //Spiel beenden
+                            }
                         case "save":
                             //Spiel speichern mit Osplit[1] => Client war am Zug ==========================================================================
                     }
-                    TextClient("okay :)");
+                    TextClient("okay :) Server");
 
                 }
             }
@@ -127,9 +149,9 @@ public class Server {
 
     }
 
-    public static void main(String[] args) {
-        Server s1 = new Server(50000,0);        //port + ID
-        s1.connect();
-    }
+    /*public static void main(String[] args) {
+        //Server s1 = new Server(50000,0, new Spieler());        //port + ID
+        //s1.connect();
+    }*/
 
 }

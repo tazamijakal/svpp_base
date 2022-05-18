@@ -5,6 +5,7 @@ import org.w3c.dom.Text;
 import java.net.*;
 import java.io.*;
 import static java.lang.Integer.parseInt;
+import Logik.*;
 
 
 public class Client {
@@ -16,12 +17,15 @@ public class Client {
     public static Writer out;
     public int size;
     boolean load = false;
+    public Spieler player;      // <= me
+    public Spieler player2;     //Opponent
 
-
-    public Client(String ip, int port){
+    public Client(int port, String ip, Spieler a, Spieler b){
         this.ip = ip;
         this.port = port;
         this.status = 0;
+        this.player = a;
+        this.player2 = b;
     }
 
     public void connect() {
@@ -60,7 +64,9 @@ public class Client {
                 System.out.println("Opponent: " + first);
                 size = parseInt(fsplit[1]);
 
-                //Spielfeldgroesse setzen auf fsplit[1] <= muss noch nachgetragen werden ==========================================================================
+                //Spielfeldgroesse setzen
+                player.mapSize = size;
+
 
                 //Ping-Pong Prinzip Server wartet auf "ok"
                 TextServer("done");
@@ -69,19 +75,20 @@ public class Client {
                 String second = in.readLine();
                 System.out.println("Opponent: " + second);
                 String[] ssplit = second.split(" ");    //Schiffe beginnen ab ssplit[1]
-                int[] shipcounts = new int[5];    //entweder 3,4,5,6 oder 2,3,4,5 also ein Feld bleibt 0
+                int[] sc = new int[5];    //entweder 3,4,5,6 oder 2,3,4,5 also ein Feld bleibt 0
 
                 for(int i=1;i<ssplit.length;i++){
-                    shipcounts[parseInt(ssplit[i]) - 2]++;   //-2 da Index von 0-4  Index0: Anzahl 2er Schiffe etc
+                    sc[parseInt(ssplit[i]) - 2]++;   //-2 da Index von 0-4  Index0: Anzahl 2er Schiffe etc
                 }
-                //Anzahl 2,3,4,5,6er Schiffe weitergeben <= muss noch nachgetragen werden ==================================================================================
+                //Anzahl 2,3,4,5,6er Schiffe weitergeben
+                player.remainingShips = sc;
 
                 //Server wartet wieder auf "ok"
                 TextServer("done");
             }
 
             //Schiffe auf Spielfeld plazieren <= muss noch nachgetragen werden ==========================================================================================
-            //Wenn boolean load = false => neues Spiel erstellen
+            // Wenn boolean load == false => neues Spiel erstellen
 
             if(load == false){
                 String third = in.readLine();
@@ -107,16 +114,27 @@ public class Client {
                             case "1":
                                 //Getroffen (nicht versenkt) Client ist wieder am Zug =================================================================
                             case "2":
-                                //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
+                                //Getroffen/versenkt  ======================================================================
+                                if(player2.hp == 0){   //?Spiel gewonnen?
+                                    System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
+                                }
                         }
                     case "pass":    //Client wieder am Zug nachdem Server Wasser getroffen hat
                         //Client/Logik.Spieler ist wieder am Zug <= muss noch nachgetragen werden =======================================================================
-                    case "shot":    //Opponent hat aufs eigene Spielfeld geschossen
-                        //Ueberpruefen ob Opponent getroffen hat und dann richtiges "answer" zurueckschicken ?Spiel zu ende?========================================
+                    case "shot":  //Opponent hat aufs eigene Spielfeld geschossen
+                        //Ueberpruefen ob Opponent getroffen hat und dann richtiges "answer" zurueckschicken
+                        int x = parseInt(Osplit[1]);
+                        int y = parseInt(Osplit[2]);
+                        String answer = player.shootYourself(x, y);
+                        TextServer(answer);
+                        if(player.hp == 0) {     //Spiel zu ende?
+                            System.out.println("SPIEL VERLOREN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            //Spiel beenden   ===========================================================================
+                        }
                     case "save":
                         //Spiel speichern mit Osplit[1] => Server war am Zug ==========================================================================
                 }
-                TextServer("okay :)");
+                TextServer("okay :) Client");
             }
         }
         catch(Exception e){
@@ -137,9 +155,9 @@ public class Client {
 
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Client p1 = new Client("localhost",50000);
         p1.connect();
-    }
+    }*/
 
 }
