@@ -12,18 +12,18 @@ public class Server {
     // Verwendete Portnummer
     public final int port;
     public int status;
+    public boolean amZug = true;
     public final int ID;            //Wenn ID == 0 <= neues Spiel
     BufferedReader in;
     static Writer out;
     public Spieler player;  //This is me
-    public Spieler player2; //Opponent
+    //public Spieler player2; //Opponent oder schon in player?
 
-    public Server(int p, int id, Spieler a, Spieler b){
+    public Server(int p, int id, Spieler a){
         this.port = p;
         this.ID = id;
         this.status = 0;
         this.player = a;
-        this.player2 = b;
     }
     
     
@@ -41,27 +41,26 @@ public class Server {
 
         Socket s = null;
 
-        try {
+        /*try {
             // Die eigene(n) IP-Adresse(n) ausgeben,
             // damit der Benutzer sie dem Benutzer des Clients mitteilen kann.
-            System.out.print("My IP address(es):");
-            Enumeration<NetworkInterface> nis =
-                    NetworkInterface.getNetworkInterfaces();
+            System.out.println("My IP address(es):");
+            Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
             while (nis.hasMoreElements()) {
                 NetworkInterface ni = nis.nextElement();
                 Enumeration<InetAddress> ias = ni.getInetAddresses();
                 while (ias.hasMoreElements()) {
                     InetAddress ia = ias.nextElement();
                     if (!ia.isLoopbackAddress()) {
-                        System.out.print(" " + ia.getHostAddress());
+                        System.out.println(" " + ia.getHostAddress());
                     }
                 }
             }
         }
         catch(Exception e){
-            status = -100;
+            status = -100;              //IP-Adresse error
             e.printStackTrace();
-        }
+        }*/
 
         try{
             // Auf eine Client-Verbindung warten und diese akzeptieren.
@@ -115,7 +114,7 @@ public class Server {
 
                 //Spiel starten
                 //Wenn Client am Zug war (load) pass texten
-                TextClient("okay");
+                TextClient("pass");
 
                 //Ping-Pong Prinzip warten auf Befehle
                 while(true){
@@ -128,31 +127,47 @@ public class Server {
                             switch(Osplit[1]){
                                 case "0":
                                     TextClient("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
+                                    amZug = false;
                                 case "1":
                                     //Getroffen (nicht versenkt) Server ist wieder am Zug =================================================================
                                     //GUI wieder freischalten oder boolean in Spieler Objekt??!
+                                    amZug = true;
                                 case "2":
                                     //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
-
-                                    if(player2.hp == 0){
+                                    amZug = true;
+                                    if(player.hp2 == 0){
                                         System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
                                     }
                             }
+                            break;
                         case "pass":    //Server wieder am Zug nachdem Client Wasser getroffen hat
                             //Server/Logik.Spieler ist wieder am Zug <= muss noch nachgetragen werden =======================================================================
+                            //Dummy zum testen
+                            TextClient("pass");
+                            amZug = true;
+                            break;
                         case "shot":    //Opponent hat aufs eigene Spielfeld geschossen
-                            int x = parseInt(Osplit[1]);
-                            int y = parseInt(Osplit[2]);
-                            String answer = player.shootYourself(x, y);
+                            String answer = "";
+                            try{
+                                int x = parseInt(Osplit[1]);
+                                int y = parseInt(Osplit[2]);
+                                answer = player.shootYourself(x, y);
+                            }
+                            catch(Exception e){
+                                System.out.println("Array out of bounds");
+                            }
                             TextClient(answer);
                             if(player.hp == 0){
                                 System.out.println("SPIEL VERLOREN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                                 //Spiel beenden
                             }
+                            break;
                         case "save":
+                            amZug = false;
                             //Spiel speichern mit Osplit[1] => Client war am Zug ==========================================================================
+                            break;
                     }
-                    TextClient("okay :) Server");
+                    //TextClient("okay :) Server");
 
                 }
             }
@@ -175,9 +190,10 @@ public class Server {
 
     }
 
-    /*public static void main(String[] args) {
-        //Server s1 = new Server(50000,0, new Spieler());        //port + ID
-        //s1.connect();
-    }*/
+    public static void main(String[] args) {
+        int[] a = {0,0,1,2,3,4,2};
+        Server s1 = new Server(50000,0, new Spieler("server", 21, 7, a));        //port + ID
+        s1.connect();
+    }
 
 }
