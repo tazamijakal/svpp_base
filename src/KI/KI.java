@@ -34,6 +34,11 @@ public abstract class KI extends Spieler {
         return new fieldposition(x, y);
     }
 
+    public boolean getRandomBoolean() {
+        Random random = new Random();
+        return random.nextBoolean();
+    }
+
     /**
      * Konstruktor erzeugt neuen Spieler mit eigener Map.
      *

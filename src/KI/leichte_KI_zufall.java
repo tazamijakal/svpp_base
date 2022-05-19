@@ -1,5 +1,6 @@
 package KI;
 
+
 public class leichte_KI_zufall extends KI {
 
     /**
@@ -25,7 +26,7 @@ public class leichte_KI_zufall extends KI {
             counter = 0;
             while (remainingShips[shiplength] > 0) {
                 fieldposition rdmZielpos = RdmZielpos();
-                boolean direction = randInt(1,2) == 1?true:false;
+                boolean direction = getRandomBoolean();
                 if (spaceCheck(rdmZielpos.x, rdmZielpos.y, shiplength, direction)) {
                     placeRemoveShip(true, rdmZielpos.x, rdmZielpos.y, shiplength, direction);
                     savex = rdmZielpos.x;
