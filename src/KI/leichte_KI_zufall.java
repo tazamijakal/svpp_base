@@ -1,15 +1,14 @@
 package KI;
 
 
-import java.util.Arrays;
 
 public class leichte_KI_zufall extends KI {
 
     /**
      * Konstruktor erzeugt neue KI und kopiert die Werte vom Spieler.
      *
-     * @param name     Name des Spielers
-     * @param mapSize  Groesse der Map (mapSize*mapSize == x*y)
+     * @param name
+     * @param mapSize
      * @param hp
      * @param remainingShips
      */
@@ -21,9 +20,7 @@ public class leichte_KI_zufall extends KI {
     @Override
     public void KIplazieren() {
         String Vergleich = "Here";
-        int counter = 0;
-        int savex = 0;
-        int savey = 0;
+        int counter;
         for (int shiplength = 0; shiplength < this.remainingShips.length; shiplength++) {
             counter = 0;
             while (remainingShips[shiplength] > 0) {
@@ -31,17 +28,17 @@ public class leichte_KI_zufall extends KI {
                 boolean direction = getRandomBoolean();
                 if (spaceCheck(rdmZielpos.x, rdmZielpos.y, shiplength, direction)) {
                     placeRemoveShip(true, rdmZielpos.x, rdmZielpos.y, shiplength, direction);
-                    savex = rdmZielpos.x;
-                    savey = rdmZielpos.y;
                 }
                 boolean true_false = Vergleich.equals(Vergleich2);
                 if (true_false) {
-                    if (counter >= 50) {
-                        removeShipRequest(savex,savey);
+                    if (counter >= 100) {
+                        while(shipList.size() > 0){
+                            removeShipRequest(shipList.get(0).initialX, shipList.get(0).initialY);
+                        }
                         counter = 0;
+                        KIplazieren();
                     }
                     counter++;
-                    System.out.println(counter);
                 }
             }
         }
@@ -50,9 +47,8 @@ public class leichte_KI_zufall extends KI {
     @Override
     public String KIshoot() {
         fieldposition rdmZielpos = RdmZielpos();
-        if (board[rdmZielpos.x][rdmZielpos.y] instanceof TrefferObject && board[rdmZielpos.x][rdmZielpos.y] instanceof MisfireObject) {
+        if (visibleBoard[rdmZielpos.x][rdmZielpos.y] instanceof TrefferObject || visibleBoard[rdmZielpos.x][rdmZielpos.y] instanceof MisfireObject) {
             System.out.println("konnte nicht schießen");
-            KIshoot();
             return KIshoot();
         }
         return shot(rdmZielpos.x,rdmZielpos.y);

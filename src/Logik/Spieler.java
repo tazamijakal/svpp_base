@@ -43,6 +43,7 @@ public class Spieler {
      * @param name      Name des Spielers
      * @param mapSize   Größe der Map (mapSize*mapSize == länge*breite)
      * @param hp        Legt fest wie viele Felder mit Schiffen belegt werden können und wird gleichzeitig als health points verwendet.
+     * @param remainingShips die verbleibenden Schiffe werden angezeigt/gespeichert.
      */
     public Spieler(String name, int mapSize, int hp, int[]remainingShips) {     //
         this.name = name;
@@ -121,6 +122,8 @@ public class Spieler {
             for (int i = 0; i < l; i++) {
                 board[hitMap[i][0]][hitMap[i][1]] = schiff;
             }
+        } else {
+            this.remainingShips[l]++;
         }
 
         //collision map aktualisierung:
@@ -228,14 +231,13 @@ public class Spieler {
      * @return false = kein Platz für das Schiff
      */
     public boolean spaceCheck(int x, int y, int l, boolean d){
-        if (x < 0 || x > mapSize || y < 0 || y > mapSize || (d && x + l > mapSize) || (!d && y + l > mapSize)) {return false; }
+        if (x < 0 || x >= mapSize || y < 0 || y >= mapSize || (d && x + l > mapSize) || (!d && y + l > mapSize)) {return false; }
         int tempX = x;      //damit x und y nicht überschrieben werden
         int tempY = y;
         xd = 0;
         yd = 0;
         directionSetter(d);
         for (int i = 0; i < l; i++) {    //prüft ob Felder (+deren angrenzende Felder) bereits belegt sind
-            System.out.println("CollisionMap["+tempX+"|"+tempY+"]: "+collisionMap[tempX][tempY]+" > 0");
             if (collisionMap[tempX][tempY]>0) {
                 System.out.println("Nicht genug Platz für das Schiff!");
                 Vergleich2 = "Here";
