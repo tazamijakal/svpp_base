@@ -17,6 +17,7 @@ public class Spieler {
     public int x, y;
     public int xd, yd;
     public int hp;          //hp = felder die schiffe sind bzw. HP welche 0 erreichen wenn alle Schiffe zerstört sind
+    public int hp2;
     public int mapSize;         //mapSize = länge/breite
     static int pCounter = 1;       //wird benötigt damit Spielfeld 1 immer links ist und vice versa
     public int playerNumber;         //wird als Index verwendet damit Spielfeld von Spieler 1 immer auf der linken Seite ist
@@ -40,6 +41,7 @@ public class Spieler {
     public Spieler(String name, int mapSize, int hp, int[]remainingShips) {     //
         this.name = name;
         this.hp = hp;
+        hp2 = hp;
         this.mapSize = mapSize;
         this.remainingShips = remainingShips.clone();
         playerNumber = pCounter;
@@ -430,6 +432,8 @@ public class Spieler {
         System.out.println();
         for (int y = 0; y < one.mapSize; y++) {
             printRow(one, y);
+            System.out.print("     ");
+            printCollisionRow(one, y);
             System.out.print("     ");
             printVisibleRow(one, y);
             System.out.print("     ");

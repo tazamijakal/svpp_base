@@ -56,7 +56,7 @@ public class leichte_KI_zufall extends KI {
     }
 
     public static void main(String[] args) {
-        KI leichte_ki_zufall = new leichte_KI_zufall("easy", 5, 15, new int[]{0,0,1,1,2,1});
+        KI leichte_ki_zufall = new leichte_KI_zufall("easy", 5, 15, new int[]{0,0,1,1,1});
         leichte_ki_zufall.KIplazieren();
         leichte_ki_zufall.KIshoot();
         Hilffunktion.printField(leichte_ki_zufall.mapSize,leichte_ki_zufall.board);
