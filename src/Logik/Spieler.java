@@ -439,6 +439,8 @@ public class Spieler {
             System.out.print("     ");
             printRow(two, y);
             System.out.print("     ");
+            System.out.print("     ");
+            printCollisionRow(two, y);
             printVisibleRow(two, y);
             System.out.println("\n");
         }

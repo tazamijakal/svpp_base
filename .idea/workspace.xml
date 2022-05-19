@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="jetzt passt alles">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/KI/leichte_KI_zufall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/leichte_KI_zufall.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Logik/Spieler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Spieler.java" afterDir="false" />
+    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment=".">
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -121,7 +118,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652628255637</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary=".">
+      <created>1652961400832</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1652961400832</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -140,6 +144,7 @@
     <MESSAGE value="Platziermethoden sollten jetzt fertig sein, Änderungen an shoot-methoden" />
     <MESSAGE value="Shoot-Methoden nur noch x/y vertauscht und -1" />
     <MESSAGE value="jetzt passt alles" />
-    <option name="LAST_COMMIT_MESSAGE" value="jetzt passt alles" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
 </project>
