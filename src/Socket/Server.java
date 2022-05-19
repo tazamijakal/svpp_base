@@ -2,6 +2,8 @@ package Socket;
 
 import java.net.*;
 import java.io.*;
+import java.util.Enumeration;
+
 import Logik.*;
 import static java.lang.Integer.parseInt;
 
@@ -38,6 +40,29 @@ public class Server {
         }
 
         Socket s = null;
+
+        try {
+            // Die eigene(n) IP-Adresse(n) ausgeben,
+            // damit der Benutzer sie dem Benutzer des Clients mitteilen kann.
+            System.out.print("My IP address(es):");
+            Enumeration<NetworkInterface> nis =
+                    NetworkInterface.getNetworkInterfaces();
+            while (nis.hasMoreElements()) {
+                NetworkInterface ni = nis.nextElement();
+                Enumeration<InetAddress> ias = ni.getInetAddresses();
+                while (ias.hasMoreElements()) {
+                    InetAddress ia = ias.nextElement();
+                    if (!ia.isLoopbackAddress()) {
+                        System.out.print(" " + ia.getHostAddress());
+                    }
+                }
+            }
+        }
+        catch(Exception e){
+            status = -100;
+            e.printStackTrace();
+        }
+
         try{
             // Auf eine Client-Verbindung warten und diese akzeptieren.
             System.out.println("Waiting for client connection ...");
