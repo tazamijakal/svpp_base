@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 
 public class Spieler {
+    public String Vergleich2;
     public final String name;       //damit wird der Spieler angesprochen
     public Spieler opponent;
     public int x, y;
@@ -219,11 +220,13 @@ public class Spieler {
         for (int i = 0; i < l; i++) {    //prüft ob Felder (+deren angrenzende Felder) bereits belegt sind
             if (collisionMap[tempX][tempY]>0) {
                 System.out.println("Nicht genug Platz für das Schiff!");
+                Vergleich2 = "Here";
                 return false;
             }
             tempX += xd;
             tempY += yd;
         }
+        Vergleich2 = "enough";
         return true;
     }
 

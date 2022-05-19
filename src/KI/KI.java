@@ -1,7 +1,6 @@
 package KI;
 
 import Logik.Spieler;
-import Logik.Ship;
 import java.util.Random;
 
 public abstract class KI extends Spieler {
@@ -56,4 +55,6 @@ public abstract class KI extends Spieler {
      * KI schiesst auf ein Feld, entweder zufaellig, oder mit logik.
      */
     public abstract void KIshoot();
+
 }
+
