@@ -12,7 +12,7 @@ public class Server {
     // Verwendete Portnummer
     public final int port;
     public int status;
-    public boolean amZug = true;
+    public boolean amZug;
     public final int ID;            //Wenn ID == 0 <= neues Spiel
     BufferedReader in;
     static Writer out;
@@ -24,6 +24,7 @@ public class Server {
         this.ID = id;
         this.status = 0;
         this.player = a;
+        this.amZug = true;
     }
     
     
@@ -41,7 +42,7 @@ public class Server {
 
         Socket s = null;
 
-        /*try {
+        try {
             // Die eigene(n) IP-Adresse(n) ausgeben,
             // damit der Benutzer sie dem Benutzer des Clients mitteilen kann.
             System.out.println("My IP address(es):");
@@ -52,15 +53,16 @@ public class Server {
                 while (ias.hasMoreElements()) {
                     InetAddress ia = ias.nextElement();
                     if (!ia.isLoopbackAddress()) {
-                        System.out.println(" " + ia.getHostAddress());
+                        System.out.print(" " + ia.getHostAddress());
                     }
                 }
             }
+            System.out.println("");
         }
         catch(Exception e){
             status = -100;              //IP-Adresse error
             e.printStackTrace();
-        }*/
+        }
 
         try{
             // Auf eine Client-Verbindung warten und diese akzeptieren.
@@ -126,15 +128,20 @@ public class Server {
                         case "answer":  //Antwort fuer Schuss aufs Gegnerische Feld
                             switch(Osplit[1]){
                                 case "0":
+                                    player.answerReader(player.lastShotX, player.lastShotY, "answer 0");
                                     TextClient("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
-                                    amZug = false;
+                                    player.attackToken = false;
                                 case "1":
                                     //Getroffen (nicht versenkt) Server ist wieder am Zug =================================================================
                                     //GUI wieder freischalten oder boolean in Spieler Objekt??!
-                                    amZug = true;
+                                    player.hp2 = player.hp2 - 1;
+                                    player.answerReader(player.lastShotX, player.lastShotY, "answer 1");
+                                    player.attackToken = true;
                                 case "2":
                                     //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
-                                    amZug = true;
+                                    player.hp2 = player.hp2 - 1;
+                                    player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
+                                    player.attackToken = true;
                                     if(player.hp2 == 0){
                                         System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
                                     }
@@ -144,7 +151,7 @@ public class Server {
                             //Server/Logik.Spieler ist wieder am Zug <= muss noch nachgetragen werden =======================================================================
                             //Dummy zum testen
                             TextClient("pass");
-                            amZug = true;
+                            player.attackToken = true;
                             break;
                         case "shot":    //Opponent hat aufs eigene Spielfeld geschossen
                             String answer = "";
@@ -163,7 +170,7 @@ public class Server {
                             }
                             break;
                         case "save":
-                            amZug = false;
+                            player.attackToken = false;
                             //Spiel speichern mit Osplit[1] => Client war am Zug ==========================================================================
                             break;
                     }

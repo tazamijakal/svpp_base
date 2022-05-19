@@ -110,12 +110,19 @@ public class Client {
                     case "answer":  //Antwort fuer Schuss aufs Gegnerische Feld
                         switch(Osplit[1]){
                             case "0":
+                                player.answerReader(player.lastShotX, player.lastShotY, "answer 0");
                                 TextServer("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
+                                player.attackToken = false;
                             case "1":
                                 //Getroffen (nicht versenkt) Client ist wieder am Zug =================================================================
+                                //GUI wieder freischalten oder boolean in Spieler Objekt??!
+                                player.answerReader(player.lastShotX, player.lastShotY, "answer 1");
+                                player.attackToken = true;
                             case "2":
-                                //Getroffen/versenkt  ======================================================================
-                                if(player.hp2 == 0){   //?Spiel gewonnen?
+                                //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
+                                player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
+                                player.attackToken = true;
+                                if(player.hp2 == 0){
                                     System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
                                 }
                         }
@@ -123,6 +130,7 @@ public class Client {
                     case "pass":    //Client wieder am Zug nachdem Server Wasser getroffen hat
                         //Client/Logik.Spieler ist wieder am Zug <= muss noch nachgetragen werden =======================================================================
                         TextServer("pass");   //=======Dummy zum ausprobieren
+                        player.attackToken = true;
                         break;
                     case "shot":  //Opponent hat aufs eigene Spielfeld geschossen
                         //Ueberpruefen ob Opponent getroffen hat und dann richtiges "answer" zurueckschicken
@@ -142,6 +150,7 @@ public class Client {
                         }
                         break;
                     case "save":
+                        player.attackToken = false;
                         //Spiel speichern mit Osplit[1] => Server war am Zug ==========================================================================
                         break;
                 }
