@@ -4,7 +4,7 @@ package KI;
 public class leichte_KI_zufall extends KI {
 
     /**
-     * Konstruktor erzeugt neuen Spieler mit eigener Map.
+     * Konstruktor erzeugt neue KI und kopiert die Werte vom Spieler.
      *
      * @param name     Name des Spielers
      * @param mapSize  Groesse der Map (mapSize*mapSize == x*y)
@@ -35,7 +35,7 @@ public class leichte_KI_zufall extends KI {
                 boolean true_false = Vergleich.equals(Vergleich2);
                 if (true_false) {
                     if (counter >= 50) {
-                        removeShipRequest(savex, savey);
+                        removeShipRequest(savex,savey);
                         counter = 0;
                     }
                     counter++;
@@ -46,14 +46,14 @@ public class leichte_KI_zufall extends KI {
     }
 
     @Override
-    public void KIshoot() {
+    public String KIshoot() {
         fieldposition rdmZielpos = RdmZielpos();
         if (board[rdmZielpos.x][rdmZielpos.y] instanceof TrefferObject && board[rdmZielpos.x][rdmZielpos.y] instanceof MisfireObject) {
             System.out.println("konnte nicht schießen");
             KIshoot();
-            return;
+            return KIshoot();
         }
-        shotReader(shot(rdmZielpos.x,rdmZielpos.y));
+        return shot(rdmZielpos.x,rdmZielpos.y);
     }
 
     public static void main(String[] args) {

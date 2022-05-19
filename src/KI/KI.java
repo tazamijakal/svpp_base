@@ -59,7 +59,7 @@ public abstract class KI extends Spieler {
     /**
      * KI schiesst auf ein Feld, entweder zufaellig, oder mit logik.
      */
-    public abstract void KIshoot();
+    public abstract String KIshoot();
 
 }
 
