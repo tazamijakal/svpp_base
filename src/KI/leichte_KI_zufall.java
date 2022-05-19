@@ -1,6 +1,8 @@
 package KI;
 
 
+import java.util.Arrays;
+
 public class leichte_KI_zufall extends KI {
 
     /**

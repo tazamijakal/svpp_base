@@ -1,5 +1,7 @@
 package Logik;
 
+
+import Socket.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -12,8 +14,12 @@ import java.util.Scanner;
 
 public class Spieler {
     public String Vergleich2;
+    public boolean attackToken;
+    public int lastShotX;
+    public int lastShotY;
     public final String name;       //damit wird der Spieler angesprochen
-    public Spieler opponent;
+    public Server server;
+    public Client client;
     public int x, y;
     public int xd, yd;
     public int hp;          //hp = felder die schiffe sind bzw. HP welche 0 erreichen wenn alle Schiffe zerstört sind
@@ -41,6 +47,7 @@ public class Spieler {
     public Spieler(String name, int mapSize, int hp, int[]remainingShips) {     //
         this.name = name;
         this.hp = hp;
+        attackToken = false;
         hp2 = hp;
         this.mapSize = mapSize;
         this.remainingShips = remainingShips.clone();
@@ -58,6 +65,14 @@ public class Spieler {
                 radarMap[x][y] = 0;
             }
         }
+    }
+
+    public void clientSetter(Client c){
+        this.client = c;
+    }
+
+    public void serverSetter(Server s) {
+        this.server = s;
     }
 
 
@@ -216,10 +231,11 @@ public class Spieler {
         if (x < 0 || x > mapSize || y < 0 || y > mapSize || (d && x + l > mapSize) || (!d && y + l > mapSize)) {return false; }
         int tempX = x;      //damit x und y nicht überschrieben werden
         int tempY = y;
-        int xd = 0;
-        int yd = 0;
+        xd = 0;
+        yd = 0;
         directionSetter(d);
         for (int i = 0; i < l; i++) {    //prüft ob Felder (+deren angrenzende Felder) bereits belegt sind
+            System.out.println("CollisionMap["+tempX+"|"+tempY+"]: "+collisionMap[tempX][tempY]+" > 0");
             if (collisionMap[tempX][tempY]>0) {
                 System.out.println("Nicht genug Platz für das Schiff!");
                 Vergleich2 = "Here";
@@ -238,16 +254,14 @@ public class Spieler {
      * @param d d=direction
      */
     public void directionSetter (boolean d){
-        xd=0;
-        yd=0;
+        this.xd=0;
+        this.yd=0;
         if(d){xd=1;} else {yd=1;}
     }
-
 
 //------------------------SHOOT-METHODEN--------------------------------------------------------------------------------------------------
 
 
-    //TODO x und y nur beim schießen vertauscht???? betrifft alle shoot methoden
     public void setTargetCoordinates(int x, int y){
         this.x = x;
         this.y = y;
@@ -267,11 +281,34 @@ public class Spieler {
                 System.out.println("Bereits auf Feld geschossen!");
                 return uInputShootRequest();
             } else {
+                lastShotX = x;
+                lastShotY = y;
+                attackToken=false;
+                if(name.equals("Client")){
+                    Client.TextServer(shot(x,y));
+                }
                 return shot(x,y);
             }
         }catch (ArrayIndexOutOfBoundsException E){
             System.out.println("Out of bounds!");
             return uInputShootRequest();
+        }
+    }
+
+    public void shootRequest(int x, int y) {
+        try{
+            if (visibleBoard[x][y] instanceof TrefferObject || visibleBoard[x][y] instanceof MisfireObject) {
+                System.out.println("Bereits auf Feld geschossen!");
+            } else {
+                attackToken=false;
+                if(name.equals("Client")){
+                    Client.TextServer(shot(x,y));
+                } else if (name.equals("Server")) {
+                    Server.TextClient(shot(x,y));
+                }
+            }
+        }catch (ArrayIndexOutOfBoundsException E){
+            System.out.println("Out of bounds!");
         }
     }
 
@@ -333,6 +370,7 @@ public class Spieler {
         int answer = Integer.parseInt(answerString.substring(7,8));
         switch(answer){
             case 0: visibleBoard[x][y]=misfireObject;
+                attackToken=false;
                 return false;
             case 1: visibleBoard[x][y]=trefferObject;
                 return true;
@@ -362,12 +400,10 @@ public class Spieler {
      * Gibt Liste mit all den Schiffen aus welche ein Spieler platziert hat.
      */
     protected void printShipList(){
-        int c = 1;
         for(Ship i: shipList){
             System.out.print(i.length+"-er Schiff bei:");
             for(int[] z: i.coordinates){
                 System.out.print(Arrays.toString(z)+"; ");
-                c++;
             }
             System.out.println("");
         }
@@ -382,6 +418,7 @@ public class Spieler {
             for (int x = 0; x < mapSize; x++) {
                 System.out.print(board[x][y] + "  ");
             }
+            System.out.println("");
         }
     }
 
@@ -437,8 +474,8 @@ public class Spieler {
             System.out.print("     ");
             printVisibleRow(one, y);
             System.out.print("     ");
-            printRow(two, y);
             System.out.print("     ");
+            printRow(two, y);
             System.out.print("     ");
             printCollisionRow(two, y);
             printVisibleRow(two, y);
