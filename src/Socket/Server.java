@@ -10,7 +10,7 @@ public class Server {
     // Verwendete Portnummer
     public final int port;
     public int status;
-    public final int ID;
+    public final int ID;            //Wenn ID == 0 <= neues Spiel
     BufferedReader in;
     static Writer out;
     public Spieler player;  //This is me
@@ -105,6 +105,7 @@ public class Server {
                                     TextClient("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
                                 case "1":
                                     //Getroffen (nicht versenkt) Server ist wieder am Zug =================================================================
+                                    //GUI wieder freischalten oder boolean in Spieler Objekt??!
                                 case "2":
                                     //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
 
