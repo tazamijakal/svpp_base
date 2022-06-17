@@ -6,7 +6,7 @@ package Logik;
 public class Ship {
     int length;
     boolean initialD;
-    int initialX, initialY;       //Zwischenspeicher
+    public int initialX, initialY;       //Zwischenspeicher
     int[][] coordinates;        //beinhaltet alle [x][y]-Paare aus denen ein Schiff besteht
 
     /**

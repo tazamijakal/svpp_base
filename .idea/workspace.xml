@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="Platziermethoden sollten jetzt fertig sein, Änderungen an shoot-methoden">
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="KI löscht Shiffe falls sie nicht plaziert werden konnten nach ca. 30 versuchen&#10;Ki hatte davor auf board geschossen und dadurch fehlerhaften rückgabe wert erhalten, schießt jetzt auf visible board und kann theoretisch gewinnen.&#10;Ship initialX, initialY public gemacht damit ich darauf zugreifen kann.&#10;Spieler @param remainingShips und beschreibung hinzugefügt.&#10;Else statement hinzugefügt für placeRemoveShips, damit schiffe auch wieder in den Pool gemacht werden.&#10;spaceCheck, y &gt;= mapsize und x &gt;= mapsize, sonst gab es out of bounds error bei y = 5 oder x = 5.">
+      <change afterPath="$PROJECT_DIR$/src/KI/mittlere_KI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/KI/Hilffunktion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/Hilffunktion.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/KI/KI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/KI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/KI/leichte_KI_zufall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/leichte_KI_zufall.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Logik/Spieler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Spieler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logik/Game2KI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Game2KI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +24,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -34,9 +41,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="svpp_base" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SchiffeV (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GUI.SchiffeV" />
+      <module name="svpp_base" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="GUI.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SchiffeV" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="SchiffeV" />
       <module name="svpp_base" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -55,8 +85,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="testKI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="KI.testKI" />
+    <configuration name="mittlere_KI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="KI.mittlere_KI" />
       <module name="svpp_base" />
       <extension name="coverage">
         <pattern>
@@ -71,8 +101,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.SchiffeV (1)" />
+        <item itemvalue="Application.mittlere_KI" />
         <item itemvalue="Application.leichte_KI_zufall" />
-        <item itemvalue="Application.testKI" />
+        <item itemvalue="Application.SchiffeV" />
       </list>
     </recent_temporary>
   </component>
@@ -84,6 +116,10 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1651243326336</updated>
+      <workItem from="1652984256331" duration="5876000" />
+      <workItem from="1654629014806" duration="15956000" />
+      <workItem from="1654645196380" duration="613000" />
+      <workItem from="1655463934646" duration="6055000" />
     </task>
     <task id="LOCAL-00001" summary="Projekt Struktur angepasst">
       <created>1652448475215</created>
@@ -99,8 +135,46 @@
       <option name="project" value="LOCAL" />
       <updated>1652555546198</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Shoot-Methoden nur noch x/y vertauscht und -1">
+      <created>1652575533130</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1652575533130</updated>
+    </task>
+    <task id="LOCAL-00004" summary="jetzt passt alles">
+      <created>1652627740846</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1652627740846</updated>
+    </task>
+    <task id="LOCAL-00005" summary="jetzt passt alles">
+      <created>1652628255637</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1652628255637</updated>
+    </task>
+    <task id="LOCAL-00006" summary=".">
+      <created>1652961400832</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1652961400832</updated>
+    </task>
+    <task id="LOCAL-00007" summary="KI löscht Shiffe falls sie nicht plaziert werden konnten nach ca. 30 versuchen&#10;Ki hatte davor auf board geschossen und dadurch fehlerhaften rückgabe wert erhalten, schießt jetzt auf visible board und kann theoretisch gewinnen.&#10;Ship initialX, initialY public gemacht damit ich darauf zugreifen kann.&#10;Spieler @param remainingShips und beschreibung hinzugefügt.&#10;Else statement hinzugefügt für placeRemoveShips, damit schiffe auch wieder in den Pool gemacht werden.&#10;spaceCheck, y &gt;= mapsize und x &gt;= mapsize, sonst gab es out of bounds error bei y = 5 oder x = 5.">
+      <created>1652989430897</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1652989430897</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -117,6 +191,18 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Projekt Struktur angepasst" />
     <MESSAGE value="Platziermethoden sollten jetzt fertig sein, Änderungen an shoot-methoden" />
-    <option name="LAST_COMMIT_MESSAGE" value="Platziermethoden sollten jetzt fertig sein, Änderungen an shoot-methoden" />
+    <MESSAGE value="Shoot-Methoden nur noch x/y vertauscht und -1" />
+    <MESSAGE value="jetzt passt alles" />
+    <MESSAGE value="." />
+    <MESSAGE value="KI löscht Shiffe falls sie nicht plaziert werden konnten nach ca. 30 versuchen&#10;Ki hatte davor auf board geschossen und dadurch fehlerhaften rückgabe wert erhalten, schießt jetzt auf visible board und kann theoretisch gewinnen.&#10;Ship initialX, initialY public gemacht damit ich darauf zugreifen kann.&#10;Spieler @param remainingShips und beschreibung hinzugefügt.&#10;Else statement hinzugefügt für placeRemoveShips, damit schiffe auch wieder in den Pool gemacht werden.&#10;spaceCheck, y &gt;= mapsize und x &gt;= mapsize, sonst gab es out of bounds error bei y = 5 oder x = 5." />
+    <option name="LAST_COMMIT_MESSAGE" value="KI löscht Shiffe falls sie nicht plaziert werden konnten nach ca. 30 versuchen&#10;Ki hatte davor auf board geschossen und dadurch fehlerhaften rückgabe wert erhalten, schießt jetzt auf visible board und kann theoretisch gewinnen.&#10;Ship initialX, initialY public gemacht damit ich darauf zugreifen kann.&#10;Spieler @param remainingShips und beschreibung hinzugefügt.&#10;Else statement hinzugefügt für placeRemoveShips, damit schiffe auch wieder in den Pool gemacht werden.&#10;spaceCheck, y &gt;= mapsize und x &gt;= mapsize, sonst gab es out of bounds error bei y = 5 oder x = 5." />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="KI.leichte_KI_zufall" memberName="yd" />
+        <PinnedItemInfo parentTag="KI.leichte_KI_zufall" memberName="xd" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>
