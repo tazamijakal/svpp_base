@@ -1,19 +1,20 @@
 package KI;
+import KI.leichte_KI_zufall;
 
 
+public class mittlere_KI extends KI {
 
-public class leichte_KI_zufall extends KI {
 
     /**
-     * Konstruktor erzeugt neue KI und kopiert die Werte vom Spieler.
+     * Konstruktor erzeugt neuen KI.
      *
-     * @param name
-     * @param mapSize
-     * @param hp
-     * @param remainingShips
+     * @param name           Name des Spielers
+     * @param mapSize        Groesse der Map (mapSize*mapSize == x*y)
+     * @param hp             Legt fest wie hp man noch hat
+     * @param remainingShips legt die anzahl der verbleibenden schiffe fest
      */
 
-    public leichte_KI_zufall(String name, int mapSize, int hp, int[] remainingShips) {
+    public mittlere_KI(String name, int mapSize, int hp, int[] remainingShips) {
         super(name, mapSize, hp, remainingShips);
     }
 
@@ -32,7 +33,7 @@ public class leichte_KI_zufall extends KI {
                 boolean true_false = Vergleich.equals(Vergleich2);
                 if (true_false) {
                     if (counter >= 100) {
-                        while(shipList.size() > 0){
+                        while (shipList.size() > 0) {
                             removeShipRequest(shipList.get(0).initialX, shipList.get(0).initialY);
                         }
                         counter = 0;
@@ -45,19 +46,19 @@ public class leichte_KI_zufall extends KI {
     }
 
     @Override
-    public String KIshoot() {
-        fieldposition rdmZielpos = RdmZielpos();
-        if (visibleBoard[rdmZielpos.x][rdmZielpos.y] instanceof TrefferObject || visibleBoard[rdmZielpos.x][rdmZielpos.y] instanceof MisfireObject) {
-            System.out.println("konnte nicht schießen");
-            return KIshoot();
+    public String KIshoot() throws Exception {
+        if (visibleBoard[hitX][hitY] instanceof TrefferObject) {
+            fieldposition shootalg2Treffer = shootalg2Treffer(hitX, hitY);
+            return shot(shootalg2Treffer.x,shootalg2Treffer.y);
         }
-        return shot(rdmZielpos.x,rdmZielpos.y);
+        fieldposition shootalg1 = shootalg1();
+    return shot(shootalg1.x,shootalg1.y);
     }
 
     public static void main(String[] args) throws Exception {
-        KI leichte_ki_zufall = new leichte_KI_zufall("easy", 5, 15, new int[]{0,0,1,1,1});
-        leichte_ki_zufall.KIplazieren();
-        leichte_ki_zufall.KIshoot();
-        Hilffunktion.printField(leichte_ki_zufall.mapSize,leichte_ki_zufall.board);
+        KI mittlere_KI = new mittlere_KI("middle", 5, 15, new int[]{0,0,1,1,1});
+        mittlere_KI.KIplazieren();
+        mittlere_KI.KIshoot();
+        Hilffunktion.printField(mittlere_KI.mapSize,mittlere_KI.board);
     }
 }

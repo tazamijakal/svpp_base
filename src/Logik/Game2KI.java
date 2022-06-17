@@ -2,6 +2,7 @@ package Logik;
 
 import KI.KI;
 import KI.leichte_KI_zufall;
+import KI.mittlere_KI;
 import java.util.Scanner;
 
 public class Game2KI {
@@ -23,13 +24,13 @@ public class Game2KI {
     /**
      * Bereitet das Spiel vor (Spielfeldgröße und festlegen, Spieler und deren Spielfelder erzeugen, Schiffe platzieren und Spiel mit startWar() starten.
      */
-    public void startGame() {
+    public void startGame() throws Exception {
         requestMapSize();
         requestShipTypes();
         System.out.println("Name für Spieler 1: ..");
         String player1name = userInput.next();
         Spieler spieler1 = new Spieler(player1name, mapSize, hp, shipPool);
-        KI spieler2 = new leichte_KI_zufall("easy", mapSize, hp, shipPool);
+        KI spieler2 = new mittlere_KI("easy", mapSize, hp, shipPool);
         spieler1.oldPrintAll(spieler1, spieler2);
         startPlacingShips(spieler1, spieler2);
         spieler2.KIplazieren();
@@ -37,13 +38,13 @@ public class Game2KI {
         startWar(spieler1, spieler2);
     }
 
-    public void demoGame() {
+    public void demoGame() throws Exception {
         setMapSize(5);
         hp = 7;
         adjustShipPool(true, 5);
         adjustShipPool(true, 2);
         Spieler spieler1 = new Spieler("Spieler_1", mapSize, hp, shipPool);
-        KI spieler2 = new leichte_KI_zufall("Spieler_2", mapSize, hp, shipPool);
+        KI spieler2 = new mittlere_KI("Spieler_2", mapSize, hp, shipPool);
         spieler1.oldPrintAll(spieler1, spieler2);
         spieler1.placeRemoveShip(true,0,0,5,true);
         spieler1.placeRemoveShip(true,0,2,2,true);
@@ -61,7 +62,7 @@ public class Game2KI {
      * @param player1
      * @param player2
      */
-    public void startWar(Spieler player1, KI player2) {
+    public void startWar(Spieler player1, KI player2) throws Exception {
         player1.hp = shipCapacity;              //hier bezeichnet hp die Anzahl an Feldern auf welchen noch Schiffe liegen
         player2.hp = shipCapacity;
         int[]shotCoordinates;
