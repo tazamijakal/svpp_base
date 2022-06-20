@@ -1,9 +1,52 @@
 package GUI;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 
-public final class SpielStart {
+public final class SpielStart extends JFrame{
+
+    //Attribute:
+    //Spielfeldgroesse
+    protected int spielfeldgr = 0;
+
+    //Index von Kaestchen in Spielfeld von Gegner Schiffen
+    public static int index_zeile;
+    public static int index_spalte;
+
+    //Index von Kaestchen in Spielfeld von eigenen Schiffen
+    protected int index_zeile_eig;
+    protected int index_spalte_eig;
+
+    //Schiffe nicht verfuegbar bei bestimmter Groesse
+    //Hilfsvariablen:
+    protected boolean flag1 = false;
+
+    protected boolean radioButton_l = false;
+    protected boolean radioButton_o = false;
+
+    public SpielStart(){
+
+    }
+
+
+    public void sethorizShip(int x, int y)
+    {
+
+    }
+
+    /**
+     *
+     * Setzt Spaltenindex von einzelnem Kaestchen von Gegner Spielfeld auf uebergebene Groesse.
+     * Index geginnt bei 0 zu zaehlen.
+     * Hier fuer Spielfeld mit Gegner Schiffe.
+     */
+    public void setIndex_spalte (int groesse) {
+
+        this.index_spalte = groesse;
+
+    }
 
 
     /**
@@ -12,8 +55,26 @@ public final class SpielStart {
      * Fuer eigentlichen Spielstart.
      * Nachdem Einstellungen in Startbildschirm gemacht wurden.
      */
-    public static void SpielStarten(DefaultTableModel model, DefaultTableModel model2)
+    public static void SpielStarten()
     {
+        //Index von Kaestchen in Spielfeld von Gegner Schiffen
+        int index_zeile;
+        int index_spalte;
+
+        //Headers for JTable
+        String[] columns = {"Id", "Name", "Address", "Image", "okay"};
+        //data for JTable in a 2D table
+        Object[][] data = {
+                {new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png")},
+                {new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png")},
+                {new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png")},
+                {new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png")},
+                {new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png")}
+        };
+
+        DefaultTableModel model = new DefaultTableModel(data, columns);
+        DefaultTableModel model2 = new DefaultTableModel(data, columns);
+
         //Fuer Schiffe setzen:
         //String[][] feldSetzen = new String[model.getSpielfeld()][model.getSpielfeld()];
 
@@ -26,7 +87,11 @@ public final class SpielStart {
         //frame.add(Box.createHorizontalStrut(50));
         //frame.add(Box.createHorizontalGlue());
 
-        frame.setBackground(Color.BLUE);
+        // Menüzeile zum Fenster hinzufügen.
+        //frame.setJMenuBar(bar);
+        //startbildschirm.setJMenuBar(bar);
+
+
         frame.setContentPane(Box.createHorizontalBox());
 
         // Zwischenraum der Breite 50 oder mehr.
@@ -34,9 +99,18 @@ public final class SpielStart {
         frame.add(Box.createHorizontalGlue());
 
 
-        JTable table = new JTable(model.getSpielfeld(), model.getSpielfeld());
-        JTable table2 = new JTable(model.getSpielfeld(), model.getSpielfeld());
-
+        JTable table = new JTable(model) {
+            public Class getColumnClass(int column) {
+                return ImageIcon.class;
+            }
+        };
+        JTable table2 = new JTable(model2) {
+            public Class getColumnClass(int column) {
+                return ImageIcon.class;
+            }
+        };
+        table.setDefaultRenderer(ImageIcon.class, new MyImageCellRenderer());
+        table2.setDefaultRenderer(ImageIcon.class, new MyImageCellRenderer());
 
 
         JScrollPane scrollPane = new JScrollPane(table);
@@ -51,12 +125,9 @@ public final class SpielStart {
             public void mouseClicked(MouseEvent e) {
                 int selecRow = table2.getSelectedRow();
                 int selecCol = table2.getSelectedColumn();
-
                 //feldSetzen[selecRow][selecRow] = "ship";
-                table2.setValueAt("S", selecRow, selecCol);
-
-                System.out.println("Tabelle2 " + selecRow + "," + selecCol);
-
+                table2.setValueAt(new ImageIcon("src\\blue.png"), selecRow, selecCol);
+                System.out.println("Tabelle1 " + selecRow + "," + selecCol);
             }
         });
 
@@ -67,7 +138,7 @@ public final class SpielStart {
                 int selecCol = table.getSelectedColumn();
 
                 //feldSetzen[selecRow][selecRow] = "ship";
-                table.setValueAt("S", selecRow, selecCol);
+                table.setValueAt("Ship", selecRow, selecCol);
 
                 System.out.println("Tabelle1 " + selecRow + "," + selecCol);
 
@@ -80,7 +151,7 @@ public final class SpielStart {
             JLabel label_gegner = new JLabel("Gegner Schiffe");
             vbox_1.add(label_gegner);
 
-            table.setRowHeight(30);
+            table.setRowHeight(120);
             table.setSize(750, 750);
 
             vbox_1.add(scrollPane);
@@ -98,7 +169,7 @@ public final class SpielStart {
             JLabel label_eigene = new JLabel("Eigene Schiffe");
             vbox_2.add(label_eigene);
 
-            table2.setRowHeight(30);//setzt Höhe der einzelnen Zeilen
+            table2.setRowHeight(120);//setzt Höhe der einzelnen Zeilen
             table.setSize(750, 750);
 
             vbox_2.add(scrollPane2);
@@ -106,31 +177,6 @@ public final class SpielStart {
         }
 
         frame.add(vbox_2);
-
-        //Um alle Felder am Anfang auf Wasser zu setzen
-        //Image Wasser:
-        //Bilder importieren:
-        //Image water;
-        Icon icon_water = new ImageIcon("wasser.jpg");
-        //JLabel water_label= new JLabel(icon_water);
-        //water = icon_water.getImage();
-
-        for(int i = 0; i < model.getSpielfeld(); i++)
-        {
-            for(int j = 0; j < model.getSpielfeld(); j++)
-            {
-
-                //table.setValueAt(icon_water, i, j);
-                //table2.setValueAt(icon_water, i, j);
-
-                //table.setValueAt("w", i, j);
-                table2.setValueAt("w", i, j);
-
-            }
-        }
-
-
-
 
         frame.add(Box.createHorizontalStrut(50));
         frame.add(Box.createHorizontalGlue());
@@ -189,19 +235,20 @@ public final class SpielStart {
 
         vbox_4.add(Box.createVerticalStrut(10));
         {
-
+            // "Eintrag entfernen" entfernt die selektierte Tabellenzeile.
             JButton feld_gegner = new JButton("Feld Platz Gegner");
             feld_gegner.setAlignmentX(Component.CENTER_ALIGNMENT);
             vbox_4.add(feld_gegner);
 
             feld_gegner.addActionListener(new ActionListener() {
+
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    SpielStart.index_spalte = table.getSelectedColumn();
+                    SpielStart.index_zeile = table.getSelectedRow();
 
-                    model.setIndex_spalte(table.getSelectedColumn());
-                    model.setIndex_zeile(table.getSelectedRow());
-
-                    System.out.println("Tabelle1 " + model.getIndex_zeile() + "," + model.getIndex_spalte());
+                    System.out.println("Tabelle1 " + SpielStart.index_spalte + "," + SpielStart.index_zeile);
 
                 }
 
@@ -216,12 +263,10 @@ public final class SpielStart {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    model2.setIndex_spalte_eig(table2.getSelectedColumn());
-                    model2.setIndex_zeile_eig(table2.getSelectedRow());
+                    SpielStart.index_spalte = table2.getSelectedColumn();
+                    SpielStart.index_zeile = table2.getSelectedRow();
 
-
-
-                    System.out.println("Tabelle2 " + model2.getIndex_zeile_eig() + "," + model2.getIndex_spalte_eig());
+                    System.out.println("Tabelle1 " + SpielStart.index_spalte + "," + SpielStart.index_zeile);
 
                 }
             });

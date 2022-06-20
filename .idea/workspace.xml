@@ -2,12 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="KI löscht Shiffe falls sie nicht plaziert werden konnten nach ca. 30 versuchen&#10;Ki hatte davor auf board geschossen und dadurch fehlerhaften rückgabe wert erhalten, schießt jetzt auf visible board und kann theoretisch gewinnen.&#10;Ship initialX, initialY public gemacht damit ich darauf zugreifen kann.&#10;Spieler @param remainingShips und beschreibung hinzugefügt.&#10;Else statement hinzugefügt für placeRemoveShips, damit schiffe auch wieder in den Pool gemacht werden.&#10;spaceCheck, y &gt;= mapsize und x &gt;= mapsize, sonst gab es out of bounds error bei y = 5 oder x = 5.">
-      <change afterPath="$PROJECT_DIR$/src/KI/mittlere_KI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_05_2022_13_21__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_05_2022_13_21__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/DefaultTableModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/SpielStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SpielStart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/KI/Hilffunktion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/Hilffunktion.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/KI/KI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/KI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/KI/leichte_KI_zufall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/leichte_KI_zufall.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/KI/mittlere_KI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/mittlere_KI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logik/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Logik/Game2KI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Game2KI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logik/Ship.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Ship.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logik/Spieler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Spieler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Socket/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Socket/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/AllWeNeed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/AllWeNeed.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/laden.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/laden.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/speichern.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/speichern.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +36,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -41,19 +55,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="WebServerToolWindowFactoryState" value="false" />
-  </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="svpp_base" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SchiffeV (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="GUI.SchiffeV" />
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Jeek/IdeaProjects/svpp_base&quot;
+  }
+}</component>
+  <component name="RunManager" selected="Application.GUI.Main">
+    <configuration name="GUI.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GUI.Main" />
       <module name="svpp_base" />
       <extension name="coverage">
         <pattern>
@@ -65,19 +74,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SchiffeV" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="SchiffeV" />
-      <module name="svpp_base" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="leichte_KI_zufall" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="KI.leichte_KI_zufall" />
+    <configuration name="GUI.TableIcon" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GUI.TableIcon" />
       <module name="svpp_base" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="KI.*" />
+          <option name="PATTERN" value="GUI.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -85,12 +87,26 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="mittlere_KI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="KI.mittlere_KI" />
+    <configuration name="TableIcon" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="TableIcon" />
+      <module name="svpp_base" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test" />
+      <module name="svpp_base" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GUI.test" />
       <module name="svpp_base" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="KI.*" />
+          <option name="PATTERN" value="GUI.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -100,11 +116,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.SchiffeV (1)" />
-        <item itemvalue="Application.mittlere_KI" />
-        <item itemvalue="Application.leichte_KI_zufall" />
-        <item itemvalue="Application.SchiffeV" />
+        <item itemvalue="Application.GUI.Main" />
+        <item itemvalue="Application.test" />
+        <item itemvalue="Application.GUI.TableIcon" />
+        <item itemvalue="Application.test (1)" />
+        <item itemvalue="Application.TableIcon" />
       </list>
     </recent_temporary>
   </component>
@@ -186,7 +202,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Projekt Struktur angepasst" />
