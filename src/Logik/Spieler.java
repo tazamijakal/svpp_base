@@ -45,13 +45,15 @@ public class Spieler {
      * @param hp        Legt fest wie viele Felder mit Schiffen belegt werden können und wird gleichzeitig als health points verwendet.
      * @param remainingShips die verbleibenden Schiffe werden angezeigt/gespeichert.
      */
-    public Spieler(String name, int mapSize, int hp, int[]remainingShips) {     //
+    public Spieler(String name, int mapSize, int hp, int[] remainingShips) {     //
         this.name = name;
         this.hp = hp;
         attackToken = false;
         hp2 = hp;
         this.mapSize = mapSize;
-        this.remainingShips = remainingShips.clone();
+        if(remainingShips != null){
+            this.remainingShips = remainingShips.clone();
+        }
         playerNumber = pCounter;
         pCounter++;                   //der 2te Spieler der erstellt wird bekommt automatisch die #2 zugewiesen
         collisionMap = new int[mapSize][mapSize];

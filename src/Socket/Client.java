@@ -1,11 +1,14 @@
 package Socket;
 
+import GUI.SpielStart;
 import org.w3c.dom.Text;
 
 import java.net.*;
 import java.io.*;
 import static java.lang.Integer.parseInt;
 import Logik.*;
+
+import javax.swing.*;
 
 
 public class Client {
@@ -20,11 +23,14 @@ public class Client {
     public Spieler player;      // <= me
     //public Spieler player2;     //Opponent
 
-    public Client(int port, String ip, Spieler a){
+    public SpielStart GAME;
+
+    public Client(int port, String ip, Spieler a, SpielStart GAME){
         this.ip = ip;
         this.port = port;
         this.status = 0;
         this.player = a;
+        this.GAME = GAME;
         //this.player2 = b;
     }
 
@@ -100,6 +106,15 @@ public class Client {
                 TextServer("ready");
             }
 
+            System.out.println("Client Starting the GAME: ");
+            System.out.println(player.name);
+            System.out.println(player.mapSize);
+
+            SwingUtilities.invokeLater(
+                    () -> { GAME.SpielStarten(player); }
+            );
+
+            System.out.println("TEST");
             //Ping-Pong Prinzip warten auf Befehle
             while(true){
                 String order = in.readLine();
@@ -175,9 +190,9 @@ public class Client {
 
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Client p1 = new Client(50000,"localhost",new Spieler("client", 21, 7, new int[7]));
         p1.connect();
-    }
+    }*/
 
 }

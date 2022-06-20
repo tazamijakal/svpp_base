@@ -4,7 +4,11 @@ import java.net.*;
 import java.io.*;
 import java.util.Enumeration;
 
+import GUI.SpielStart;
 import Logik.*;
+
+import javax.swing.*;
+
 import static java.lang.Integer.parseInt;
 
 
@@ -19,17 +23,22 @@ public class Server {
     public Spieler player;  //This is me
     //public Spieler player2; //Opponent oder schon in player?
 
-    public Server(int p, int id, Spieler a){
+    public SpielStart GAME;
+
+    public Server(int p, int id, Spieler a, SpielStart GAME){
         this.port = p;
         this.ID = id;
         this.status = 0;
         this.player = a;
         this.amZug = true;
+        this.GAME = GAME;
     }
     
     
     public void connect(){
-        
+        if(player.attackToken == false){
+            player.attackToken = true;
+        }
         // Server-Socket erzeugen und an diesen Port binden.
         ServerSocket ss = null;
         try{
@@ -116,8 +125,16 @@ public class Server {
 
                 //Spiel starten
                 //Wenn Client am Zug war (load) pass texten
-                TextClient("pass");
+                //TextClient("pass");
+                System.out.println("Server Starting the GAME: ");
+                System.out.println(player.name);
+                System.out.println(player.mapSize);
 
+                SwingUtilities.invokeLater(
+                        () -> { GAME.SpielStarten(player); }
+                );
+
+                System.out.println("TEST");
                 //Ping-Pong Prinzip warten auf Befehle
                 while(true){
                     String order = in.readLine();
@@ -197,10 +214,10 @@ public class Server {
 
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         int[] a = {0,0,1,2,3,4,2};
         Server s1 = new Server(50000,0, new Spieler("server", 21, 7, a));        //port + ID
         s1.connect();
-    }
+    }*/
 
 }

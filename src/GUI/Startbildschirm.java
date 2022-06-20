@@ -1,5 +1,9 @@
 package GUI;
 
+import Logik.Spieler;
+import Socket.Client;
+import Socket.Server;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -15,6 +19,10 @@ import java.awt.event.ActionListener;
  */
 
 final class Startbildschirm{
+
+    public static String role;
+
+
 
     /**
      *
@@ -106,10 +114,24 @@ final class Startbildschirm{
                 //Spieler player1 = new Spieler("Server", model.getSpielfeld(), 75, ships);
                 //Spieler player2 = new Spieler("Client", model.getSpielfeld(), 75, ships);
                 startbildschirm.setVisible(false);
+                int hp = (GAME.spielfeldgr * GAME.spielfeldgr) / 3;
+                if(role.equals("Server")){
+                    int[] ships = {0, 0, 2, 2, 3, 4};
+                    Spieler player = new Spieler("Server", GAME.spielfeldgr, hp, ships);
+                    Server server = new Server(50000, 0, player, GAME);
+                    player.serverSetter(server);
+                    server.connect();
+                }
+                if(role.equals("Client")){
+                    Spieler player = new Spieler("Client", GAME.spielfeldgr, hp, null);
+                    Client client = new Client(50000, "localhost", player, GAME);
+                    player.clientSetter(client);
+                    client.connect();
+                }
 
-                SwingUtilities.invokeLater(
-                        () -> { SpielStart.SpielStarten(); }
-                );
+                /*SwingUtilities.invokeLater(
+                        () -> { GAME.SpielStarten(player, GAME); }
+                );*/
 
             }
         });
@@ -146,6 +168,13 @@ final class Startbildschirm{
         JLabel spieler = new JLabel("Spieler");
         String[] list_spieler = {"Client", "Server"};
         JComboBox<String> auswahl_spieler = new JComboBox<String>(list_spieler);
+
+        auswahl_spieler.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Startbildschirm.role = (String) auswahl_spieler.getSelectedItem();
+            }
+        });
 
         //Auswahl lokales Spiel
         JRadioButton rb_lokal = new JRadioButton("Lokales Spiel");

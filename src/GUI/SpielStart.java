@@ -1,5 +1,8 @@
 package GUI;
 
+import Logik.Spieler;
+import Socket.Server;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -26,6 +29,7 @@ public final class SpielStart extends JFrame{
     protected boolean radioButton_l = false;
     protected boolean radioButton_o = false;
 
+    public Spieler player;
     public SpielStart(){
 
     }
@@ -55,22 +59,23 @@ public final class SpielStart extends JFrame{
      * Fuer eigentlichen Spielstart.
      * Nachdem Einstellungen in Startbildschirm gemacht wurden.
      */
-    public static void SpielStarten()
+    public static void SpielStarten(Spieler player)
     {
-        //Index von Kaestchen in Spielfeld von Gegner Schiffen
-        int index_zeile;
-        int index_spalte;
+        String[] columns = new String[player.mapSize];
 
         //Headers for JTable
-        String[] columns = {"Id", "Name", "Address", "Image", "okay"};
+        for(int i=0; i<player.mapSize; i++){
+            columns[i] = "" + (i+1);
+        }
+
         //data for JTable in a 2D table
-        Object[][] data = {
-                {new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png")},
-                {new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png")},
-                {new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png")},
-                {new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png")},
-                {new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png"),new ImageIcon("src\\water.png")}
-        };
+        Object[][] data = new Object[player.mapSize][player.mapSize];
+        for(int j=0; j<player.mapSize; j++){
+            for(int k=0; k<player.mapSize; k++){
+                data[j][k] = new ImageIcon("src\\water.png");
+            }
+        }
+
 
         DefaultTableModel model = new DefaultTableModel(data, columns);
         DefaultTableModel model2 = new DefaultTableModel(data, columns);
@@ -126,8 +131,18 @@ public final class SpielStart extends JFrame{
                 int selecRow = table2.getSelectedRow();
                 int selecCol = table2.getSelectedColumn();
                 //feldSetzen[selecRow][selecRow] = "ship";
-                table2.setValueAt(new ImageIcon("src\\blue.png"), selecRow, selecCol);
-                System.out.println("Tabelle1 " + selecRow + "," + selecCol);
+                //table2.setValueAt(new ImageIcon("src\\blue.png"), selecRow, selecCol);
+                if(player.attackToken == true){
+                    if(player.name.equals("Server")){
+                        player.attackToken = false;
+                        player.server.TextClient("shot " + selecRow + " " + selecCol);
+                    }
+                    if(player.name.equals("Client")){
+                        player.attackToken = false;
+                        player.client.TextServer("shot " + selecRow + " " + selecCol);
+                    }
+                }
+                System.out.println("Tabelle2 " + selecRow + "," + selecCol);
             }
         });
 
