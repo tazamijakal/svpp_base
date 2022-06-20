@@ -6,12 +6,6 @@ import java.awt.event.*;
 public final class SpielStart {
 
 
-    public void sethorizShip(int x, int y)
-    {
-
-    }
-
-
     /**
      *
      * Graphische Oberfläche aufbauen und anzeigen.
@@ -21,7 +15,7 @@ public final class SpielStart {
     public static void SpielStarten(DefaultTableModel model, DefaultTableModel model2)
     {
         //Fuer Schiffe setzen:
-        String[][] feldSetzen = new String[model.getSpielfeld()][model.getSpielfeld()];
+        //String[][] feldSetzen = new String[model.getSpielfeld()][model.getSpielfeld()];
 
 
         JFrame frame = new JFrame("Schiffeversenken");
@@ -32,11 +26,7 @@ public final class SpielStart {
         //frame.add(Box.createHorizontalStrut(50));
         //frame.add(Box.createHorizontalGlue());
 
-        // Menüzeile zum Fenster hinzufügen.
-        //frame.setJMenuBar(bar);
-        //startbildschirm.setJMenuBar(bar);
-
-
+        frame.setBackground(Color.BLUE);
         frame.setContentPane(Box.createHorizontalBox());
 
         // Zwischenraum der Breite 50 oder mehr.
@@ -63,9 +53,9 @@ public final class SpielStart {
                 int selecCol = table2.getSelectedColumn();
 
                 //feldSetzen[selecRow][selecRow] = "ship";
-                table2.setValueAt("Ship", selecRow, selecCol);
+                table2.setValueAt("S", selecRow, selecCol);
 
-                System.out.println("Tabelle1 " + selecRow + "," + selecCol);
+                System.out.println("Tabelle2 " + selecRow + "," + selecCol);
 
             }
         });
@@ -77,7 +67,7 @@ public final class SpielStart {
                 int selecCol = table.getSelectedColumn();
 
                 //feldSetzen[selecRow][selecRow] = "ship";
-                table.setValueAt("Ship", selecRow, selecCol);
+                table.setValueAt("S", selecRow, selecCol);
 
                 System.out.println("Tabelle1 " + selecRow + "," + selecCol);
 
@@ -116,6 +106,31 @@ public final class SpielStart {
         }
 
         frame.add(vbox_2);
+
+        //Um alle Felder am Anfang auf Wasser zu setzen
+        //Image Wasser:
+        //Bilder importieren:
+        //Image water;
+        Icon icon_water = new ImageIcon("wasser.jpg");
+        //JLabel water_label= new JLabel(icon_water);
+        //water = icon_water.getImage();
+
+        for(int i = 0; i < model.getSpielfeld(); i++)
+        {
+            for(int j = 0; j < model.getSpielfeld(); j++)
+            {
+
+                //table.setValueAt(icon_water, i, j);
+                //table2.setValueAt(icon_water, i, j);
+
+                //table.setValueAt("w", i, j);
+                table2.setValueAt("w", i, j);
+
+            }
+        }
+
+
+
 
         frame.add(Box.createHorizontalStrut(50));
         frame.add(Box.createHorizontalGlue());
@@ -174,7 +189,7 @@ public final class SpielStart {
 
         vbox_4.add(Box.createVerticalStrut(10));
         {
-            // "Eintrag entfernen" entfernt die selektierte Tabellenzeile.
+
             JButton feld_gegner = new JButton("Feld Platz Gegner");
             feld_gegner.setAlignmentX(Component.CENTER_ALIGNMENT);
             vbox_4.add(feld_gegner);
