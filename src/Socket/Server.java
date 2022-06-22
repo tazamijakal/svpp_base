@@ -1,10 +1,12 @@
 package Socket;
 
+import java.awt.event.WindowEvent;
 import java.net.*;
 import java.io.*;
 import java.util.Enumeration;
 
 import GUI.SpielStart;
+import GUI.Startbildschirm;
 import Logik.*;
 
 import javax.swing.*;
@@ -23,15 +25,17 @@ public class Server {
     public Spieler player;  //This is me
     //public Spieler player2; //Opponent oder schon in player?
 
+    public JFrame menu;
     public SpielStart GAME;
 
-    public Server(int p, int id, Spieler a, SpielStart GAME){
+    public Server(int p, int id, Spieler a, SpielStart GAME, JFrame menu){
         this.port = p;
         this.ID = id;
         this.status = 0;
         this.player = a;
         this.amZug = true;
         this.GAME = GAME;
+        this.menu = menu;
     }
     
     
@@ -130,70 +134,21 @@ public class Server {
                 System.out.println(player.name);
                 System.out.println(player.mapSize);
 
-                SwingUtilities.invokeLater(
-                        () -> { GAME.SpielStarten(player); }
-                );
+                //SwingUtilities.invokeLater(() -> {SpielStart.SpielStarten(player);});
+                //menu.setVisible(true);
+                //SwingUtilities.invokeLater(() -> {SpielStart.SpielStarten(player);});
 
-                System.out.println("TEST");
-                //Ping-Pong Prinzip warten auf Befehle
-                while(true){
-                    String order = in.readLine();
-                    System.out.println("Opponent: " + order);
-                    String[] Osplit = order.split(" ");
-
-                    switch (Osplit[0]){
-                        case "answer":  //Antwort fuer Schuss aufs Gegnerische Feld
-                            switch(Osplit[1]){
-                                case "0":
-                                    player.answerReader(player.lastShotX, player.lastShotY, "answer 0");
-                                    TextClient("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
-                                    player.attackToken = false;
-                                case "1":
-                                    //Getroffen (nicht versenkt) Server ist wieder am Zug =================================================================
-                                    //GUI wieder freischalten oder boolean in Spieler Objekt??!
-                                    player.hp2 = player.hp2 - 1;
-                                    player.answerReader(player.lastShotX, player.lastShotY, "answer 1");
-                                    player.attackToken = true;
-                                case "2":
-                                    //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
-                                    player.hp2 = player.hp2 - 1;
-                                    player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
-                                    player.attackToken = true;
-                                    if(player.hp2 == 0){
-                                        System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
-                                    }
-                            }
-                            break;
-                        case "pass":    //Server wieder am Zug nachdem Client Wasser getroffen hat
-                            //Server/Logik.Spieler ist wieder am Zug <= muss noch nachgetragen werden =======================================================================
-                            //Dummy zum testen
-                            TextClient("pass");
-                            player.attackToken = true;
-                            break;
-                        case "shot":    //Opponent hat aufs eigene Spielfeld geschossen
-                            String answer = "";
-                            try{
-                                int x = parseInt(Osplit[1]);
-                                int y = parseInt(Osplit[2]);
-                                answer = player.shootYourself(x, y);
-                            }
-                            catch(Exception e){
-                                System.out.println("Array out of bounds");
-                            }
-                            TextClient(answer);
-                            if(player.hp == 0){
-                                System.out.println("SPIEL VERLOREN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                                //Spiel beenden
-                            }
-                            break;
-                        case "save":
-                            player.attackToken = false;
-                            //Spiel speichern mit Osplit[1] => Client war am Zug ==========================================================================
-                            break;
+                SwingWorker<Void, Void> sw3 = new SwingWorker<Void, Void>(){
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        runGame();
+                        return null;
                     }
-                    //TextClient("okay :) Server");
+                };
+                sw3.execute();
 
-                }
+                SwingUtilities.invokeLater(() -> {GAME.SpielStarten(player);});
+                System.out.println("TEST");
             }
         }
         catch(Exception e){
@@ -201,6 +156,73 @@ public class Server {
             e.printStackTrace();
         }
         
+    }
+
+    public void runGame(){                              //Eigene Methode fuer SwingWorker
+        //Ping-Pong Prinzip warten auf Befehle
+        while(true) {
+            try {
+                String order = in.readLine();
+                System.out.println("Opponent: " + order);
+                String[] Osplit = order.split(" ");
+
+                switch (Osplit[0]) {
+                    case "answer":  //Antwort fuer Schuss aufs Gegnerische Feld
+                        switch (Osplit[1]) {
+                            case "0":
+                                player.answerReader(player.lastShotX, player.lastShotY, "answer 0");
+                                player.attackToken = false;
+                                GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
+                                TextClient("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
+                                System.out.println("pass to Opponent");
+                            case "1":
+                                //Getroffen (nicht versenkt) Server ist wieder am Zug =================================================================
+                                //GUI wieder freischalten oder boolean in Spieler Objekt??!
+                                player.hp2 = player.hp2 - 1;
+                                player.answerReader(player.lastShotX, player.lastShotY, "answer 1");
+                                player.attackToken = true;
+                            case "2":
+                                //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
+                                player.hp2 = player.hp2 - 1;
+                                player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
+                                player.attackToken = true;
+                                if (player.hp2 == 0) {
+                                    System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
+                                }
+                        }
+                        break;
+                    case "pass":    //Server wieder am Zug nachdem Client Wasser getroffen hat
+                        //Server/Logik.Spieler ist wieder am Zug <= muss noch nachgetragen werden =======================================================================
+                        //Dummy zum testen
+                        //TextClient("pass");
+                        player.attackToken = true;
+                        break;
+                    case "shot":    //Opponent hat aufs eigene Spielfeld geschossen
+                        String answer = "";
+                        try {
+                            int x = parseInt(Osplit[1]);
+                            int y = parseInt(Osplit[2]);
+                            answer = player.shootYourself(x, y);
+                        } catch (Exception e) {
+                            System.out.println("Array out of bounds");
+                        }
+                        TextClient(answer);
+                        if (player.hp == 0) {
+                            System.out.println("SPIEL VERLOREN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            //Spiel beenden
+                        }
+                        break;
+                    case "save":
+                        player.attackToken = false;
+                        //Spiel speichern mit Osplit[1] => Client war am Zug ==========================================================================
+                        break;
+                }
+                //TextClient("okay :) Server");
+
+            }
+            catch (Exception e){}
+        }
+
     }
 
     public static void TextClient(String text){

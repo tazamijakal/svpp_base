@@ -1,8 +1,10 @@
 package Socket;
 
 import GUI.SpielStart;
+import GUI.Startbildschirm;
 import org.w3c.dom.Text;
 
+import java.awt.event.WindowEvent;
 import java.net.*;
 import java.io.*;
 import static java.lang.Integer.parseInt;
@@ -22,15 +24,16 @@ public class Client {
     boolean load = false;
     public Spieler player;      // <= me
     //public Spieler player2;     //Opponent
-
+    public JFrame menu;
     public SpielStart GAME;
 
-    public Client(int port, String ip, Spieler a, SpielStart GAME){
+    public Client(int port, String ip, Spieler a, SpielStart GAME, JFrame menu){
         this.ip = ip;
         this.port = port;
         this.status = 0;
         this.player = a;
         this.GAME = GAME;
+        this.menu = menu;
         //this.player2 = b;
     }
 
@@ -110,24 +113,49 @@ public class Client {
             System.out.println(player.name);
             System.out.println(player.mapSize);
 
-            SwingUtilities.invokeLater(
-                    () -> { GAME.SpielStarten(player); }
-            );
+            //SwingUtilities.invokeLater(() -> {SpielStart.SpielStarten(player);});
+            //menu.setVisible(true);
 
+            //SwingUtilities.invokeLater(() -> {SpielStart.SpielStarten(player);});
+
+            SwingWorker<Void, Void> sw1 = new SwingWorker<Void, Void>(){
+                @Override
+                protected Void doInBackground() throws Exception {
+                    runGame();
+                    return null;
+                }
+            };
+            sw1.execute();
+
+            SwingUtilities.invokeLater(() -> {GAME.SpielStarten(player);});
             System.out.println("TEST");
+            player.attackToken = false;
+        }
+        catch(Exception e){
+            this.status = -2;
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    public void runGame(){                  //Eigene Methode fuer SwingWorker
+        try {
             //Ping-Pong Prinzip warten auf Befehle
-            while(true){
+            while (true) {
                 String order = in.readLine();
                 System.out.println("Opponent: " + order);
                 String[] Osplit = order.split(" ");
 
-                switch (Osplit[0]){
+                switch (Osplit[0]) {
                     case "answer":  //Antwort fuer Schuss aufs Gegnerische Feld
-                        switch(Osplit[1]){
+                        switch (Osplit[1]) {
                             case "0":
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 0");
-                                TextServer("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
+
                                 player.attackToken = false;
+                                GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
+                                TextServer("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
+                                System.out.println("pass to Opponent");
                             case "1":
                                 //Getroffen (nicht versenkt) Client ist wieder am Zug =================================================================
                                 //GUI wieder freischalten oder boolean in Spieler Objekt??!
@@ -137,29 +165,28 @@ public class Client {
                                 //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
                                 player.attackToken = true;
-                                if(player.hp2 == 0){
+                                if (player.hp2 == 0) {
                                     System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
                                 }
                         }
                         break;
                     case "pass":    //Client wieder am Zug nachdem Server Wasser getroffen hat
                         //Client/Logik.Spieler ist wieder am Zug <= muss noch nachgetragen werden =======================================================================
-                        TextServer("pass");   //=======Dummy zum ausprobieren
+                        //TextServer("pass");   //=======Dummy zum ausprobieren
                         player.attackToken = true;
                         break;
                     case "shot":  //Opponent hat aufs eigene Spielfeld geschossen
                         //Ueberpruefen ob Opponent getroffen hat und dann richtiges "answer" zurueckschicken
                         String answer = "";
-                        try{
+                        try {
                             int x = parseInt(Osplit[1]);
                             int y = parseInt(Osplit[2]);
                             answer = player.shootYourself(x, y);
-                        }
-                        catch(Exception e){
+                        } catch (Exception e) {
                             System.out.println("Array out of bounds");
                         }
                         TextServer(answer);
-                        if(player.hp == 0) {     //Spiel zu ende?
+                        if (player.hp == 0) {     //Spiel zu ende?
                             System.out.println("SPIEL VERLOREN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                             //Spiel beenden   ===========================================================================
                         }
@@ -172,12 +199,9 @@ public class Client {
                 //TextServer("okay :) Client");
             }
         }
-        catch(Exception e){
-            this.status = -2;
-            e.printStackTrace();
-            return;
-        }
+        catch (Exception e){}
     }
+
 
     public static void TextServer(String text){
         try{
@@ -189,6 +213,7 @@ public class Client {
         }
 
     }
+
 
     /*public static void main(String[] args) {
         Client p1 = new Client(50000,"localhost",new Spieler("client", 21, 7, new int[7]));

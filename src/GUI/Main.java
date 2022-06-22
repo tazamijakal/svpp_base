@@ -1,5 +1,7 @@
 package GUI;
 
+import Logik.Spieler;
+
 import javax.swing.*;
 
 public class Main {
@@ -13,9 +15,10 @@ public class Main {
         // Hierfür wird der entsprechende Code in eine parameterlose
         // anonyme Funktion () -> { ...... } "verpackt", die an
         // SwingUtilities.invokeLater übergeben wird.
-        SwingUtilities.invokeLater(
-                //Startbildschirm wird angezeitgt
-                () -> { Startbildschirm.start(); }
-        );
+        int[] sp = {0,0,1,1,0,0,0};
+        Spieler player = new Spieler("Server", 5, 8, sp);
+        //SpielStart.SpielStarten(player);
+        //SwingUtilities.invokeLater(() -> {SpielStart.SpielStarten(player);});
+        SwingUtilities.invokeLater(() -> {Startbildschirm.start();});
     }
 }

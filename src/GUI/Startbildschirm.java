@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
  * Hier werden die Einstellungen fuer das Spiel gemacht.
  */
 
-final class Startbildschirm{
+public final class Startbildschirm{
 
     public static String role;
 
@@ -118,15 +118,16 @@ final class Startbildschirm{
                 if(role.equals("Server")){
                     int[] ships = {0, 0, 2, 2, 3, 4};
                     Spieler player = new Spieler("Server", GAME.spielfeldgr, hp, ships);
-                    Server server = new Server(50000, 0, player, GAME);
+                    Server server = new Server(50000, 0, player, GAME, startbildschirm);
                     player.serverSetter(server);
-                    server.connect();
+                    SwingUtilities.invokeLater(() -> {server.connect();});
                 }
                 if(role.equals("Client")){
                     Spieler player = new Spieler("Client", GAME.spielfeldgr, hp, null);
-                    Client client = new Client(50000, "localhost", player, GAME);
+                    Client client = new Client(50000, "localhost", player, GAME, startbildschirm);
                     player.clientSetter(client);
-                    client.connect();
+                    SwingUtilities.invokeLater(() -> {client.connect();});
+
                 }
 
                 /*SwingUtilities.invokeLater(
@@ -422,7 +423,7 @@ final class Startbildschirm{
 
         startbildschirm.add(Box.createHorizontalStrut(100));
         startbildschirm.add(Box.createHorizontalGlue());
-
+        startbildschirm.pack();
 
         //Startbildschirm sichtbar machen und im Vollbildmodus
         startbildschirm.setExtendedState(JFrame.MAXIMIZED_BOTH);

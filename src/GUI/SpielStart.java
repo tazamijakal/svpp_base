@@ -28,6 +28,8 @@ public final class SpielStart extends JFrame{
 
     protected boolean radioButton_l = false;
     protected boolean radioButton_o = false;
+    public static JTable table;
+    public static JTable table2;
 
     public Spieler player;
     public SpielStart(){
@@ -39,6 +41,11 @@ public final class SpielStart extends JFrame{
     {
 
     }
+
+    public void setTable2CellBLUE(int x, int y){
+        table2.setValueAt(new ImageIcon("src\\water.png"), x, y);
+    }
+
 
     /**
      *
@@ -53,17 +60,21 @@ public final class SpielStart extends JFrame{
     }
 
 
+
+
     /**
      *
      * Graphische Oberfläche aufbauen und anzeigen.
      * Fuer eigentlichen Spielstart.
      * Nachdem Einstellungen in Startbildschirm gemacht wurden.
      */
-    public static void SpielStarten(Spieler player)
+    public void SpielStarten(Spieler player)
     {
-        String[] columns = new String[player.mapSize];
+        //Fuer Schiffe setzen:
+        //String[][] feldSetzen = new String[model.getSpielfeld()][model.getSpielfeld()];
 
         //Headers for JTable
+        String[] columns = new String[player.mapSize];
         for(int i=0; i<player.mapSize; i++){
             columns[i] = "" + (i+1);
         }
@@ -76,18 +87,39 @@ public final class SpielStart extends JFrame{
             }
         }
 
-
         DefaultTableModel model = new DefaultTableModel(data, columns);
         DefaultTableModel model2 = new DefaultTableModel(data, columns);
 
-        //Fuer Schiffe setzen:
-        //String[][] feldSetzen = new String[model.getSpielfeld()][model.getSpielfeld()];
+        JTable table = new JTable(model) {
+            public Class getColumnClass(int column) {
+                return ImageIcon.class;
+            }
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+            public int getRowHeight(){              //Cells are squares
+                return this.getColumnModel().getColumn(0).getWidth();
+            }
+        };
+        JTable table2 = new JTable(model2) {
+            public Class getColumnClass(int column) {
+                return ImageIcon.class;
+            }
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+            public int getRowHeight(){              //Cells are squares
+                return this.getColumnModel().getColumn(0).getWidth();
+            }
+        };
+        table.setDefaultRenderer(ImageIcon.class, new MyImageCellRenderer());
+        table2.setDefaultRenderer(ImageIcon.class, new MyImageCellRenderer());
+        this.table = table;
+        this.table2 = table2;
 
-
-        JFrame frame = new JFrame("Schiffeversenken");
+        JFrame frame = new JFrame("Schiffeversenken " + player.name);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         // Zwischenraum der Breite 50 oder mehr.
         //frame.add(Box.createHorizontalStrut(50));
         //frame.add(Box.createHorizontalGlue());
@@ -103,23 +135,8 @@ public final class SpielStart extends JFrame{
         frame.add(Box.createHorizontalStrut(20));
         frame.add(Box.createHorizontalGlue());
 
-
-        JTable table = new JTable(model) {
-            public Class getColumnClass(int column) {
-                return ImageIcon.class;
-            }
-        };
-        JTable table2 = new JTable(model2) {
-            public Class getColumnClass(int column) {
-                return ImageIcon.class;
-            }
-        };
-        table.setDefaultRenderer(ImageIcon.class, new MyImageCellRenderer());
-        table2.setDefaultRenderer(ImageIcon.class, new MyImageCellRenderer());
-
-
-        JScrollPane scrollPane = new JScrollPane(table);
-        JScrollPane scrollPane2 = new JScrollPane(table2);
+        JScrollPane scrollPane = new JScrollPane(this.table);
+        JScrollPane scrollPane2 = new JScrollPane(this.table2);
 
         //table.setDropMode(DropMode.USE_SELECTION);
         //table.getToolTipLocation()
@@ -153,8 +170,8 @@ public final class SpielStart extends JFrame{
                 int selecCol = table.getSelectedColumn();
 
                 //feldSetzen[selecRow][selecRow] = "ship";
-                table.setValueAt("Ship", selecRow, selecCol);
-
+                //table.setValueAt("Ship", selecRow, selecCol);
+                table.setValueAt(new ImageIcon("src\\blue.png"), selecRow, selecCol);
                 System.out.println("Tabelle1 " + selecRow + "," + selecCol);
 
             }
@@ -262,7 +279,6 @@ public final class SpielStart extends JFrame{
                 public void actionPerformed(ActionEvent e) {
                     SpielStart.index_spalte = table.getSelectedColumn();
                     SpielStart.index_zeile = table.getSelectedRow();
-
                     System.out.println("Tabelle1 " + SpielStart.index_spalte + "," + SpielStart.index_zeile);
 
                 }
@@ -331,6 +347,8 @@ public final class SpielStart extends JFrame{
 
         // Menüzeile zum Fenster hinzufügen.
         frame.setJMenuBar(bar);
+
+        frame.pack();
 
         //Fenster wird im Vollbildmodus geoeffnet
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
