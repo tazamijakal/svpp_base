@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="svpp_base:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="KI löscht Shiffe falls sie nicht plaziert werden konnten nach ca. 30 versuchen&#10;Ki hatte davor auf board geschossen und dadurch fehlerhaften rückgabe wert erhalten, schießt jetzt auf visible board und kann theoretisch gewinnen.&#10;Ship initialX, initialY public gemacht damit ich darauf zugreifen kann.&#10;Spieler @param remainingShips und beschreibung hinzugefügt.&#10;Else statement hinzugefügt für placeRemoveShips, damit schiffe auch wieder in den Pool gemacht werden.&#10;spaceCheck, y &gt;= mapsize und x &gt;= mapsize, sonst gab es out of bounds error bei y = 5 oder x = 5.">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_05_2022_13_21__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_05_2022_13_21__Changes_.xml" afterDir="false" />
+    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="files moved">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/svpp_base_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/DefaultTableModel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/SpielStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SpielStart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/KI/Hilffunktion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/Hilffunktion.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/KI/KI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/KI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/KI/leichte_KI_zufall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/leichte_KI_zufall.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/KI/mittlere_KI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/mittlere_KI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Logik/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Logik/Game2KI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Game2KI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Logik/Ship.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Ship.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Logik/Spieler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Spieler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Socket/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Socket/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/AllWeNeed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/AllWeNeed.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/laden.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/laden.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/speichern.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/speichern.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExportToHTMLSettings">
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../svpp_base\exportToHTML" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -55,18 +47,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Jeek/IdeaProjects/svpp_base&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/Users/Jeek/IdeaProjects/svpp_base",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "editor.preferences.tabs"
   }
-}</component>
-  <component name="RunManager" selected="Application.GUI.Main">
-    <configuration name="GUI.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="GUI.Main" />
+}]]></component>
+  <component name="RunManager" selected="Application.Main (1)">
+    <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Socket.Client" />
       <module name="svpp_base" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="GUI.*" />
+          <option name="PATTERN" value="Socket.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -87,16 +84,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TableIcon" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="TableIcon" />
+    <configuration name="Main (1)" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="svpp_base" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="test (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test" />
+    <configuration name="Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GUI.Main" />
       <module name="svpp_base" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="GUI.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -114,13 +117,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Main (1)" />
+      <item itemvalue="Application.Client" />
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.GUI.TableIcon" />
+      <item itemvalue="Application.test" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.GUI.Main" />
+        <item itemvalue="Application.Main (1)" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Client" />
         <item itemvalue="Application.test" />
         <item itemvalue="Application.GUI.TableIcon" />
-        <item itemvalue="Application.test (1)" />
-        <item itemvalue="Application.TableIcon" />
       </list>
     </recent_temporary>
   </component>
@@ -186,7 +196,35 @@
       <option name="project" value="LOCAL" />
       <updated>1652989430897</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="GUI UPDATE">
+      <created>1655737329010</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1655737329010</updated>
+    </task>
+    <task id="LOCAL-00009" summary="GUI UPDATE">
+      <created>1655746516888</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1655746516888</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Square cells / frames are packed / able to start with Server and Client / able to shoot at Opponent (attackToken doesn't work though)">
+      <created>1655874030909</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1655874030909</updated>
+    </task>
+    <task id="LOCAL-00011" summary="files moved">
+      <created>1655874675079</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1655874675079</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -210,7 +248,10 @@
     <MESSAGE value="jetzt passt alles" />
     <MESSAGE value="." />
     <MESSAGE value="KI löscht Shiffe falls sie nicht plaziert werden konnten nach ca. 30 versuchen&#10;Ki hatte davor auf board geschossen und dadurch fehlerhaften rückgabe wert erhalten, schießt jetzt auf visible board und kann theoretisch gewinnen.&#10;Ship initialX, initialY public gemacht damit ich darauf zugreifen kann.&#10;Spieler @param remainingShips und beschreibung hinzugefügt.&#10;Else statement hinzugefügt für placeRemoveShips, damit schiffe auch wieder in den Pool gemacht werden.&#10;spaceCheck, y &gt;= mapsize und x &gt;= mapsize, sonst gab es out of bounds error bei y = 5 oder x = 5." />
-    <option name="LAST_COMMIT_MESSAGE" value="KI löscht Shiffe falls sie nicht plaziert werden konnten nach ca. 30 versuchen&#10;Ki hatte davor auf board geschossen und dadurch fehlerhaften rückgabe wert erhalten, schießt jetzt auf visible board und kann theoretisch gewinnen.&#10;Ship initialX, initialY public gemacht damit ich darauf zugreifen kann.&#10;Spieler @param remainingShips und beschreibung hinzugefügt.&#10;Else statement hinzugefügt für placeRemoveShips, damit schiffe auch wieder in den Pool gemacht werden.&#10;spaceCheck, y &gt;= mapsize und x &gt;= mapsize, sonst gab es out of bounds error bei y = 5 oder x = 5." />
+    <MESSAGE value="GUI UPDATE" />
+    <MESSAGE value="Square cells / frames are packed / able to start with Server and Client / able to shoot at Opponent (attackToken doesn't work though)" />
+    <MESSAGE value="files moved" />
+    <option name="LAST_COMMIT_MESSAGE" value="files moved" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

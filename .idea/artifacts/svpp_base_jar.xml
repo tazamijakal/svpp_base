@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="svpp_base:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/svpp_base_jar</output-path>
+    <root id="archive" name="svpp_base.jar">
+      <element id="module-output" name="svpp_base" />
+    </root>
+  </artifact>
+</component>
