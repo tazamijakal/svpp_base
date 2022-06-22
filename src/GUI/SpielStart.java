@@ -43,7 +43,7 @@ public final class SpielStart extends JFrame{
     }
 
     public void setTable2CellBLUE(int x, int y){
-        table2.setValueAt(new ImageIcon("src\\water.png"), x, y);
+        table2.setValueAt(new ImageIcon("src\\GUI\\water.png"), x, y);
     }
 
 
@@ -83,7 +83,7 @@ public final class SpielStart extends JFrame{
         Object[][] data = new Object[player.mapSize][player.mapSize];
         for(int j=0; j<player.mapSize; j++){
             for(int k=0; k<player.mapSize; k++){
-                data[j][k] = new ImageIcon("src\\water.png");
+                data[j][k] = new ImageIcon("src\\GUI\\water.png");
             }
         }
 
@@ -171,7 +171,7 @@ public final class SpielStart extends JFrame{
 
                 //feldSetzen[selecRow][selecRow] = "ship";
                 //table.setValueAt("Ship", selecRow, selecCol);
-                table.setValueAt(new ImageIcon("src\\blue.png"), selecRow, selecCol);
+                table.setValueAt(new ImageIcon("src\\GUI\\blue.png"), selecRow, selecCol);
                 System.out.println("Tabelle1 " + selecRow + "," + selecCol);
 
             }
