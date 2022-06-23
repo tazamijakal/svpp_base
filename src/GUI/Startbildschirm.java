@@ -70,6 +70,32 @@ public final class Startbildschirm{
         JLabel label_slider = new JLabel();
 
 
+
+        JSlider slider2 = new JSlider();
+        JLabel label_slider2 = new JLabel();
+        JLabel Schiffe2 = new JLabel("2er Schiffe:");
+
+        JSlider slider6 = new JSlider();
+        JLabel label_slider6 = new JLabel();
+        JLabel Schiffe6 = new JLabel("6er Schiffe:");
+
+
+        slider6.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+
+                int value6 = slider6.getValue();
+                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
+
+                //Wenn sich slider auf einen anderen Wert bewegt soll dieser
+                //Wert im Label angezeigt werden
+                label_slider6.setText(Integer.toString(slider6.getValue()));
+                label_slider6.setText(Integer.toString(value6));
+
+            }
+        });
+
+
         slider_gr.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -84,12 +110,30 @@ public final class Startbildschirm{
                 label_slider.setText(Integer.toString(value));
 
 
-
                 GAME.spielfeldgr = value;
 
-                if(GAME.spielfeldgr < 20 && !GAME.flag1)
+                //Ausschalten Schiffsauswahl fuer bestimmte Spielfeldgroesse
+                //ab Spielfeldgroesse 20x20
+
+                if(GAME.spielfeldgr < 20)
                 {
-                    GAME.flag1 = true;
+                    slider2.setEnabled(true);
+                    Schiffe2.setEnabled(true);
+                    label_slider2.setEnabled(true);
+
+                    slider6.setEnabled(false);
+                    Schiffe6.setEnabled(false);
+                    label_slider6.setEnabled(false);
+                }
+                else
+                {
+                    slider6.setEnabled(true);
+                    Schiffe6.setEnabled(true);
+                    label_slider6.setEnabled(true);
+
+                    slider2.setEnabled(false);
+                    Schiffe2.setEnabled(false);
+                    label_slider2.setEnabled(false);
                 }
 
             }
@@ -167,7 +211,7 @@ public final class Startbildschirm{
 
         //Auswahl Spieler-Typ
         JLabel spieler = new JLabel("Spieler");
-        String[] list_spieler = {"Client", "Server"};
+        String[] list_spieler = {"[auswaehlen]", "Client", "Server"};
         JComboBox<String> auswahl_spieler = new JComboBox<String>(list_spieler);
 
         auswahl_spieler.addActionListener(new ActionListener() {
@@ -177,59 +221,89 @@ public final class Startbildschirm{
             }
         });
 
-        //Auswahl lokales Spiel
+        //Erzeugung RadioButton rb_lokal und rb_online
         JRadioButton rb_lokal = new JRadioButton("Lokales Spiel");
-        rb_lokal.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        JRadioButton rb_online = new JRadioButton("Online Spiel");
 
-                if(!GAME.radioButton_o)
-                {
-                    rb_lokal.getAction();
-                    GAME.radioButton_l = true;
-                    rb_lokal.setEnabled(GAME.radioButton_l);
-                }
-                else
-                {
-                    GAME.radioButton_l = false;
-                    rb_lokal.setEnabled(GAME.radioButton_l);
-                }
-
-            }
-        });
-
-
-
-        //Auswahl Spielmodus
-        String[] list_Lokal = {"Spieler vs Spieler", "Spieler vs KI"};
+        //Auswahl Spielmodus lokal
+        //Erzeugung ComboBox
+        String[] list_Lokal = {"[auswaehlen]", "Spieler vs Spieler", "Spieler vs KI"};
         JComboBox<String> auswahl_lokal = new JComboBox<String>(list_Lokal);
 
-        //Auswahl Online Spiel:
-        JRadioButton rb_online = new JRadioButton("Online Spiel");
-        rb_online.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                if(!GAME.radioButton_l)
-                {
-                    GAME.radioButton_o = true;
-                    rb_online.setEnabled(GAME.radioButton_o);
-                }
-                else
-                {
-                    GAME.radioButton_o = false;
-                    rb_online.setEnabled(GAME.radioButton_o);
-                }
-
-
-
-            }
-        });
-
-
-        //Auswahl Spielmodus
-        String[] list_online = {"Spieler vs Spieler", "Spieler vs KI", "KI vs KI"};
+        //Auswahl Spielmodus Online
+        //Erzeugung ComboBox
+        String[] list_online = {"[auswaehlen]", "Spieler vs Spieler", "Spieler vs KI", "KI vs KI"};
         JComboBox<String> auswahl_online = new JComboBox<String>(list_online);
+
+
+
+        //Auswahl lokales Spiel
+        //Es kann entweder ein lokales Spiel oder ein online Spiel ausgewählt werden
+        if(!GAME.radioButton_o)
+        {
+            rb_lokal.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    if (GAME.radioButton_l)
+                    {
+                        //rb_lokal.getAction();
+                        GAME.radioButton_l = false;
+                        rb_online.setEnabled(true);
+                        auswahl_online.setEnabled(true);
+                    }
+                    else
+                    {
+                        GAME.radioButton_l = true;
+                        rb_online.setEnabled(false);
+                        auswahl_online.setEnabled(false);
+
+                    }
+
+                }
+            });
+        }
+        else
+        {
+            rb_lokal.setEnabled(false);
+            auswahl_lokal.setEnabled(false);
+        }
+
+
+
+
+        //Auswahl Online Spiel
+        //Es kann entweder ein lokales Spiel oder ein online Spiel ausgewählt werden
+        if(!GAME.radioButton_l)
+        {
+            rb_online.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    if (GAME.radioButton_o)
+                    {
+                        GAME.radioButton_o = false;
+                        rb_lokal.setEnabled(true);
+                        auswahl_lokal.setEnabled(true);
+                    }
+                    else
+                    {
+                        GAME.radioButton_o = true;
+                        rb_lokal.setEnabled(false);
+                        auswahl_lokal.setEnabled(false);
+                    }
+
+
+                }
+            });
+        }
+        else
+        {
+            rb_online.setEnabled(false);
+            auswahl_online.setEnabled(false);
+        }
+
+
 
 
         //Hier werden alle Komponenten zum Panel hinzugefuegt
@@ -261,11 +335,10 @@ public final class Startbildschirm{
         //Komponenten werden vertikal angeordnet
         schiffAuswahl1.setLayout(new BoxLayout(schiffAuswahl1, BoxLayout.PAGE_AXIS));
 
-        JLabel Schiffe2 = new JLabel("2er Schiffe:");
+
         JLabel Schiffe3 = new JLabel("3er Schiffe:");
         JLabel Schiffe4 = new JLabel("4er Schiffe:");
         JLabel Schiffe5 = new JLabel("5er Schiffe:");
-        JLabel Schiffe6 = new JLabel("6er Schiffe:");
 
 
         //Hier werden alle Komponenten zum Panel hinzugefuegt
@@ -304,47 +377,19 @@ public final class Startbildschirm{
         //Komponenten werden vertikal angeordnet
         schiffSlider.setLayout(new BoxLayout(schiffSlider, BoxLayout.PAGE_AXIS));
 
-        JSlider slider2 = new JSlider();
 
 
-        JLabel label_slider2 = new JLabel();
-        if(GAME.spielfeldgr < 20 && GAME.flag1)
-        {
-            slider2.setEnabled(GAME.flag1);
-
-        }
         slider2.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
 
-                boolean flag2 = true;
+                int value2 = slider2.getValue();
+                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
 
-                slider2.setEnabled(flag2);
-
-                if(GAME.spielfeldgr >= 20)
-                {
-                    flag2 = false;
-                    slider2.setEnabled(flag2);
-                    label_slider2.setVisible(false);
-                }
-                if(GAME.spielfeldgr < 20)
-                {
-                    flag2 = true;
-                    slider2.setEnabled(GAME.flag1);
-                    label_slider2.setVisible(true);
-                    int value2 = slider2.getValue();
-                    //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
-                    //pb.setValue(value);//Fortschrittsbalken zählt nach oben
-
-                    //Wenn sich slider auf einen anderen Wert bewegt soll dieser
-                    //Wert im Label angezeigt werden
-                    label_slider2.setText(Integer.toString(slider2.getValue()));
-                    label_slider2.setText(Integer.toString(value2));
-
-
-                }
-
-
+                //Wenn sich slider auf einen anderen Wert bewegt soll dieser
+                //Wert im Label angezeigt werden
+                label_slider2.setText(Integer.toString(slider2.getValue()));
+                label_slider2.setText(Integer.toString(value2));
 
             }
         });
@@ -352,15 +397,61 @@ public final class Startbildschirm{
 
 
         JSlider slider3 = new JSlider();
+        JLabel label_slider3 = new JLabel();
+
+        slider3.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+
+                int value3 = slider3.getValue();
+                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
+
+                //Wenn sich slider auf einen anderen Wert bewegt soll dieser
+                //Wert im Label angezeigt werden
+                label_slider3.setText(Integer.toString(slider3.getValue()));
+                label_slider3.setText(Integer.toString(value3));
+
+            }
+        });
 
 
         JSlider slider4 = new JSlider();
+        JLabel label_slider4 = new JLabel();
+        slider4.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+
+                int value4 = slider4.getValue();
+                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
+
+                //Wenn sich slider auf einen anderen Wert bewegt soll dieser
+                //Wert im Label angezeigt werden
+                label_slider4.setText(Integer.toString(slider4.getValue()));
+                label_slider4.setText(Integer.toString(value4));
+
+            }
+        });
+
 
 
         JSlider slider5 = new JSlider();
+        JLabel label_slider5 = new JLabel();
 
+        slider5.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
 
-        JSlider slider6 = new JSlider();
+                int value5 = slider5.getValue();
+                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
+
+                //Wenn sich slider auf einen anderen Wert bewegt soll dieser
+                //Wert im Label angezeigt werden
+                label_slider5.setText(Integer.toString(slider5.getValue()));
+                label_slider5.setText(Integer.toString(value5));
+
+            }
+        });
+
 
 
         //Hier werden alle Komponenten zum Panel hinzugefuegt
@@ -377,21 +468,25 @@ public final class Startbildschirm{
         schiffSlider.add(Box.createVerticalGlue());
 
         schiffSlider.add(slider3);
+        schiffSlider.add(label_slider3);
 
         schiffSlider.add(Box.createVerticalStrut(5));
         schiffSlider.add(Box.createVerticalGlue());
 
         schiffSlider.add(slider4);
+        schiffSlider.add(label_slider4);
 
         schiffSlider.add(Box.createVerticalStrut(5));
         schiffSlider.add(Box.createVerticalGlue());
 
         schiffSlider.add(slider5);
+        schiffSlider.add(label_slider5);
 
         schiffSlider.add(Box.createVerticalStrut(5));
         schiffSlider.add(Box.createVerticalGlue());
 
         schiffSlider.add(slider6);
+        schiffSlider.add(label_slider6);
 
         schiffSlider.add(Box.createVerticalStrut(5));
         schiffSlider.add(Box.createVerticalGlue());
@@ -427,6 +522,7 @@ public final class Startbildschirm{
 
         //Startbildschirm sichtbar machen und im Vollbildmodus
         startbildschirm.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        startbildschirm.setResizable(true);
         startbildschirm.setVisible(true);
 
     }

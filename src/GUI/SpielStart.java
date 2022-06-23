@@ -22,12 +22,12 @@ public final class SpielStart extends JFrame{
     protected int index_zeile_eig;
     protected int index_spalte_eig;
 
-    //Schiffe nicht verfuegbar bei bestimmter Groesse
-    //Hilfsvariablen:
-    protected boolean flag1 = false;
 
+    //Nur einer der beiden RadioButtons kann ausgewaehlt werden
+    //Hilfsvariablen
     protected boolean radioButton_l = false;
     protected boolean radioButton_o = false;
+
     public static JTable table;
     public static JTable table2;
 
