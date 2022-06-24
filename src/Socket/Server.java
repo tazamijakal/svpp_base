@@ -1,13 +1,10 @@
 package Socket;
 
-import java.awt.event.WindowEvent;
 import java.net.*;
 import java.io.*;
 import java.util.Enumeration;
 
-import GUI.SchiffeSetzen;
 import GUI.SpielStart;
-import GUI.Startbildschirm;
 import Logik.*;
 
 import javax.swing.*;
@@ -28,16 +25,15 @@ public class Server {
 
     public JFrame menu;
     public SpielStart GAME;
-    public SchiffeSetzen SETZ;
 
-    public Server(int p, int id, Spieler a, SpielStart GAME, SchiffeSetzen SETZ, JFrame menu){
+
+    public Server(int p, int id, Spieler a, SpielStart GAME,  JFrame menu){
         this.port = p;
         this.ID = id;
         this.status = 0;
         this.player = a;
         this.amZug = true;
         this.GAME = GAME;
-        this.SETZ = SETZ;
         this.menu = menu;
     }
     
@@ -121,6 +117,7 @@ public class Server {
                 //Dummy "ready"      ============================================
                 TextClient("ready");
 
+                SwingUtilities.invokeLater(() -> {GAME.Setzen(player);});
                 //"ready" check von Server wird intern geschickt sobald alle Schiffe plaziert sind
                 //und "ready" on Client kommt erst nach "ready" von Server
 
@@ -136,11 +133,7 @@ public class Server {
                 System.out.println("Server Starting the GAME: ");
                 System.out.println(player.name);
                 System.out.println(player.mapSize);
-
-                //SwingUtilities.invokeLater(() -> {SpielStart.SpielStarten(player);});
-                //menu.setVisible(true);
-                //SwingUtilities.invokeLater(() -> {SpielStart.SpielStarten(player);});
-
+                
                 SwingWorker<Void, Void> sw3 = new SwingWorker<Void, Void>(){
                     @Override
                     protected Void doInBackground() throws Exception {
@@ -150,8 +143,7 @@ public class Server {
                 };
                 sw3.execute();
 
-                SwingUtilities.invokeLater(() -> {SETZ.Setzen(player);});
-                System.out.println("TEST");
+                System.out.println("Test");
             }
         }
         catch(Exception e){

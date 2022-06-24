@@ -1,11 +1,7 @@
 package Socket;
 
-import GUI.SchiffeSetzen;
 import GUI.SpielStart;
-import GUI.Startbildschirm;
-import org.w3c.dom.Text;
 
-import java.awt.event.WindowEvent;
 import java.net.*;
 import java.io.*;
 import static java.lang.Integer.parseInt;
@@ -27,16 +23,15 @@ public class Client {
     //public Spieler player2;     //Opponent
     public JFrame menu;
     public SpielStart GAME;
-    public SchiffeSetzen SETZ;
+
 
     //public Client(int port, String ip, Spieler a, SpielStart GAME, JFrame menu){
-    public Client(int port, String ip, Spieler a, SpielStart GAME, SchiffeSetzen SETZ, JFrame menu){
+    public Client(int port, String ip, Spieler a, SpielStart GAME, JFrame menu){
         this.ip = ip;
         this.port = port;
         this.status = 0;
         this.player = a;
         this.GAME = GAME;
-        this.SETZ = SETZ;
         this.menu = menu;
         //this.player2 = b;
     }
@@ -100,6 +95,7 @@ public class Client {
                 TextServer("done");
             }
 
+            SwingUtilities.invokeLater(() -> {GAME.Setzen(player);});
             //Schiffe auf Spielfeld plazieren <= muss noch nachgetragen werden ==========================================================================================
             // Wenn boolean load == false => neues Spiel erstellen
 
@@ -130,9 +126,7 @@ public class Client {
                 }
             };
             sw1.execute();
-
-            SwingUtilities.invokeLater(() -> {SETZ.Setzen(player);});
-            System.out.println("TEST");
+            System.out.println("Test");
             player.attackToken = false;
         }
         catch(Exception e){

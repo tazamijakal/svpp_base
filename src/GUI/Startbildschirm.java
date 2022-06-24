@@ -43,7 +43,6 @@ public final class Startbildschirm{
 
         SpielStart GAME = new SpielStart();
 
-        SchiffeSetzen SETZ = new SchiffeSetzen();
 
         //model und model2 werden als Parameter an Funktion von SpielStart uebergeben
         //DefaultTableModel model = new DefaultTableModel();
@@ -274,13 +273,13 @@ public final class Startbildschirm{
                     //int[] ships = {0, 0, 2, 2, 3, 4};
                     int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
                     Spieler player = new Spieler("Server", GAME.spielfeldgr, hp, ships);
-                    Server server = new Server(50000, 0, player, GAME, SETZ, startbildschirm);
+                    Server server = new Server(50000, 0, player, GAME, startbildschirm);
                     player.serverSetter(server);
                     SwingUtilities.invokeLater(() -> {server.connect();});
                 }
                 if(role.equals("Client")){
                     Spieler player = new Spieler("Client", GAME.spielfeldgr, hp, null);
-                    Client client = new Client(50000, "localhost", player, GAME, SETZ, startbildschirm);
+                    Client client = new Client(50000, "localhost", player, GAME, startbildschirm);
                     player.clientSetter(client);
                     SwingUtilities.invokeLater(() -> {client.connect();});
 
