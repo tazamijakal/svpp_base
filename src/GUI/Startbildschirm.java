@@ -263,26 +263,27 @@ public final class Startbildschirm{
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                //Spieler player1 = new Spieler("Server", model.getSpielfeld(), 75, ships);
-                //Spieler player2 = new Spieler("Client", model.getSpielfeld(), 75, ships);
-                startbildschirm.setVisible(false);
-                int hp = (GAME.spielfeldgr * GAME.spielfeldgr) / 3;
-                if(role.equals("Server")){
-                    //Anzahl Schiffe
-                    //int[] ships = {0, 0, 2, 2, 3, 4};
-                    int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
-                    Spieler player = new Spieler("Server", GAME.spielfeldgr, hp, ships);
-                    Server server = new Server(50000, 0, player, GAME, startbildschirm);
-                    player.serverSetter(server);
-                    SwingUtilities.invokeLater(() -> {server.connect();});
+                if(role != null && (GAME.radioButton_l || GAME.radioButton_o)){
+                    startbildschirm.setVisible(false);
+                    int hp = (GAME.spielfeldgr * GAME.spielfeldgr) / 3;
+                    if(role.equals("Server")){
+                        //Anzahl Schiffe
+                        //int[] ships = {0, 0, 2, 2, 0, 0};
+                        int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
+                        Spieler player = new Spieler("Server", GAME.spielfeldgr, hp, ships);
+                        Server server = new Server(50000, 0, player, GAME, startbildschirm);
+                        player.serverSetter(server);
+                        SwingUtilities.invokeLater(() -> {server.connect();});
+                    }
+                    if(role.equals("Client")){
+                        Spieler player = new Spieler("Client", GAME.spielfeldgr, hp, null);
+                        Client client = new Client(50000, "localhost", player, GAME, startbildschirm);
+                        player.clientSetter(client);
+                        SwingUtilities.invokeLater(() -> {client.connect();});
+                    }
                 }
-                if(role.equals("Client")){
-                    Spieler player = new Spieler("Client", GAME.spielfeldgr, hp, null);
-                    Client client = new Client(50000, "localhost", player, GAME, startbildschirm);
-                    player.clientSetter(client);
-                    SwingUtilities.invokeLater(() -> {client.connect();});
-
+                else{
+                    System.out.println("Finish all parameters");
                 }
 
                 /*SwingUtilities.invokeLater(
@@ -322,7 +323,7 @@ public final class Startbildschirm{
 
         //Auswahl Spieler-Typ
         JLabel spieler = new JLabel("Spieler");
-        String[] list_spieler = {"[auswaehlen]", "Client", "Server"};
+        String[] list_spieler = {"[auswaehlen]", "Client", "Server", "KI"};
         JComboBox<String> auswahl_spieler = new JComboBox<String>(list_spieler);
 
         auswahl_spieler.addActionListener(new ActionListener() {
@@ -338,12 +339,12 @@ public final class Startbildschirm{
 
         //Auswahl Spielmodus lokal
         //Erzeugung ComboBox
-        String[] list_Lokal = {"[auswaehlen]", "Spieler vs Spieler", "Spieler vs KI"};
+        String[] list_Lokal = {"[choose]", "Spieler vs Spieler", "Spieler vs KI"};
         JComboBox<String> auswahl_lokal = new JComboBox<String>(list_Lokal);
 
         //Auswahl Spielmodus Online
         //Erzeugung ComboBox
-        String[] list_online = {"[auswaehlen]", "Spieler vs Spieler", "Spieler vs KI", "KI vs KI"};
+        String[] list_online = {"[choose]", "Spieler vs Spieler", "Spieler vs KI", "KI vs KI"};
         JComboBox<String> auswahl_online = new JComboBox<String>(list_online);
 
 

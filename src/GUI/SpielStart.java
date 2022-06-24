@@ -1,5 +1,6 @@
 package GUI;
 
+import Logik.Ship;
 import Logik.Spieler;
 import Socket.Server;
 
@@ -59,7 +60,45 @@ public final class SpielStart extends JFrame{
 
     }
 
-
+    public Object[][] drawShip(int initialX, int initialY, int length, boolean horizontal, Object[][] data){
+        if(horizontal == true){
+            int endX = initialX + length - 1;
+            int currentX = initialX;
+            while(currentX <= endX){
+                if(currentX == initialX){
+                    data[currentX][initialY] = new ImageIcon(getClass().getResource("ShipVstart.png"));
+                    currentX++;
+                }
+                else if(currentX == endX){
+                    data[currentX][initialY] = new ImageIcon(getClass().getResource("ShipVend.png"));
+                    currentX++;
+                }
+                else{
+                    data[currentX][initialY] = new ImageIcon(getClass().getResource("ShipVmiddle.png"));
+                    currentX++;
+                }
+            }
+        }
+        else{
+            int endY = initialY + length - 1;
+            int currentY = initialY;
+            while(currentY <= endY){
+                if(currentY == initialY){
+                    data[initialX][currentY] = new ImageIcon(getClass().getResource("ShipHstart.png"));
+                    currentY++;
+                }
+                else if(currentY == endY){
+                    data[initialX][currentY] = new ImageIcon(getClass().getResource("ShipHend.png"));
+                    currentY++;
+                }
+                else{
+                    data[initialX][currentY] = new ImageIcon(getClass().getResource("ShipHmiddle.png"));
+                    currentY++;
+                }
+            }
+        }
+        return data;
+    }
 
 
     /**
@@ -72,6 +111,21 @@ public final class SpielStart extends JFrame{
     {
         //Fuer Schiffe setzen:
         //String[][] feldSetzen = new String[model.getSpielfeld()][model.getSpielfeld()];
+        Object[][] data = new Object[player.mapSize][player.mapSize];
+        for(int i = 0; i<player.board.length; i ++){
+            for(int k = 0; k<player.board.length; k++){
+                if(player.board[i][k] instanceof Ship){
+                    int initialX = ((Ship) player.board[i][k]).initialX;
+                    int initialY = ((Ship) player.board[i][k]).initialY;
+                    int length = ((Ship) player.board[i][k]).length;
+                    boolean horizontal = ((Ship) player.board[i][k]).initialD;          //horizontal == true
+                    data = drawShip(initialX, initialY, length, horizontal, data);
+                }
+                else{
+                    data[i][k] = new ImageIcon(getClass().getResource("water.png"));
+                }
+            }
+        }
 
         //Headers for JTable
         String[] columns = new String[player.mapSize];
@@ -80,15 +134,15 @@ public final class SpielStart extends JFrame{
         }
 
         //data for JTable in a 2D table
-        Object[][] data = new Object[player.mapSize][player.mapSize];
+        Object[][] data2 = new Object[player.mapSize][player.mapSize];
         for(int j=0; j<player.mapSize; j++){
             for(int k=0; k<player.mapSize; k++){
-                data[j][k] = new ImageIcon(getClass().getResource("water.png"));
+                data2[j][k] = new ImageIcon(getClass().getResource("water.png"));
             }
         }
 
         DefaultTableModel model = new DefaultTableModel(data, columns);
-        DefaultTableModel model2 = new DefaultTableModel(data, columns);
+        DefaultTableModel model2 = new DefaultTableModel(data2, columns);
 
         JTable table = new JTable(model) {
             public Class getColumnClass(int column) {
@@ -149,14 +203,20 @@ public final class SpielStart extends JFrame{
                 int selecCol = table2.getSelectedColumn();
                 //feldSetzen[selecRow][selecRow] = "ship";
                 //table2.setValueAt(new ImageIcon("src\\blue.png"), selecRow, selecCol);
-                if(player.attackToken == true){
+                if(player.board[selecRow][selecCol] instanceof Spieler.MisfireObject || player.board[selecRow][selecCol] instanceof Spieler.TrefferObject){
+                    System.out.println("do nothing");
+                }
+                else if(player.attackToken == true){
                     if(player.name.equals("Server")){
+                        System.out.println(table2.getValueAt(selecRow, selecCol));
+                        System.out.println(getClass().getResource("blue.png"));
                         player.attackToken = false;
                         player.lastShotX = selecRow;
                         player.lastShotY = selecCol;
                         player.server.TextClient("shot " + selecRow + " " + selecCol);
                     }
                     if(player.name.equals("Client")){
+                        System.out.println(table2.getValueAt(selecRow, selecCol));
                         player.attackToken = false;
                         player.lastShotX = selecRow;
                         player.lastShotY = selecCol;
@@ -184,7 +244,7 @@ public final class SpielStart extends JFrame{
 
         Box vbox_1 = Box.createVerticalBox();
         {
-            JLabel label_gegner = new JLabel("Gegner Schiffe");
+            JLabel label_gegner = new JLabel("Eigene Schiffe");
             vbox_1.add(label_gegner);
 
             table.setRowHeight(120);
@@ -202,7 +262,7 @@ public final class SpielStart extends JFrame{
 
         Box vbox_2 = Box.createVerticalBox();
         {
-            JLabel label_eigene = new JLabel("Eigene Schiffe");
+            JLabel label_eigene = new JLabel("Gegner Schiffe");
             vbox_2.add(label_eigene);
 
             table2.setRowHeight(120);//setzt Höhe der einzelnen Zeilen
@@ -372,7 +432,7 @@ public final class SpielStart extends JFrame{
      */
     public void Setzen(Spieler player)
     {
-
+        boolean allshipsareplaced = true;
         //Headers for JTable
         String[] columns = new String[player.mapSize];
         for(int i=0; i<player.mapSize; i++){
@@ -503,6 +563,13 @@ public final class SpielStart extends JFrame{
         {
             JButton zufall = new JButton("Schiffe zufaellig");
             zufall.setAlignmentX(Component.CENTER_ALIGNMENT);
+            zufall.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    player.placerandom();
+                }
+            });
+
             vbox_4.add(zufall);
 
             vbox_4.add(Box.createVerticalStrut(10));
@@ -519,8 +586,10 @@ public final class SpielStart extends JFrame{
             beginn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    setzen.setVisible(false);
-                    SwingUtilities.invokeLater(() -> {SpielStarten(player);});
+                    if(allshipsareplaced == true){
+                        setzen.setVisible(false);
+                        SwingUtilities.invokeLater(() -> {SpielStarten(player);});
+                    }
                 }
             });
             vbox_4.add(beginn);

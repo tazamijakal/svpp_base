@@ -107,7 +107,8 @@ public class Server {
                         ships = ships + i + " ";
                     }
                 }
-
+                int newhp = 2 * player.remainingShips[2] + 3 * player.remainingShips[3] + 4 * player.remainingShips[4] + 5 * player.remainingShips[5] + 6 * player.remainingShips[6];
+                player.sethps(newhp);
                 TextClient(ships);
 
                 //Warten auf "ok"
@@ -170,20 +171,25 @@ public class Server {
                                 GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
                                 TextClient("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
                                 System.out.println("pass to Opponent");
+                                break;
                             case "1":
                                 //Getroffen (nicht versenkt) Server ist wieder am Zug =================================================================
                                 //GUI wieder freischalten oder boolean in Spieler Objekt??!
                                 player.hp2 = player.hp2 - 1;
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 1");
                                 player.attackToken = true;
+                                GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
+                                break;
                             case "2":
                                 //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
                                 player.hp2 = player.hp2 - 1;
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
                                 player.attackToken = true;
+                                GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
                                 if (player.hp2 == 0) {
                                     System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
                                 }
+                                break;
                         }
                         break;
                     case "pass":    //Server wieder am Zug nachdem Client Wasser getroffen hat

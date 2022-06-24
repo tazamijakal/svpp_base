@@ -1,10 +1,15 @@
 package Logik;
 
 
+import KI.KI;
 import Socket.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
+import java.util.Random;
+
+import static KI.KI.randInt;
 
 /**
  *
@@ -27,12 +32,12 @@ public class Spieler {
     public int mapSize;         //mapSize = länge/breite
     static int pCounter = 1;       //wird benötigt damit Spielfeld 1 immer links ist und vice versa
     public int playerNumber;         //wird als Index verwendet damit Spielfeld von Spieler 1 immer auf der linken Seite ist
-    public final Object[][] board;      //Spielfeld ist eine Matrix und kann leicht navigiert und bearbeitet werden
-    public final Object[][] visibleBoard;
+    public Object[][] board;      //Spielfeld ist eine Matrix und kann leicht navigiert und bearbeitet werden
+    public Object[][] visibleBoard;
     public int[][] radarMap;   //TODO für Radar
-    private int[][] collisionMap;        //wird überprüft um zu wissen ob Schiff genug Abstand zu den anderen Schiffen hat
-    private int[][] hitMap;                //Zwischenspeicher für die einzelnen Koordinaten aus denen Schiff besteht
-    public int[] remainingShips;
+    public int[][] collisionMap;        //wird überprüft um zu wissen ob Schiff genug Abstand zu den anderen Schiffen hat
+    public int[][] hitMap;                //Zwischenspeicher für die einzelnen Koordinaten aus denen Schiff besteht
+    public int[] remainingShips = {0,0,0,0,0,0,0};
     public ArrayList<Ship> shipList = new ArrayList<>();        //Liste mit all den Schiffen eines Spielers
     Scanner userinput = new Scanner(System.in); //wird für Userinput benötigt
 
@@ -78,6 +83,11 @@ public class Spieler {
         this.server = s;
     }
 
+
+    public void sethps(int newhp){
+        hp = newhp;
+        hp2 = newhp;
+    }
 
 //----------------------PLACE-METHODEN--------------------------------------------------------------------------------------
 
@@ -547,6 +557,62 @@ public class Spieler {
             System.out.print(player.collisionMap[x][row] + "    ");
         }
     }
+
+    public static final class fieldposition {
+        public int x, y;
+        public fieldposition (int x,int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    public static int randInt(int min, int max) {
+        Random rand = new Random();
+        int randomNum = rand.nextInt((max - min + 1 ) - min);
+
+        return randomNum;
+    }
+
+    public boolean getRandomBoolean() {
+        Random random = new Random();
+        return random.nextBoolean();
+    }
+
+    public fieldposition RdmZielpos() {
+        Integer x;
+        Integer y;
+        x = randInt(0, mapSize - 1);
+        y = randInt(0, mapSize - 1);
+        return new fieldposition(x, y);
+    }
+
+    public void placerandom() {
+        String Vergleich = "Here";
+        int counter;
+        for (int shiplength = 0; shiplength < this.remainingShips.length; shiplength++) {
+            counter = 0;
+            while (remainingShips[shiplength] > 0) {
+                fieldposition rdmZielpos = RdmZielpos();
+                boolean direction = getRandomBoolean();
+                if (spaceCheck(rdmZielpos.x, rdmZielpos.y, shiplength, direction)) {
+                    placeRemoveShip(true, rdmZielpos.x, rdmZielpos.y, shiplength, direction);
+                }
+                boolean true_false = Vergleich.equals(Vergleich2);
+                if (true_false) {
+                    if (counter >= 100) {
+                        while (shipList.size() > 0) {
+                            removeShipRequest(shipList.get(0).initialX, shipList.get(0).initialY);
+                        }
+                        counter = 0;
+                        placerandom();
+                    }
+                    counter++;
+                }
+            }
+        }
+    }
+
+
 }
 
 

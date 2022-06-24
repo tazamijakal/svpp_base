@@ -4,8 +4,8 @@ package Logik;
  * Die Klasse Logik.Ship beinhaltet den Konstruktor für die Schiffe und eine Funktion um dem Schiff seine einzelnen Koordinaten zuzuweisen.
  */
 public class Ship {
-    int length;
-    boolean initialD;
+    public int length;
+    public boolean initialD;
     public int initialX, initialY;       //Zwischenspeicher
     int[][] coordinates;        //beinhaltet alle [x][y]-Paare aus denen ein Schiff besteht
 

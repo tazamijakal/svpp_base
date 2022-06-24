@@ -74,7 +74,10 @@ public class Client {
 
                 //Spielfeldgroesse setzen
                 player.mapSize = size;
-
+                player.collisionMap = new int[size][size];
+                player.board = new Object[size][size];
+                player.visibleBoard = new Object[size][size];
+                player.radarMap = new int[size][size];
 
                 //Ping-Pong Prinzip Server wartet auf "ok"
                 TextServer("done");
@@ -90,7 +93,8 @@ public class Client {
                 }
                 //Anzahl 2,3,4,5,6er Schiffe weitergeben
                 player.remainingShips = sc;
-
+                int newhp = 2 * player.remainingShips[2] + 3 * player.remainingShips[3] + 4 * player.remainingShips[4] + 5 * player.remainingShips[5] + 6 * player.remainingShips[6];
+                player.sethps(newhp);
                 //Server wartet wieder auf "ok"
                 TextServer("done");
             }
@@ -126,7 +130,7 @@ public class Client {
                 }
             };
             sw1.execute();
-            System.out.println("Test");
+
             player.attackToken = false;
         }
         catch(Exception e){
@@ -149,23 +153,27 @@ public class Client {
                         switch (Osplit[1]) {
                             case "0":
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 0");
-
                                 player.attackToken = false;
                                 GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
                                 TextServer("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
                                 System.out.println("pass to Opponent");
+                                break;
                             case "1":
                                 //Getroffen (nicht versenkt) Client ist wieder am Zug =================================================================
                                 //GUI wieder freischalten oder boolean in Spieler Objekt??!
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 1");
                                 player.attackToken = true;
+                                GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
+                                break;
                             case "2":
                                 //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
                                 player.attackToken = true;
+                                GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
                                 if (player.hp2 == 0) {
                                     System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
                                 }
+                                break;
                         }
                         break;
                     case "pass":    //Client wieder am Zug nachdem Server Wasser getroffen hat

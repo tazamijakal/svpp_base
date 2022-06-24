@@ -19,13 +19,13 @@ public abstract class KI extends Spieler {
 
         return randomNum;
     }
-    final class fieldposition {
+    /*public static final class fieldposition {
         public int x, y;
         public fieldposition (int x,int y) {
             this.x = x;
             this.y = y;
         }
-    }
+    }*/
 
     public boolean shoottester(int x, int y) {
         if (x < 0 || y < 0 || x >= mapSize || y >= mapSize) {
