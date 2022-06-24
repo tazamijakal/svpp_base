@@ -1,6 +1,9 @@
 package GUI;
 
 import Logik.Spieler;
+import Logik.Game;
+import Logik.Game2KI;
+
 import Socket.Client;
 import Socket.Server;
 
@@ -22,6 +25,13 @@ public final class Startbildschirm{
 
     public static String role;
 
+    public static int anzahl2;
+    public static int anzahl3;
+    public static int anzahl4;
+    public static int anzahl5;
+    public static int anzahl6;
+
+
 
 
     /**
@@ -32,6 +42,8 @@ public final class Startbildschirm{
     public static void start() {
 
         SpielStart GAME = new SpielStart();
+
+        SchiffeSetzen SETZ = new SchiffeSetzen();
 
         //model und model2 werden als Parameter an Funktion von SpielStart uebergeben
         //DefaultTableModel model = new DefaultTableModel();
@@ -71,6 +83,17 @@ public final class Startbildschirm{
 
 
 
+        //Panel für Schiffe Labels machen:
+        JPanel schiffAuswahl1 = new JPanel();
+        //Komponenten werden vertikal angeordnet
+        schiffAuswahl1.setLayout(new BoxLayout(schiffAuswahl1, BoxLayout.PAGE_AXIS));
+
+        JLabel Schiffe3 = new JLabel("3er Schiffe:");
+        JLabel Schiffe4 = new JLabel("4er Schiffe:");
+        JLabel Schiffe5 = new JLabel("5er Schiffe:");
+
+
+
         JSlider slider2 = new JSlider();
         JLabel label_slider2 = new JLabel();
         JLabel Schiffe2 = new JLabel("2er Schiffe:");
@@ -80,17 +103,104 @@ public final class Startbildschirm{
         JLabel Schiffe6 = new JLabel("6er Schiffe:");
 
 
+
+        //Panel für Schiffe Slider machen:
+        JPanel schiffSlider = new JPanel();
+        //Komponenten werden vertikal angeordnet
+        schiffSlider.setLayout(new BoxLayout(schiffSlider, BoxLayout.PAGE_AXIS));
+
+
+
+        slider2.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+
+                //int value2 = slider2.getValue();
+                anzahl2 = slider2.getValue();
+                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
+
+                //Wenn sich slider auf einen anderen Wert bewegt soll dieser
+                //Wert im Label angezeigt werden
+                label_slider2.setText(Integer.toString(slider2.getValue()));
+                label_slider2.setText(Integer.toString(anzahl2));
+
+            }
+        });
+
+
+
+        JSlider slider3 = new JSlider();
+        JLabel label_slider3 = new JLabel();
+
+        slider3.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+
+                //int value3 = slider3.getValue();
+                anzahl3 = slider3.getValue();
+                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
+
+                //Wenn sich slider auf einen anderen Wert bewegt soll dieser
+                //Wert im Label angezeigt werden
+                label_slider3.setText(Integer.toString(slider3.getValue()));
+                label_slider3.setText(Integer.toString(anzahl3));
+
+            }
+        });
+
+
+        JSlider slider4 = new JSlider();
+        JLabel label_slider4 = new JLabel();
+        slider4.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+
+                //int value4 = slider4.getValue();
+                anzahl4 = slider4.getValue();
+                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
+
+                //Wenn sich slider auf einen anderen Wert bewegt soll dieser
+                //Wert im Label angezeigt werden
+                label_slider4.setText(Integer.toString(slider4.getValue()));
+                label_slider4.setText(Integer.toString(anzahl4));
+
+            }
+        });
+
+
+
+        JSlider slider5 = new JSlider();
+        JLabel label_slider5 = new JLabel();
+
+        slider5.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+
+                //int value5 = slider5.getValue();
+                anzahl5 = slider5.getValue();
+                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
+
+                //Wenn sich slider auf einen anderen Wert bewegt soll dieser
+                //Wert im Label angezeigt werden
+                label_slider5.setText(Integer.toString(slider5.getValue()));
+                label_slider5.setText(Integer.toString(anzahl5));
+
+            }
+        });
+
+
         slider6.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
 
-                int value6 = slider6.getValue();
+                //int value6 = slider6.getValue();
+                anzahl6 = slider6.getValue();
                 //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
 
                 //Wenn sich slider auf einen anderen Wert bewegt soll dieser
                 //Wert im Label angezeigt werden
                 label_slider6.setText(Integer.toString(slider6.getValue()));
-                label_slider6.setText(Integer.toString(value6));
+                label_slider6.setText(Integer.toString(anzahl6));
 
             }
         });
@@ -160,15 +270,17 @@ public final class Startbildschirm{
                 startbildschirm.setVisible(false);
                 int hp = (GAME.spielfeldgr * GAME.spielfeldgr) / 3;
                 if(role.equals("Server")){
-                    int[] ships = {0, 0, 2, 2, 3, 4};
+                    //Anzahl Schiffe
+                    //int[] ships = {0, 0, 2, 2, 3, 4};
+                    int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
                     Spieler player = new Spieler("Server", GAME.spielfeldgr, hp, ships);
-                    Server server = new Server(50000, 0, player, GAME, startbildschirm);
+                    Server server = new Server(50000, 0, player, GAME, SETZ, startbildschirm);
                     player.serverSetter(server);
                     SwingUtilities.invokeLater(() -> {server.connect();});
                 }
                 if(role.equals("Client")){
                     Spieler player = new Spieler("Client", GAME.spielfeldgr, hp, null);
-                    Client client = new Client(50000, "localhost", player, GAME, startbildschirm);
+                    Client client = new Client(50000, "localhost", player, GAME, SETZ, startbildschirm);
                     player.clientSetter(client);
                     SwingUtilities.invokeLater(() -> {client.connect();});
 
@@ -330,16 +442,6 @@ public final class Startbildschirm{
         spielAuswahl.add(Box.createVerticalGlue());
 
 
-        //Panel für Schiffe Labels machen:
-        JPanel schiffAuswahl1 = new JPanel();
-        //Komponenten werden vertikal angeordnet
-        schiffAuswahl1.setLayout(new BoxLayout(schiffAuswahl1, BoxLayout.PAGE_AXIS));
-
-
-        JLabel Schiffe3 = new JLabel("3er Schiffe:");
-        JLabel Schiffe4 = new JLabel("4er Schiffe:");
-        JLabel Schiffe5 = new JLabel("5er Schiffe:");
-
 
         //Hier werden alle Komponenten zum Panel hinzugefuegt
         //Mit passendem Zwischenraum
@@ -372,85 +474,7 @@ public final class Startbildschirm{
         schiffAuswahl1.add(Box.createHorizontalGlue());
 
 
-        //Panel für Schiffe Slider machen:
-        JPanel schiffSlider = new JPanel();
-        //Komponenten werden vertikal angeordnet
-        schiffSlider.setLayout(new BoxLayout(schiffSlider, BoxLayout.PAGE_AXIS));
 
-
-
-        slider2.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-
-                int value2 = slider2.getValue();
-                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
-
-                //Wenn sich slider auf einen anderen Wert bewegt soll dieser
-                //Wert im Label angezeigt werden
-                label_slider2.setText(Integer.toString(slider2.getValue()));
-                label_slider2.setText(Integer.toString(value2));
-
-            }
-        });
-
-
-
-        JSlider slider3 = new JSlider();
-        JLabel label_slider3 = new JLabel();
-
-        slider3.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-
-                int value3 = slider3.getValue();
-                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
-
-                //Wenn sich slider auf einen anderen Wert bewegt soll dieser
-                //Wert im Label angezeigt werden
-                label_slider3.setText(Integer.toString(slider3.getValue()));
-                label_slider3.setText(Integer.toString(value3));
-
-            }
-        });
-
-
-        JSlider slider4 = new JSlider();
-        JLabel label_slider4 = new JLabel();
-        slider4.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-
-                int value4 = slider4.getValue();
-                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
-
-                //Wenn sich slider auf einen anderen Wert bewegt soll dieser
-                //Wert im Label angezeigt werden
-                label_slider4.setText(Integer.toString(slider4.getValue()));
-                label_slider4.setText(Integer.toString(value4));
-
-            }
-        });
-
-
-
-        JSlider slider5 = new JSlider();
-        JLabel label_slider5 = new JLabel();
-
-        slider5.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-
-                int value5 = slider5.getValue();
-                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
-
-                //Wenn sich slider auf einen anderen Wert bewegt soll dieser
-                //Wert im Label angezeigt werden
-                label_slider5.setText(Integer.toString(slider5.getValue()));
-                label_slider5.setText(Integer.toString(value5));
-
-            }
-        });
 
 
 

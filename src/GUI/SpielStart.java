@@ -214,7 +214,8 @@ public final class SpielStart extends JFrame{
         frame.add(Box.createHorizontalGlue());
 
 
-        Box vbox_4 = Box.createVerticalBox();
+        //Buttons werden fuer eigentliches Spiel nicht gebraucht, Schiffe werden davor gesetzt
+        /*Box vbox_4 = Box.createVerticalBox();
         {
 
         }
@@ -311,7 +312,7 @@ public final class SpielStart extends JFrame{
         frame.add(vbox_4);
 
         vbox_4.add(Box.createHorizontalStrut(10));
-        vbox_4.add(Box.createHorizontalGlue());
+        vbox_4.add(Box.createHorizontalGlue());*/
 
 
         // Menüzeile (JMenuBar) erzeugen und einzelne Menüs (JMenu)

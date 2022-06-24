@@ -1,5 +1,6 @@
 package Socket;
 
+import GUI.SchiffeSetzen;
 import GUI.SpielStart;
 import GUI.Startbildschirm;
 import org.w3c.dom.Text;
@@ -26,13 +27,16 @@ public class Client {
     //public Spieler player2;     //Opponent
     public JFrame menu;
     public SpielStart GAME;
+    public SchiffeSetzen SETZ;
 
-    public Client(int port, String ip, Spieler a, SpielStart GAME, JFrame menu){
+    //public Client(int port, String ip, Spieler a, SpielStart GAME, JFrame menu){
+    public Client(int port, String ip, Spieler a, SpielStart GAME, SchiffeSetzen SETZ, JFrame menu){
         this.ip = ip;
         this.port = port;
         this.status = 0;
         this.player = a;
         this.GAME = GAME;
+        this.SETZ = SETZ;
         this.menu = menu;
         //this.player2 = b;
     }
@@ -127,7 +131,7 @@ public class Client {
             };
             sw1.execute();
 
-            SwingUtilities.invokeLater(() -> {GAME.SpielStarten(player);});
+            SwingUtilities.invokeLater(() -> {SETZ.Setzen(player);});
             System.out.println("TEST");
             player.attackToken = false;
         }

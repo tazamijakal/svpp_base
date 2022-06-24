@@ -5,6 +5,7 @@ import java.net.*;
 import java.io.*;
 import java.util.Enumeration;
 
+import GUI.SchiffeSetzen;
 import GUI.SpielStart;
 import GUI.Startbildschirm;
 import Logik.*;
@@ -27,14 +28,16 @@ public class Server {
 
     public JFrame menu;
     public SpielStart GAME;
+    public SchiffeSetzen SETZ;
 
-    public Server(int p, int id, Spieler a, SpielStart GAME, JFrame menu){
+    public Server(int p, int id, Spieler a, SpielStart GAME, SchiffeSetzen SETZ, JFrame menu){
         this.port = p;
         this.ID = id;
         this.status = 0;
         this.player = a;
         this.amZug = true;
         this.GAME = GAME;
+        this.SETZ = SETZ;
         this.menu = menu;
     }
     
@@ -147,7 +150,7 @@ public class Server {
                 };
                 sw3.execute();
 
-                SwingUtilities.invokeLater(() -> {GAME.SpielStarten(player);});
+                SwingUtilities.invokeLater(() -> {SETZ.Setzen(player);});
                 System.out.println("TEST");
             }
         }
