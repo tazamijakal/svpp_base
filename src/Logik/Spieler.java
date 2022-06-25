@@ -112,7 +112,7 @@ public class Spieler {
      *
      * @param placeRemoveToggle true um Schiffe zu platzieren, false um Schiffe zu entfernen
      */
-    protected void placeRemoveShip(boolean placeRemoveToggle, int x, int y, int l, boolean d) {
+    public void placeRemoveShip(boolean placeRemoveToggle, int x, int y, int l, boolean d) {
         directionSetter(d);
         int[] startingPoint = {x, y};       //x+y werden später für Schiffserstellung benötigt und deswegen zwischengespeichert
         int[][] hitMap = new int[l][2];     //speichert die einzelnen Koordinaten aus denen ein Schiff bestehen

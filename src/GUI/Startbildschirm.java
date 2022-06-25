@@ -31,6 +31,15 @@ public final class Startbildschirm{
     public static int anzahl5;
     public static int anzahl6;
 
+    public static boolean lok_Spsp = false;
+
+    public static boolean p1 = false;
+    public static boolean p2 = false;
+
+    public static Spieler sp1;
+    public static Spieler sp2;
+
+
 
 
 
@@ -266,21 +275,54 @@ public final class Startbildschirm{
                 if(role != null && (GAME.radioButton_l || GAME.radioButton_o)){
                     startbildschirm.setVisible(false);
                     int hp = (GAME.spielfeldgr * GAME.spielfeldgr) / 3;
-                    if(role.equals("Server")){
-                        //Anzahl Schiffe
-                        //int[] ships = {0, 0, 2, 2, 0, 0};
-                        int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
-                        Spieler player = new Spieler("Server", GAME.spielfeldgr, hp, ships);
-                        Server server = new Server(50000, 0, player, GAME, startbildschirm);
-                        player.serverSetter(server);
-                        SwingUtilities.invokeLater(() -> {server.connect();});
+                    if(GAME.radioButton_o)
+                    {
+                        if(role.equals("Server")){
+                            //Anzahl Schiffe
+                            //int[] ships = {0, 0, 2, 2, 0, 0};
+                            int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
+                            Spieler player = new Spieler("Server", GAME.spielfeldgr, hp, ships);
+                            Server server = new Server(50000, 0, player, GAME, startbildschirm);
+                            player.serverSetter(server);
+                            SwingUtilities.invokeLater(() -> {server.connect();});
+                        }
+                        if(role.equals("Client")){
+                            Spieler player = new Spieler("Client", GAME.spielfeldgr, hp, null);
+                            Client client = new Client(50000, "localhost", player, GAME, startbildschirm);
+                            player.clientSetter(client);
+                            SwingUtilities.invokeLater(() -> {client.connect();});
+                        }
                     }
-                    if(role.equals("Client")){
-                        Spieler player = new Spieler("Client", GAME.spielfeldgr, hp, null);
-                        Client client = new Client(50000, "localhost", player, GAME, startbildschirm);
-                        player.clientSetter(client);
-                        SwingUtilities.invokeLater(() -> {client.connect();});
+
+
+                }
+                else if(GAME.radioButton_l /*&& lok_Spsp*/)
+                {
+                    startbildschirm.setVisible(false);
+                    int hp = (GAME.spielfeldgr * GAME.spielfeldgr) / 3;
+                    int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
+                    //int k = 1;
+                    //Spieler player1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships);
+                    //Spieler player2 = new Spieler("Spieler2", GAME.spielfeldgr, hp, ships);
+
+                    sp1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships);
+                    sp2 = new Spieler("Spieler2", GAME.spielfeldgr, hp, ships);
+
+                    if(!p1 && !p2)
+                    {
+                        p1 = true;
+                        SwingUtilities.invokeLater(() -> {GAME.Setzen(sp1);});
+
+
                     }
+                    if(p1 && !p2)
+                    {
+                        p2 = true;
+                        SwingUtilities.invokeLater(() -> {GAME.Setzen(sp2);});
+
+                    }
+
+
                 }
                 else{
                     System.out.println("Finish all parameters");
