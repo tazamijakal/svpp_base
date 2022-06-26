@@ -25,17 +25,19 @@ public final class Startbildschirm{
 
     public static String role;
 
-    public static int anzahl2;
-    public static int anzahl3;
-    public static int anzahl4;
-    public static int anzahl5;
-    public static int anzahl6;
+    public static int anzahl2 = 0;
+    public static int anzahl3 = 0;
+    public static int anzahl4 = 0;
+    public static int anzahl5 = 0;
+    public static int anzahl6 = 0;
 
     public static boolean lok_Spsp = false;
 
     public static boolean p1 = false;
     public static boolean p2 = false;
 
+    public static int selectedSpace = 0;
+    public static int maxSpace = 0;
     public static Spieler sp1;
     public static Spieler sp2;
 
@@ -96,21 +98,44 @@ public final class Startbildschirm{
         //Komponenten werden vertikal angeordnet
         schiffAuswahl1.setLayout(new BoxLayout(schiffAuswahl1, BoxLayout.PAGE_AXIS));
 
+        JLabel Schiffe2 = new JLabel("2er Schiffe:");
         JLabel Schiffe3 = new JLabel("3er Schiffe:");
         JLabel Schiffe4 = new JLabel("4er Schiffe:");
         JLabel Schiffe5 = new JLabel("5er Schiffe:");
-
-
+        JLabel Schiffe6 = new JLabel("6er Schiffe:");
+        JLabel maxship = new JLabel("Maximum Space: 0");
+        JLabel currentship = new JLabel("Selected Space: 0");
 
         JSlider slider2 = new JSlider();
         JLabel label_slider2 = new JLabel();
-        JLabel Schiffe2 = new JLabel("2er Schiffe:");
+        slider2.setValue(0);
+        label_slider2.setText(Integer.toString(slider2.getValue()));
+
+        JSlider slider3 = new JSlider();
+        JLabel label_slider3 = new JLabel();
+        slider3.setValue(0);
+        label_slider3.setText(Integer.toString(slider3.getValue()));
+
+        JSlider slider4 = new JSlider();
+        JLabel label_slider4 = new JLabel();
+        slider4.setValue(0);
+        label_slider4.setText(Integer.toString(slider4.getValue()));
+
+        JSlider slider5 = new JSlider();
+        JLabel label_slider5 = new JLabel();
+        slider5.setValue(0);
+        label_slider5.setText(Integer.toString(slider5.getValue()));
 
         JSlider slider6 = new JSlider();
         JLabel label_slider6 = new JLabel();
-        JLabel Schiffe6 = new JLabel("6er Schiffe:");
+        slider6.setValue(0);
+        label_slider6.setText(Integer.toString(slider6.getValue()));
 
-
+        slider2.setEnabled(false);
+        slider3.setEnabled(false);
+        slider4.setEnabled(false);
+        slider5.setEnabled(false);
+        slider6.setEnabled(false);
 
         //Panel für Schiffe Slider machen:
         JPanel schiffSlider = new JPanel();
@@ -125,6 +150,8 @@ public final class Startbildschirm{
 
                 //int value2 = slider2.getValue();
                 anzahl2 = slider2.getValue();
+                selectedSpace = (anzahl2*2 + anzahl3*3 + anzahl4*4 + anzahl5*5 + anzahl6*6);
+                currentship.setText("Selected Space: " + selectedSpace);
                 //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
 
                 //Wenn sich slider auf einen anderen Wert bewegt soll dieser
@@ -136,16 +163,14 @@ public final class Startbildschirm{
         });
 
 
-
-        JSlider slider3 = new JSlider();
-        JLabel label_slider3 = new JLabel();
-
         slider3.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
 
                 //int value3 = slider3.getValue();
                 anzahl3 = slider3.getValue();
+                selectedSpace = (anzahl2*2 + anzahl3*3 + anzahl4*4 + anzahl5*5 + anzahl6*6);
+                currentship.setText("Selected Space: " + selectedSpace);
                 //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
 
                 //Wenn sich slider auf einen anderen Wert bewegt soll dieser
@@ -156,15 +181,14 @@ public final class Startbildschirm{
             }
         });
 
-
-        JSlider slider4 = new JSlider();
-        JLabel label_slider4 = new JLabel();
         slider4.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
 
                 //int value4 = slider4.getValue();
                 anzahl4 = slider4.getValue();
+                selectedSpace = (anzahl2*2 + anzahl3*3 + anzahl4*4 + anzahl5*5 + anzahl6*6);
+                currentship.setText("Selected Space: " + selectedSpace);
                 //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
 
                 //Wenn sich slider auf einen anderen Wert bewegt soll dieser
@@ -176,16 +200,14 @@ public final class Startbildschirm{
         });
 
 
-
-        JSlider slider5 = new JSlider();
-        JLabel label_slider5 = new JLabel();
-
         slider5.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
 
                 //int value5 = slider5.getValue();
                 anzahl5 = slider5.getValue();
+                selectedSpace = (anzahl2*2 + anzahl3*3 + anzahl4*4 + anzahl5*5 + anzahl6*6);
+                currentship.setText("Selected Space: " + selectedSpace);
                 //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
 
                 //Wenn sich slider auf einen anderen Wert bewegt soll dieser
@@ -203,6 +225,8 @@ public final class Startbildschirm{
 
                 //int value6 = slider6.getValue();
                 anzahl6 = slider6.getValue();
+                selectedSpace = (anzahl2*2 + anzahl3*3 + anzahl4*4 + anzahl5*5 + anzahl6*6);
+                currentship.setText("Selected Space: " + selectedSpace);
                 //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
 
                 //Wenn sich slider auf einen anderen Wert bewegt soll dieser
@@ -218,14 +242,21 @@ public final class Startbildschirm{
             @Override
             public void stateChanged(ChangeEvent e) {
 
-
                 int value = slider_gr.getValue();
+                maxship.setText("Maximum Space: " + (value*value/3));
+                maxSpace = (value*value/3);
                 //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
 
                 //Wenn sich slider auf einen anderen Wert bewegt soll dieser
                 //Wert im Label angezeigt werden
                 label_slider.setText(Integer.toString(slider_gr.getValue()));
                 label_slider.setText(Integer.toString(value));
+
+                slider2.setEnabled(true);
+                slider3.setEnabled(true);
+                slider4.setEnabled(true);
+                slider5.setEnabled(true);
+                slider6.setEnabled(true);
 
 
                 GAME.spielfeldgr = value;
@@ -242,6 +273,12 @@ public final class Startbildschirm{
                     slider6.setEnabled(false);
                     Schiffe6.setEnabled(false);
                     label_slider6.setEnabled(false);
+                    slider2.setValue(0);
+                    slider3.setValue(0);
+                    slider4.setValue(0);
+                    slider5.setValue(0);
+                    slider6.setValue(0);
+                    anzahl2 = anzahl3 = anzahl4 = anzahl5 = anzahl6 = 0;
                 }
                 else
                 {
@@ -252,6 +289,12 @@ public final class Startbildschirm{
                     slider2.setEnabled(false);
                     Schiffe2.setEnabled(false);
                     label_slider2.setEnabled(false);
+                    slider2.setValue(0);
+                    slider3.setValue(0);
+                    slider4.setValue(0);
+                    slider5.setValue(0);
+                    slider6.setValue(0);
+                    anzahl2 = anzahl3 = anzahl4 = anzahl5 = anzahl6 = 0;
                 }
 
             }
@@ -272,7 +315,8 @@ public final class Startbildschirm{
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(role != null && (GAME.radioButton_l || GAME.radioButton_o)){
+
+                if(role != null && (GAME.radioButton_l || GAME.radioButton_o) && selectedSpace <= maxSpace){
                     startbildschirm.setVisible(false);
                     int hp = (GAME.spielfeldgr * GAME.spielfeldgr) / 3;
                     if(GAME.radioButton_o)
@@ -365,7 +409,7 @@ public final class Startbildschirm{
 
         //Auswahl Spieler-Typ
         JLabel spieler = new JLabel("Spieler");
-        String[] list_spieler = {"[auswaehlen]", "Client", "Server", "KI"};
+        String[] list_spieler = {"[choose]", "Client", "Server", "KI"};
         JComboBox<String> auswahl_spieler = new JComboBox<String>(list_spieler);
 
         auswahl_spieler.addActionListener(new ActionListener() {
@@ -433,7 +477,6 @@ public final class Startbildschirm{
             rb_online.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
                     if (GAME.radioButton_o)
                     {
                         GAME.radioButton_o = false;
@@ -490,6 +533,11 @@ public final class Startbildschirm{
         schiffAuswahl1.add(Box.createHorizontalStrut(5));
         schiffAuswahl1.add(Box.createHorizontalGlue());
 
+        schiffAuswahl1.add(currentship);
+
+        schiffAuswahl1.add(Box.createHorizontalStrut(5));
+        schiffAuswahl1.add(Box.createHorizontalGlue());
+
         schiffAuswahl1.add(Schiffe2);
 
         schiffAuswahl1.add(Box.createHorizontalStrut(5));
@@ -518,14 +566,18 @@ public final class Startbildschirm{
 
 
 
-
-
         //Hier werden alle Komponenten zum Panel hinzugefuegt
         //Mit passendem Zwischenraum
         //schiffAuswahl1.add(Box.createVerticalStrut(5));
         //schiffAuswahl1.add(Box.createVerticalGlue());
-        schiffSlider.add(Box.createVerticalStrut(5));
+        schiffSlider.add(Box.createVerticalStrut(20));
         schiffSlider.add(Box.createVerticalGlue());
+
+        schiffSlider.add(maxship);
+
+        schiffSlider.add(Box.createHorizontalStrut(5));
+        schiffSlider.add(Box.createVerticalStrut(20));
+        schiffSlider.add(Box.createHorizontalGlue());
 
         schiffSlider.add(slider2);
         schiffSlider.add(label_slider2);

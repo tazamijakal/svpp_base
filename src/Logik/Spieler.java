@@ -83,6 +83,16 @@ public class Spieler {
         this.server = s;
     }
 
+    public void resetplayer(int[] rms){
+        collisionMap = new int[mapSize][mapSize];
+        board = new Object[mapSize][mapSize];       //Spielfeld
+        visibleBoard = new Object[mapSize][mapSize];
+        radarMap = new int[mapSize][mapSize];
+        remainingShips = rms.clone();
+        shipList = new ArrayList<>();
+        x = y = xd = yd = 0;
+        hp = hp2 = remainingShips[2] + remainingShips[3] + remainingShips[4] + remainingShips[5] + remainingShips[6];
+    }
 
     public void sethps(int newhp){
         hp = newhp;
@@ -585,6 +595,7 @@ public class Spieler {
         y = randInt(0, mapSize - 1);
         return new fieldposition(x, y);
     }
+
 
     public void placerandom() {
         String Vergleich = "Here";

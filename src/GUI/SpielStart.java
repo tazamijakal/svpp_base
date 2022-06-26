@@ -45,6 +45,8 @@ public final class SpielStart extends JFrame{
     protected boolean radioButton_o = false;
 
     public static JTable table;
+
+    int[] remainingships;
     public static JTable table2;
 
     public Spieler player;
@@ -447,8 +449,7 @@ public final class SpielStart extends JFrame{
      */
     public void Setzen(Spieler player)
     {
-
-
+        remainingships = player.remainingShips.clone();
         boolean allshipsareplaced = true;
         //Headers for JTable
         String[] columns = new String[player.mapSize];
@@ -533,33 +534,30 @@ public final class SpielStart extends JFrame{
 
 
                 //Code anpassen fuer anklicken Schiffe platzieren
-                table.setValueAt(new ImageIcon(getClass().getResource("blue.png")), x, y);
-                player.placeRemoveShip(true, x, y, length, direction);
+                if(player.spaceCheck(x,y,length,direction)){
+                    player.placeRemoveShip(true, x, y, length, direction);
 
-                if(direction)
-                {
-                    //wenn horizontal
-                    for(int i = 1; i < length; i++)
-                    {
-                        table.setValueAt(new ImageIcon(getClass().getResource("blue.png")), x, y + i);
+                    Object[][] data = new Object[player.mapSize][player.mapSize];
+                    for(int i = 0; i<player.board.length; i ++){
+                        for(int k = 0; k<player.board.length; k++){
+                            if(player.board[i][k] instanceof Ship){
+                                int initialX = ((Ship) player.board[i][k]).initialX;
+                                int initialY = ((Ship) player.board[i][k]).initialY;
+                                int length = ((Ship) player.board[i][k]).length;
+                                boolean horizontal = ((Ship) player.board[i][k]).initialD;          //horizontal == true
+                                data = drawShip(initialX, initialY, length, horizontal, data);
+                            }
+                            else{
+                                data[i][k] = new ImageIcon(getClass().getResource("water.png"));
+                            }
+                        }
                     }
 
+                    DefaultTableModel model_set = new DefaultTableModel(data, columns);
+
+                    table.setModel(model_set);
+                    table.repaint();
                 }
-                else
-                {
-                    //wenn vertikal
-                    for(int i = 1; i < length; i++)
-                    {
-                        table.setValueAt(new ImageIcon(getClass().getResource("blue.png")), x + i, y);
-                    }
-                }
-                //Schleife?
-                //durchgehen von gesetzten Schiffen
-                //zum Test Felder auf blau setzen
-
-
-
-
             }
         });
 
@@ -631,7 +629,37 @@ public final class SpielStart extends JFrame{
             zufall.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    player.placerandom();
+                    player.resetplayer(remainingships);
+                    SwingWorker<Void, Void> sw10 = new SwingWorker<Void, Void>(){
+                        @Override
+                        protected Void doInBackground() throws Exception {
+                            zufall.setEnabled(false);
+                            player.placerandom();
+                            Object[][] data = new Object[player.mapSize][player.mapSize];
+                            for(int i = 0; i<player.board.length; i ++){
+                                for(int k = 0; k<player.board.length; k++){
+                                    if(player.board[i][k] instanceof Ship){
+                                        int initialX = ((Ship) player.board[i][k]).initialX;
+                                        int initialY = ((Ship) player.board[i][k]).initialY;
+                                        int length = ((Ship) player.board[i][k]).length;
+                                        boolean horizontal = ((Ship) player.board[i][k]).initialD;          //horizontal == true
+                                        data = drawShip(initialX, initialY, length, horizontal, data);
+                                    }
+                                    else{
+                                        data[i][k] = new ImageIcon(getClass().getResource("water.png"));
+                                    }
+                                }
+                            }
+
+                            DefaultTableModel model_set = new DefaultTableModel(data, columns);
+
+                            table.setModel(model_set);
+                            table.repaint();
+                            zufall.setEnabled(true);
+                            return null;
+                        }
+                    };
+                    sw10.execute();
                 }
             });
 
@@ -660,285 +688,118 @@ public final class SpielStart extends JFrame{
 
             //Listener fuer Checkboxen
 
-            if(!cb3Selec && !cb4Selec && !cb5Selec && !cb6Selec)
-            {
-                //cb_2.setEnabled(true);//braucht man das?
 
-                cb_2.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
+            cb_2.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
 
 
-                        //JCheckBox cb2_source = (JCheckBox) e.getSource();//Objekt das verändert wurde
-                        //Cast auf JCheckBox
+                    //JCheckBox cb2_source = (JCheckBox) e.getSource();//Objekt das verändert wurde
+                    //Cast auf JCheckBox
+                    if(cb_2.isSelected())
+                    {
+                        length = 2;
+                        cb_3.setSelected(false);
+                        cb_4.setSelected(false);
+                        cb_5.setSelected(false);
+                        cb_6.setSelected(false);
+                    }
+                    else
+                    {
+                        length = 0;
+                    }
+                }
+            });
 
-                        if(cb2Selec)
-                        {
-                            length = 2;
-                            cb2Selec = false;
 
-                            cb_3.setEnabled(true);
-                            cb_4.setEnabled(true);
-                            cb_5.setEnabled(true);
-                            cb_6.setEnabled(true);
 
-                        }
-                        else
-                        {
+            cb_3.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    //JCheckBox cb2_source = (JCheckBox) e.getSource();//Objekt das verändert wurde
+                    //Cast auf JCheckBox
+
+                    if(cb_3.isSelected()) {
+                        length = 3;
+                        cb_2.setSelected(false);
+                        cb_4.setSelected(false);
+                        cb_5.setSelected(false);
+                        cb_6.setSelected(false);
+                    }
+                    else {
+                        length = 0;
+                    }
+                }
+            });
+
+            cb_4.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+
+                    //JCheckBox cb2_source = (JCheckBox) e.getSource();//Objekt das verändert wurde
+                    //Cast auf JCheckBox
+
+                       if(cb_4.isSelected())
+                       {
+                           length = 4;
+                           cb_2.setSelected(false);
+                           cb_3.setSelected(false);
+                           cb_5.setSelected(false);
+                           cb_6.setSelected(false);
+                       }
+                       else
+                       {
                             length = 0;
-                            cb2Selec = true;
-
-                            cb_3.setEnabled(false);
-                            cb_4.setEnabled(false);
-                            cb_5.setEnabled(false);
-                            cb_6.setEnabled(false);
-
-                            /*for(int i = 2; i < player.remainingShips.length; i++)
-                            {
-                                //evtl dafuer, wenn alle Schiffe dieser Groesse gesetzt wurden
-                                if(player.remainingShips[i] == 0)
-                                {
-                                    cb_2.setEnabled(false);
-
-                                }
-
-                            }*/
-
-
-                        }
-
+                       }
                     }
                 });
-            }
-            else
-            {
-                cb_2.setEnabled(false);
 
-            }
+            cb_5.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
 
 
+                    //JCheckBox cb2_source = (JCheckBox) e.getSource();//Objekt das verändert wurde
+                    //Cast auf JCheckBox
 
-            if(!cb2Selec && !cb4Selec && !cb5Selec && !cb6Selec)
-            {
-                //cb_3.setEnabled(true);
-
-                cb_3.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-
-                        //JCheckBox cb2_source = (JCheckBox) e.getSource();//Objekt das verändert wurde
-                        //Cast auf JCheckBox
-
-                        if(cb3Selec)
-                        {
-                            length = 3;
-                            cb3Selec = false;
-
-                            cb_2.setEnabled(true);
-                            cb_4.setEnabled(true);
-                            cb_5.setEnabled(true);
-                            cb_6.setEnabled(true);
-
-                        }
-                        else
-                        {
-                            length = 0;
-                            cb3Selec = true;
-
-                            cb_2.setEnabled(false);
-                            cb_4.setEnabled(false);
-                            cb_5.setEnabled(false);
-                            cb_6.setEnabled(false);
-
-
-                            /*for(int i = 2; i < player.remainingShips.length; i++)
-                            {
-                                if(player.remainingShips[i] == 0)
-                                {
-                                    cb_3.setEnabled(false);
-
-                                }
-
-                            }*/
-
-                        }
-
+                    if(cb_5.isSelected())
+                    {
+                        length = 5;
+                        cb_2.setSelected(false);
+                        cb_3.setSelected(false);
+                        cb_4.setSelected(false);
+                        cb_6.setSelected(false);
                     }
-                });
-            }
-            else
-            {
-                cb_3.setEnabled(false);
-
-            }
-
-            if(!cb2Selec && !cb3Selec && !cb5Selec && !cb6Selec)
-            {
-                //cb_4.setEnabled(true);
-
-                cb_4.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-
-                        //JCheckBox cb2_source = (JCheckBox) e.getSource();//Objekt das verändert wurde
-                        //Cast auf JCheckBox
-
-                        if(cb4Selec)
-                        {
-                            length = 4;
-                            cb4Selec = false;
-
-                            cb_2.setEnabled(true);
-                            cb_3.setEnabled(true);
-                            cb_5.setEnabled(true);
-                            cb_6.setEnabled(true);
-
-                        }
-                        else
-                        {
-                            length = 0;
-                            cb4Selec = true;
-
-                            cb_2.setEnabled(false);
-                            cb_3.setEnabled(false);
-                            cb_5.setEnabled(false);
-                            cb_6.setEnabled(false);
-
-                            /*for(int i = 2; i < player.remainingShips.length; i++)
-                            {
-                                if(player.remainingShips[i] == 0)
-                                {
-                                    cb_4.setEnabled(false);
-
-                                }
-
-                            }*/
-
-
-                        }
-
+                    else
+                    {
+                        length = 0;
                     }
-                });
-            }
-            else
-            {
-                cb_4.setEnabled(false);
+                }
+            });
 
-            }
-
-
-            if(!cb2Selec && !cb3Selec && !cb4Selec && !cb6Selec)
-            {
-                //cb_5.setEnabled(true);
-
-                cb_5.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
+            cb_6.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
 
 
-                        //JCheckBox cb2_source = (JCheckBox) e.getSource();//Objekt das verändert wurde
-                        //Cast auf JCheckBox
+                    //JCheckBox cb2_source = (JCheckBox) e.getSource();//Objekt das verändert wurde
+                    //Cast auf JCheckBox
 
-                        if(cb5Selec)
-                        {
-                            length = 5;
-                            cb5Selec = false;
-
-                            cb_2.setEnabled(true);
-                            cb_3.setEnabled(true);
-                            cb_4.setEnabled(true);
-                            cb_6.setEnabled(true);
-
-                        }
-                        else
-                        {
-                            length = 0;
-                            cb5Selec = true;
-
-                            cb_2.setEnabled(false);
-                            cb_3.setEnabled(false);
-                            cb_4.setEnabled(false);
-                            cb_6.setEnabled(false);
-
-                            /*for(int i = 2; i < player.remainingShips.length; i++)
-                            {
-                                if(player.remainingShips[i] == 0)
-                                {
-                                    cb_5.setEnabled(false);
-
-                                }
-
-                            }*/
-
-                        }
-
+                    if(cb_6.isSelected())
+                    {
+                        length = 6;
+                        cb_2.setSelected(false);
+                        cb_3.setSelected(false);
+                        cb_4.setSelected(false);
+                        cb_5.setSelected(false);
                     }
-                });
-            }
-            else
-            {
-                cb_5.setEnabled(false);
-
-            }
-
-
-            if(!cb2Selec && !cb3Selec && !cb4Selec && !cb5Selec)
-            {
-                //cb_6.setEnabled(true);
-
-                cb_6.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-
-                        //JCheckBox cb2_source = (JCheckBox) e.getSource();//Objekt das verändert wurde
-                        //Cast auf JCheckBox
-
-                        if(cb6Selec)
-                        {
-                            length = 6;
-                            cb6Selec = false;
-
-                            cb_2.setEnabled(true);
-                            cb_3.setEnabled(true);
-                            cb_4.setEnabled(true);
-                            cb_5.setEnabled(true);
-
-                        }
-                        else
-                        {
-                            length = 0;
-                            cb6Selec = true;
-
-                            cb_2.setEnabled(false);
-                            cb_3.setEnabled(false);
-                            cb_4.setEnabled(false);
-                            cb_5.setEnabled(false);
-
-
-                            /*for(int i = 2; i < player.remainingShips.length; i++)
-                            {
-                                if(player.remainingShips[i] == 0)
-                                {
-                                    cb_6.setEnabled(false);
-
-                                }
-
-                            }*/
-
-                        }
-
+                    else
+                    {
+                        length = 0;
                     }
-                });
-            }
-            else
-            {
-                cb_6.setEnabled(false);
-
-            }
-
+                }
+            });
 
 
             //zufall.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -957,10 +818,12 @@ public final class SpielStart extends JFrame{
         }
 
 
+        JButton horizontal = new JButton("Horizontal");
+        JButton vertikal = new JButton("Vertikal");
+
         vbox_4.add(Box.createVerticalStrut(10));
         {
             // "Eintrag entfernen" entfernt die selektierte Tabellenzeile.
-            JButton horizontal = new JButton("Horizontal");
             horizontal.setAlignmentX(Component.CENTER_ALIGNMENT);
 
             horizontal.addActionListener(new ActionListener() {
@@ -968,7 +831,8 @@ public final class SpielStart extends JFrame{
                 public void actionPerformed(ActionEvent e) {
 
                     direction = true;
-
+                    vertikal.setEnabled(true);
+                    horizontal.setEnabled(false);
                 }
             });
             vbox_4.add(horizontal);
@@ -981,7 +845,6 @@ public final class SpielStart extends JFrame{
         vbox_4.add(Box.createVerticalStrut(10));
         {
             // "Eintrag entfernen" entfernt die selektierte Tabellenzeile.
-            JButton vertikal = new JButton("Vertikal");
             vertikal.setAlignmentX(Component.CENTER_ALIGNMENT);
 
             vertikal.addActionListener(new ActionListener() {
@@ -989,7 +852,8 @@ public final class SpielStart extends JFrame{
                 public void actionPerformed(ActionEvent e) {
 
                     direction = false;
-
+                    vertikal.setEnabled(false);
+                    horizontal.setEnabled(true);
                 }
             });
             vbox_4.add(vertikal);
