@@ -973,7 +973,22 @@ public final class SpielStart extends JFrame{
             beginn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if(allshipsareplaced == true){
+
+
+                    int counter = 0;
+                    for(int j = 0; j < player.board.length;j++)
+                    {
+                        for(int k = 0; k < player.board.length;k++)
+                        {
+                            if(player.board[j][k] instanceof Ship)
+                            {
+                                counter = counter + 1;
+                            }
+
+                        }
+                    }
+                    //if(allshipsareplaced == true){
+                    if(counter > 0){
                         setzen.setVisible(false);
                         if(player.server != null){
                             player.server.TextClient("ready");
@@ -987,6 +1002,11 @@ public final class SpielStart extends JFrame{
 
                         }
                         SwingUtilities.invokeLater(() -> {SpielStarten(player);});
+                    }
+                    else{
+
+                        //Meldung, wenn keine Schiffe gesetzt sind
+                        JOptionPane.showMessageDialog(setzen, "Du hast keine Schiffe gesetzt!!");
                     }
                 }
             });
