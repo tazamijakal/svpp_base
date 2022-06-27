@@ -2,6 +2,7 @@ package Socket;
 
 import GUI.SpielStart;
 
+import java.awt.event.WindowEvent;
 import java.net.*;
 import java.io.*;
 import static java.lang.Integer.parseInt;
@@ -43,6 +44,7 @@ public class Client {
         }
         catch (Exception e){
             this.status = -1;                           //IP Adresse nicht akzeptiert
+            menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
             return;
         }
         System.out.println("Connection established.");      //wenn keine Exception hat es funktioniert
@@ -94,6 +96,7 @@ public class Client {
                 //Anzahl 2,3,4,5,6er Schiffe weitergeben
                 player.remainingShips = sc;
                 int newhp = 2 * player.remainingShips[2] + 3 * player.remainingShips[3] + 4 * player.remainingShips[4] + 5 * player.remainingShips[5] + 6 * player.remainingShips[6];
+                System.out.println(newhp);
                 player.sethps(newhp);
                 //Server wartet wieder auf "ok"
                 TextServer("done");
@@ -103,44 +106,46 @@ public class Client {
             //Schiffe auf Spielfeld plazieren <= muss noch nachgetragen werden ==========================================================================================
             // Wenn boolean load == false => neues Spiel erstellen
 
-            if(load == false){
-                String third = in.readLine();
-                if(third.equals("ready")){      //Server schickt zuerst "ready"
-                    this.status = 1;
-                }
-                System.out.println("Opponent: " + third);
-                //Warten bis Client auch "ready"
-                TextServer("ready");
-            }
 
-            System.out.println("Client Starting the GAME: ");
-            System.out.println(player.name);
-            System.out.println(player.mapSize);
 
             //SwingUtilities.invokeLater(() -> {SpielStart.SpielStarten(player);});
             //menu.setVisible(true);
 
             //SwingUtilities.invokeLater(() -> {SpielStart.SpielStarten(player);});
-
-            SwingWorker<Void, Void> sw1 = new SwingWorker<Void, Void>(){
+            SwingWorker<Void, Void> sw1 = new SwingWorker<Void, Void>() {
                 @Override
                 protected Void doInBackground() throws Exception {
+                    if(load == false){
+                    String third = in.readLine();
+                    if(third.equals("ready")){      //Server schickt zuerst "ready"
+                        status = 1;
+                    }
+                    System.out.println("Opponent: " + third);
+                    //Warten bis Client auch "ready"
+                    TextServer("ready");
+                }
+
+                    System.out.println("Client Starting the GAME: ");
+                    System.out.println(player.name);
+                    System.out.println(player.mapSize);
                     runGame();
                     return null;
                 }
             };
             sw1.execute();
-
             player.attackToken = false;
         }
         catch(Exception e){
             this.status = -2;
             e.printStackTrace();
+            menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
             return;
         }
+
     }
 
     public void runGame(){                  //Eigene Methode fuer SwingWorker
+        System.out.println(player.hp + "   " + player.hp2);
         try {
             //Ping-Pong Prinzip warten auf Befehle
             while (true) {
@@ -168,10 +173,12 @@ public class Client {
                             case "2":
                                 //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
+                                player.hp2 = player.hp2 - 1;
                                 player.attackToken = true;
                                 GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
                                 if (player.hp2 == 0) {
                                     System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
+                                    menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
                                 }
                                 break;
                         }
@@ -188,12 +195,20 @@ public class Client {
                             int x = parseInt(Osplit[1]);
                             int y = parseInt(Osplit[2]);
                             answer = player.shootYourself(x, y);
+                            if(answer.equals("answer 1")){
+                                GAME.setTableRedCross(x, y);
+                            }
+                            if(answer.equals("answer 2")){
+                                player.hp = player.hp - 1;
+                                GAME.setTableBlackCross(x, y);
+                            }
                         } catch (Exception e) {
                             System.out.println("Array out of bounds");
                         }
                         TextServer(answer);
                         if (player.hp == 0) {     //Spiel zu ende?
                             System.out.println("SPIEL VERLOREN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
                             //Spiel beenden   ===========================================================================
                         }
                         break;

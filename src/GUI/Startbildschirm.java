@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.Utilities;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -340,33 +341,50 @@ public final class Startbildschirm{
 
 
                 }
-                else if(GAME.radioButton_l /*&& lok_Spsp*/)
+                else if(GAME.radioButton_l /*&& lok_Spsp*/ && selectedSpace <= maxSpace)
                 {
                     startbildschirm.setVisible(false);
                     int hp = (GAME.spielfeldgr * GAME.spielfeldgr) / 3;
                     int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
+                    SpielStart GAME2 = new SpielStart();
                     //int k = 1;
                     //Spieler player1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships);
                     //Spieler player2 = new Spieler("Spieler2", GAME.spielfeldgr, hp, ships);
-
                     sp1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships);
                     sp2 = new Spieler("Spieler2", GAME.spielfeldgr, hp, ships);
+                    SwingWorker<Void, Void> sw13 = new SwingWorker<Void, Void>(){
+                        @Override
+                        protected Void doInBackground() throws Exception {
+                            Server server = new Server(50000, 0, sp1, GAME, startbildschirm);
+                            sp1.serverSetter(server);
+                            server.connect();
+                            return null;
+                        }
+                    };
+                    sw13.execute();
 
-                    if(!p1 && !p2)
+                    SwingWorker<Void, Void> sw14 = new SwingWorker<Void, Void>(){
+                        @Override
+                        protected Void doInBackground() throws Exception {
+                            Client client = new Client(50000, "localhost", sp2, GAME, startbildschirm);
+                            sp2.clientSetter(client);
+                            client.connect();
+                            return null;
+                        }
+                    };
+                    sw14.execute();
+
+
+                    /*if(!p1 && !p2)
                     {
+                        GAME.Setzen(sp1);
                         p1 = true;
-                        SwingUtilities.invokeLater(() -> {GAME.Setzen(sp1);});
-
-
                     }
                     if(p1 && !p2)
                     {
+                        //GAME2.Setzen(sp2);
                         p2 = true;
-                        SwingUtilities.invokeLater(() -> {GAME.Setzen(sp2);});
-
-                    }
-
-
+                    }*/
                 }
                 else{
                     System.out.println("Finish all parameters");

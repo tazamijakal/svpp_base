@@ -63,7 +63,21 @@ public final class SpielStart extends JFrame{
     public void setTable2CellBLUE(int x, int y){
         table2.setValueAt(new ImageIcon(getClass().getResource("blue.png")), x, y);
     }
-
+    public void setTable2RedCross(int x, int y){
+        table2.setValueAt(new ImageIcon(getClass().getResource("redcross.png")), x, y);
+    }
+    public void setTable2BlackCross(int x, int y){
+        table2.setValueAt(new ImageIcon(getClass().getResource("blackcross.png")), x, y);
+    }
+    public void setTable2YellowCross(int x, int y){
+        table2.setValueAt(new ImageIcon(getClass().getResource("blue.png")), x, y);
+    }
+    public void setTableRedCross(int x, int y){
+        table.setValueAt(new ImageIcon(getClass().getResource("redcross.png")), x, y);
+    }
+    public void setTableBlackCross(int x, int y){
+        table.setValueAt(new ImageIcon(getClass().getResource("blackcross.png")), x, y);
+    }
 
     /**
      *
@@ -161,7 +175,7 @@ public final class SpielStart extends JFrame{
         DefaultTableModel model = new DefaultTableModel(data, columns);
         DefaultTableModel model2 = new DefaultTableModel(data2, columns);
 
-        JTable table = new JTable(model) {
+        table = new JTable(model) {
             public Class getColumnClass(int column) {
                 return ImageIcon.class;
             }
@@ -206,8 +220,8 @@ public final class SpielStart extends JFrame{
         frame.add(Box.createHorizontalStrut(20));
         frame.add(Box.createHorizontalGlue());
 
-        JScrollPane scrollPane = new JScrollPane(this.table);
-        JScrollPane scrollPane2 = new JScrollPane(this.table2);
+        JScrollPane scrollPane = new JScrollPane(table);
+        JScrollPane scrollPane2 = new JScrollPane(table2);
 
         //table.setDropMode(DropMode.USE_SELECTION);
         //table.getToolTipLocation()
@@ -220,13 +234,13 @@ public final class SpielStart extends JFrame{
                 int selecCol = table2.getSelectedColumn();
                 //feldSetzen[selecRow][selecRow] = "ship";
                 //table2.setValueAt(new ImageIcon("src\\blue.png"), selecRow, selecCol);
-                if(player.board[selecRow][selecCol] instanceof Spieler.MisfireObject || player.board[selecRow][selecCol] instanceof Spieler.TrefferObject){
+                String a = table2.getValueAt(selecRow,selecCol).toString();
+                String b = getClass().getResource("water.png").toString();
+                if(table2.getValueAt(selecRow, selecCol).equals(getClass().getResource("blue.png"))){
                     System.out.println("do nothing");
                 }
-                else if(player.attackToken == true){
+                else if(player.attackToken == true && a.equals(b)){
                     if(player.name.equals("Server")){
-                        System.out.println(table2.getValueAt(selecRow, selecCol));
-                        System.out.println(getClass().getResource("blue.png"));
                         player.attackToken = false;
                         player.lastShotX = selecRow;
                         player.lastShotY = selecCol;
@@ -447,8 +461,9 @@ public final class SpielStart extends JFrame{
      * Um Schiffe zu setzen.
      * Nachdem Einstellungen in Startbildschirm gemacht wurden.
      */
-    public void Setzen(Spieler player)
+    public JTable Setzen(Spieler player)
     {
+        JTable table;
         remainingships = player.remainingShips.clone();
         boolean allshipsareplaced = true;
         //Headers for JTable
@@ -469,7 +484,7 @@ public final class SpielStart extends JFrame{
         DefaultTableModel model_setzen = new DefaultTableModel(data, columns);
 
 
-        this.table = new JTable(model_setzen) {
+        table = new JTable(model_setzen) {
             public Class getColumnClass(int column) {
                 return ImageIcon.class;
             }
@@ -521,7 +536,7 @@ public final class SpielStart extends JFrame{
         setzen.add(Box.createHorizontalGlue());
 
 
-        JScrollPane scrollPane_setzen = new JScrollPane(this.table);
+        JScrollPane scrollPane_setzen = new JScrollPane(table);
 
 
 
@@ -880,6 +895,12 @@ public final class SpielStart extends JFrame{
                 public void actionPerformed(ActionEvent e) {
                     if(allshipsareplaced == true){
                         setzen.setVisible(false);
+                        if(player.server != null){
+                            player.server.TextClient("ready");
+                        }
+                        if(player.client != null){
+                            player.client.TextServer("ready");
+                        }
                         if(radioButton_l && Startbildschirm.p1)
                         {
 
@@ -987,6 +1008,6 @@ public final class SpielStart extends JFrame{
 
         //macht Fenster sichtbar
         setzen.setVisible(true);
-
+        return table;
     }
 }

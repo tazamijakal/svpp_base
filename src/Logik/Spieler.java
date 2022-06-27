@@ -138,7 +138,7 @@ public class Spieler {
             Ship schiff = new Ship(startingPoint[0], startingPoint[1], d, l);
             schiff.addCoordinates(hitMap);
             this.remainingShips[l]--;
-            hp -= l;
+            //hp -= l;
             System.out.println(l+"-er Schiff wurde platziert!");
             shipList.add(schiff);
             for (int i = 0; i < l; i++) {
@@ -367,13 +367,13 @@ public class Spieler {
                 System.out.println("Treffer, versenkt!");
                 ((Ship) board[x][y]).length--;
                 board[x][y] = trefferObject;
-                hp--;
+                //hp--;
                 return "answer 2";
             } else {
                 System.out.println("Treffer!");
                 ((Ship) board[x][y]).length--;
                 board[x][y] = trefferObject;
-                hp--;
+                //hp--;
                 return "answer 1";
             }
         } else {

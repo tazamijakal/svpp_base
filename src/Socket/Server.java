@@ -1,5 +1,6 @@
 package Socket;
 
+import java.awt.event.WindowEvent;
 import java.net.*;
 import java.io.*;
 import java.util.Enumeration;
@@ -49,7 +50,8 @@ public class Server {
         }
         catch(Exception e){
             status = -1;                //Port wird nicht angenommen
-            e.printStackTrace();     
+            e.printStackTrace();
+            menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
         }
 
         Socket s = null;
@@ -74,6 +76,7 @@ public class Server {
         catch(Exception e){
             status = -100;              //IP-Adresse error
             e.printStackTrace();
+            menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
         }
 
         try{
@@ -85,6 +88,7 @@ public class Server {
         catch(Exception e){
             status = -2;              //Client-Verbindung hat nicht funktioniert
             e.printStackTrace();
+            menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
         }
 
         try{
@@ -108,6 +112,7 @@ public class Server {
                     }
                 }
                 int newhp = 2 * player.remainingShips[2] + 3 * player.remainingShips[3] + 4 * player.remainingShips[4] + 5 * player.remainingShips[5] + 6 * player.remainingShips[6];
+                System.out.println(newhp);
                 player.sethps(newhp);
                 TextClient(ships);
 
@@ -116,45 +121,43 @@ public class Server {
                 System.out.println("Opponent: " + okay);
 
                 //Dummy "ready"      ============================================
-                TextClient("ready");
-
+                //TextClient("ready");
                 SwingUtilities.invokeLater(() -> {GAME.Setzen(player);});
                 //"ready" check von Server wird intern geschickt sobald alle Schiffe plaziert sind
                 //und "ready" on Client kommt erst nach "ready" von Server
 
-                String ready = in.readLine();
-                if(ready.equals("ready")){
-                    status = 1;
-                    System.out.println("Opponent: " + ready);
-                }
-
-                //Spiel starten
-                //Wenn Client am Zug war (load) pass texten
-                //TextClient("pass");
-                System.out.println("Server Starting the GAME: ");
-                System.out.println(player.name);
-                System.out.println(player.mapSize);
-                
                 SwingWorker<Void, Void> sw3 = new SwingWorker<Void, Void>(){
                     @Override
                     protected Void doInBackground() throws Exception {
+                        String ready = in.readLine();
+                        if(ready.equals("ready")){
+                            status = 1;
+                            System.out.println("Opponent: " + ready);
+                        }
+
+                        //Spiel starten
+                        //Wenn Client am Zug war (load) pass texten
+                        //TextClient("pass");
+                        System.out.println("Server Starting the GAME: ");
+                        System.out.println(player.name);
+                        System.out.println(player.mapSize);
                         runGame();
                         return null;
                     }
                 };
                 sw3.execute();
-
-                System.out.println("Test");
             }
         }
         catch(Exception e){
             status = -3;
             e.printStackTrace();
+            menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
         }
         
     }
 
     public void runGame(){                              //Eigene Methode fuer SwingWorker
+        System.out.println(player.hp + "   " + player.hp2);
         //Ping-Pong Prinzip warten auf Befehle
         while(true) {
             try {
@@ -175,19 +178,22 @@ public class Server {
                             case "1":
                                 //Getroffen (nicht versenkt) Server ist wieder am Zug =================================================================
                                 //GUI wieder freischalten oder boolean in Spieler Objekt??!
-                                player.hp2 = player.hp2 - 1;
+                                //player.hp2 = player.hp2 - 1;
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 1");
                                 player.attackToken = true;
-                                GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
+                                GAME.setTable2RedCross(player.lastShotX, player.lastShotY);
+                                System.out.println("hp2: " + player.hp2);
                                 break;
                             case "2":
                                 //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
                                 player.hp2 = player.hp2 - 1;
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
                                 player.attackToken = true;
-                                GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
+                                GAME.setTable2BlackCross(player.lastShotX, player.lastShotY);
+                                System.out.println("hp2: " + player.hp2);
                                 if (player.hp2 == 0) {
                                     System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
+                                    menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
                                 }
                                 break;
                         }
@@ -204,12 +210,20 @@ public class Server {
                             int x = parseInt(Osplit[1]);
                             int y = parseInt(Osplit[2]);
                             answer = player.shootYourself(x, y);
+                            if(answer.equals("answer 1")){
+                                GAME.setTableRedCross(x, y);
+                            }
+                            if(answer.equals("answer 2")){
+                                player.hp = player.hp - 1;
+                                GAME.setTableBlackCross(x, y);
+                            }
                         } catch (Exception e) {
                             System.out.println("Array out of bounds");
                         }
                         TextClient(answer);
                         if (player.hp == 0) {
                             System.out.println("SPIEL VERLOREN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
                             //Spiel beenden
                         }
                         break;

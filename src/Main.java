@@ -1,3 +1,4 @@
+import GUI.SpielStart;
 import GUI.Startbildschirm;
 import Logik.Game2KI;
 
@@ -15,7 +16,9 @@ public class Main {
        /* Game2KI game = new Game2KI();
         game.startGame();     //Mapgröße, Schiffstypen und Positionierung werden vor Spielstart abgefragt
 //        game.demoGame();        /5/5x5 game mit bereits gesetzten Schiffen*/
-        SwingUtilities.invokeLater(() -> {Startbildschirm.start();});
+        SwingUtilities.invokeLater(() -> {
+            Startbildschirm.start();
+        });
     }
 }
 
