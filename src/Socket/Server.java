@@ -30,18 +30,31 @@ public class Server {
     public JFrame menu;
     public SpielStart GAME;
 
-
-    public Server(int p, int id, Spieler a, SpielStart GAME,  JFrame menu){
-        this.port = p;
+    /**
+     *
+     * Konstruktor erzeugt neues Server Objekt.
+     *
+     * @param port Port des Servers (abgemacht war 50000)
+     * @param id ID wichtig fuer laden und speichern
+     * @param player Spieler mit Spielfeld fuer Schussabfrage und wichtige Parameter
+     * @param GAME SpielStart Objekt fuer Zugriff auf tables um Images setzen zu koennen
+     * @param menu JFrame um Spiel abzubrechen und fuer PopUp Nachrichten
+     */
+    public Server(int port, int id, Spieler player, SpielStart GAME,  JFrame menu){
+        this.port = port;
         this.ID = id;
         this.status = 0;
-        this.player = a;
+        this.player = player;
         this.amZug = true;
         this.GAME = GAME;
         this.menu = menu;
     }
-    
-    
+
+    /**
+     *
+     * Methode um Server Socket zu oeffnen, damit ein Client sich mit noetigen Parametern verbinden kann sowie Kommunikationsprotokoll
+     *
+     */
     public void connect(){
         if(player.attackToken == false){
             player.attackToken = true;
@@ -192,6 +205,11 @@ public class Server {
         
     }
 
+    /**
+     *
+     * Methode zum Spielablauf, Methode antwortet auf Nachrichten von Client im Ping-Pong Stil.
+     *
+     */
     public void runGame(){                              //Eigene Methode fuer SwingWorker
         System.out.println(player.hp + "   " + player.hp2);
         //Ping-Pong Prinzip warten auf Befehle
@@ -280,6 +298,11 @@ public class Server {
         }
     }
 
+    /**
+     *
+     * Methode zum Spielablauf von KI-Klassen, Methode antwortet auf Nachrichten von Client im Ping-Pong Stil.
+     *
+     */
     public void runGameKI(){
         //Ping-Pong Prinzip warten auf Befehle
         while(true) {
@@ -390,7 +413,11 @@ public class Server {
         }
     }
 
-
+    /**
+     *
+     * Methode sendet String Nachrichten zum Verbundenen Client Socket
+     *
+     */
     public static void TextClient(String text){
         try{
             out.write(String.format("%s%n", text));

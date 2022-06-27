@@ -94,6 +94,7 @@ public final class SpielStart extends JFrame{
     }
 
     public Object[][] drawShip(int initialX, int initialY, int length, boolean horizontal, Object[][] data){
+        try{
         if(horizontal == true){
             int endX = initialX + length - 1;
             int currentX = initialX;
@@ -130,6 +131,8 @@ public final class SpielStart extends JFrame{
                 }
             }
         }
+        }
+        catch(Exception e){}
         return data;
     }
 
@@ -147,7 +150,7 @@ public final class SpielStart extends JFrame{
         Object[][] data = new Object[player.mapSize][player.mapSize];
         for(int i = 0; i<player.board.length; i ++){
             for(int k = 0; k<player.board.length; k++){
-                if(player.board[i][k] instanceof Ship){
+                if(player.board[i][k] != null && player.board[i][k] instanceof Ship){
                     int initialX = ((Ship) player.board[i][k]).initialX;
                     int initialY = ((Ship) player.board[i][k]).initialY;
                     int length = ((Ship) player.board[i][k]).length;
@@ -654,7 +657,9 @@ public final class SpielStart extends JFrame{
                     y = table.getSelectedColumn();
                     if (length != 0 || placeship == false) {
                         if (placeship == false) {
-                            player.removeShipRequest(x, y);
+                            if(player.board[x][y] instanceof Ship){
+                                player.removeShipRequest(((Ship) player.board[x][y]).initialX, ((Ship) player.board[x][y]).initialY);
+                            }
                         }
                         //Code anpassen fuer anklicken Schiffe platzieren
                         else if (player.spaceCheck(x, y, length, direction)) {
@@ -664,11 +669,14 @@ public final class SpielStart extends JFrame{
                         for (int i = 0; i < player.board.length; i++) {
                             for (int k = 0; k < player.board.length; k++) {
                                 if (player.board[i][k] instanceof Ship) {
-                                    int initialX = ((Ship) player.board[i][k]).initialX;
-                                    int initialY = ((Ship) player.board[i][k]).initialY;
-                                    int length = ((Ship) player.board[i][k]).length;
-                                    boolean horizontal = ((Ship) player.board[i][k]).initialD;          //horizontal == true
-                                    data = drawShip(initialX, initialY, length, horizontal, data);
+                                    try {
+                                        int initialX = ((Ship) player.board[i][k]).initialX;
+                                        int initialY = ((Ship) player.board[i][k]).initialY;
+                                        int length = ((Ship) player.board[i][k]).length;
+                                        boolean horizontal = ((Ship) player.board[i][k]).initialD;          //horizontal == true
+                                        data = drawShip(initialX, initialY, length, !horizontal, data);
+                                    }
+                                    catch(Exception e1){}
                                 } else {
                                     data[i][k] = new ImageIcon(getClass().getResource("water.png"));
                                 }
@@ -711,22 +719,21 @@ public final class SpielStart extends JFrame{
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     player.resetplayer(remainingships);
-                    SwingWorker<Void, Void> sw10 = new SwingWorker<Void, Void>(){
-                        @Override
-                        protected Void doInBackground() throws Exception {
+                    //SwingWorker<Void, Void> sw10 = new SwingWorker<Void, Void>(){
+                      //  @Override
+                        //protected Void doInBackground() throws Exception {
                             zufall.setEnabled(false);
                             player.placerandom();
                             Object[][] data = new Object[player.mapSize][player.mapSize];
-                            for(int i = 0; i<player.board.length; i ++){
-                                for(int k = 0; k<player.board.length; k++){
-                                    if(player.board[i][k] instanceof Ship){
+                            for (int i = 0; i < player.board.length; i++) {
+                                for (int k = 0; k < player.board.length; k++) {
+                                    if (player.board[i][k] != null && player.board[i][k] instanceof Ship) {
                                         int initialX = ((Ship) player.board[i][k]).initialX;
                                         int initialY = ((Ship) player.board[i][k]).initialY;
                                         int length = ((Ship) player.board[i][k]).length;
                                         boolean horizontal = ((Ship) player.board[i][k]).initialD;          //horizontal == true
                                         data = drawShip(initialX, initialY, length, horizontal, data);
-                                    }
-                                    else{
+                                    } else {
                                         data[i][k] = new ImageIcon(getClass().getResource("water.png"));
                                     }
                                 }
@@ -735,6 +742,8 @@ public final class SpielStart extends JFrame{
                             DefaultTableModel model_set = new DefaultTableModel(data, columns);
                             table.setModel(model_set);
                             table.repaint();
+
+
                             zufall.setEnabled(true);
 
                             if (player.remainingShips[2] <= 0 && length == 2) {
@@ -762,11 +771,11 @@ public final class SpielStart extends JFrame{
                                 cb_6.setSelected(false);
                                 length = 0;
                             }
-                            return null;
+                            //return null;
                         }
-                    };
-                    sw10.execute();
-                }
+                    //};
+                    //sw10.execute();
+                //}
             });
 
             add.addActionListener(new ActionListener() {

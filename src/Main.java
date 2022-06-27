@@ -16,9 +16,12 @@ public class Main {
        /* Game2KI game = new Game2KI();
         game.startGame();     //Mapgröße, Schiffstypen und Positionierung werden vor Spielstart abgefragt
 //        game.demoGame();        /5/5x5 game mit bereits gesetzten Schiffen*/
-        SwingUtilities.invokeLater(() -> {
-            Startbildschirm.start();
-        });
+        try {
+            SwingUtilities.invokeLater(() -> {
+                Startbildschirm.start();
+            });
+        }
+        catch(Exception e){}
     }
 }
 
