@@ -27,7 +27,7 @@ public final class SpielStart extends JFrame{
     protected boolean cb4Selec = false;
     protected boolean cb5Selec = false;
     protected boolean cb6Selec = false;
-
+    protected boolean placeship = true;
 
 
     //Index von Kaestchen in Spielfeld von Gegner Schiffen
@@ -45,7 +45,6 @@ public final class SpielStart extends JFrame{
     protected boolean radioButton_o = false;
 
     public static JTable table;
-
     int[] remainingships;
     public static JTable table2;
 
@@ -540,42 +539,6 @@ public final class SpielStart extends JFrame{
 
 
 
-        table.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-                x = table.getSelectedRow();
-                y = table.getSelectedColumn();
-
-
-                //Code anpassen fuer anklicken Schiffe platzieren
-                if(player.spaceCheck(x,y,length,direction)){
-                    player.placeRemoveShip(true, x, y, length, direction);
-
-                    Object[][] data = new Object[player.mapSize][player.mapSize];
-                    for(int i = 0; i<player.board.length; i ++){
-                        for(int k = 0; k<player.board.length; k++){
-                            if(player.board[i][k] instanceof Ship){
-                                int initialX = ((Ship) player.board[i][k]).initialX;
-                                int initialY = ((Ship) player.board[i][k]).initialY;
-                                int length = ((Ship) player.board[i][k]).length;
-                                boolean horizontal = ((Ship) player.board[i][k]).initialD;          //horizontal == true
-                                data = drawShip(initialX, initialY, length, horizontal, data);
-                            }
-                            else{
-                                data[i][k] = new ImageIcon(getClass().getResource("water.png"));
-                            }
-                        }
-                    }
-
-                    DefaultTableModel model_set = new DefaultTableModel(data, columns);
-
-                    table.setModel(model_set);
-                    table.repaint();
-                }
-            }
-        });
-
 
         Box vbox_1 = Box.createVerticalBox();
         {
@@ -605,42 +568,142 @@ public final class SpielStart extends JFrame{
         }
         vbox_4.add(Box.createVerticalGlue());
 
+        JButton add = new JButton("Schiffe hinzufügen");
+        JButton delete = new JButton("Schiffe entfernen");
+        add.setEnabled(false);
+
         vbox_4.add(Box.createVerticalStrut(20));
         {
-            // "Eintrag entfernen" entfernt die selektierte Tabellenzeile.
-            JButton delete = new JButton("Schiffe entfernen");
             delete.setAlignmentX(Component.CENTER_ALIGNMENT);
 
             delete.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
-                    //int selecRow_remove = table2.getSelectedRow();
-                    //int selecCol_remove = table2.getSelectedColumn();
-
-
-                    //feldSetzen[selecRow][selecRow] = "ship";
-                    //table2.setValueAt("", selecRow_remove, selecCol_remove);
-
-                    //System.out.println("Tabelle1 " + selecRow_remove + "," + selecCol_remove);
-
+                    delete.setEnabled(false);
+                    placeship = false;
+                    add.setEnabled(true);
+                    System.out.println("delete selected");
                 }
             });
+            add.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+            vbox_4.add(add);
 
+            vbox_4.add(Box.createVerticalStrut(15));
+            vbox_4.add(Box.createVerticalGlue());
 
             vbox_4.add(delete);
+
+            vbox_4.add(Box.createVerticalStrut(15));
+            vbox_4.add(Box.createVerticalGlue());
+        }
+
+        JButton zufall = new JButton("Schiffe zufaellig");
+        zufall.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        vbox_4.add(Box.createVerticalStrut(10));
+        {
+            vbox_4.add(zufall);
 
             vbox_4.add(Box.createVerticalStrut(10));
             vbox_4.add(Box.createVerticalGlue());
 
-
         }
+
 
         vbox_4.add(Box.createVerticalStrut(10));
         {
-            JButton zufall = new JButton("Schiffe zufaellig");
-            zufall.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            //CheckBox:(fuer Auswahl Schiffsgroesse)
+            JCheckBox cb_2 = new JCheckBox("2er Schiffe");
+            if(player.remainingShips[2] <= 0){
+                cb_2.setEnabled(false);
+            }
+            cb_2.setAlignmentX(Component.CENTER_ALIGNMENT);
+            JCheckBox cb_3 = new JCheckBox("3er Schiffe");
+            if(player.remainingShips[3] <= 0){
+                cb_3.setEnabled(false);
+            }
+            cb_3.setAlignmentX(Component.CENTER_ALIGNMENT);
+            JCheckBox cb_4 = new JCheckBox("4er Schiffe");
+            if(player.remainingShips[4] <= 0){
+                cb_4.setEnabled(false);
+            }
+            cb_4.setAlignmentX(Component.CENTER_ALIGNMENT);
+            JCheckBox cb_5 = new JCheckBox("5er Schiffe");
+            if(player.remainingShips[5] <= 0){
+                cb_5.setEnabled(false);
+            }
+            cb_5.setAlignmentX(Component.CENTER_ALIGNMENT);
+            JCheckBox cb_6 = new JCheckBox("6er Schiffe");
+            if(player.remainingShips[6] <= 0){
+                cb_6.setEnabled(false);
+            }
+            cb_6.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            //Listener fuer Checkboxen
+
+            table.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+
+                    x = table.getSelectedRow();
+                    y = table.getSelectedColumn();
+                    if (length != 0 || placeship == false) {
+                        if (placeship == false) {
+                            player.removeShipRequest(x, y);
+                        }
+                        //Code anpassen fuer anklicken Schiffe platzieren
+                        else if (player.spaceCheck(x, y, length, direction)) {
+                            player.placeRemoveShip(placeship, x, y, length, direction);
+                        }
+                        Object[][] data = new Object[player.mapSize][player.mapSize];
+                        for (int i = 0; i < player.board.length; i++) {
+                            for (int k = 0; k < player.board.length; k++) {
+                                if (player.board[i][k] instanceof Ship) {
+                                    int initialX = ((Ship) player.board[i][k]).initialX;
+                                    int initialY = ((Ship) player.board[i][k]).initialY;
+                                    int length = ((Ship) player.board[i][k]).length;
+                                    boolean horizontal = ((Ship) player.board[i][k]).initialD;          //horizontal == true
+                                    data = drawShip(initialX, initialY, length, horizontal, data);
+                                } else {
+                                    data[i][k] = new ImageIcon(getClass().getResource("water.png"));
+                                }
+                            }
+                        }
+
+                        DefaultTableModel model_set = new DefaultTableModel(data, columns);
+                        table.setModel(model_set);
+                        table.repaint();
+                        if (player.remainingShips[2] <= 0 && length == 2) {
+                            cb_2.setEnabled(false);
+                            cb_2.setSelected(false);
+                            length = 0;
+                        }
+                        if (player.remainingShips[3] <= 0 && length == 3) {
+                            cb_3.setEnabled(false);
+                            cb_3.setSelected(false);
+                            length = 0;
+                        }
+                        if (player.remainingShips[4] <= 0 && length == 4) {
+                            cb_4.setEnabled(false);
+                            cb_4.setSelected(false);
+                            length = 0;
+                        }
+                        if (player.remainingShips[5] <= 0 && length == 5) {
+                            cb_5.setEnabled(false);
+                            cb_5.setSelected(false);
+                            length = 0;
+                        }
+                        if (player.remainingShips[6] <= 0 && length == 6) {
+                            cb_6.setEnabled(false);
+                            cb_6.setSelected(false);
+                            length = 0;
+                        }
+                    }
+                }
+            });
+
             zufall.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -667,10 +730,35 @@ public final class SpielStart extends JFrame{
                             }
 
                             DefaultTableModel model_set = new DefaultTableModel(data, columns);
-
                             table.setModel(model_set);
                             table.repaint();
                             zufall.setEnabled(true);
+
+                            if (player.remainingShips[2] <= 0 && length == 2) {
+                                cb_2.setEnabled(false);
+                                cb_2.setSelected(false);
+                                length = 0;
+                            }
+                            if (player.remainingShips[3] <= 0 && length == 3) {
+                                cb_3.setEnabled(false);
+                                cb_3.setSelected(false);
+                                length = 0;
+                            }
+                            if (player.remainingShips[4] <= 0 && length == 4) {
+                                cb_4.setEnabled(false);
+                                cb_4.setSelected(false);
+                                length = 0;
+                            }
+                            if (player.remainingShips[5] <= 0 && length == 5) {
+                                cb_5.setEnabled(false);
+                                cb_5.setSelected(false);
+                                length = 0;
+                            }
+                            if (player.remainingShips[6] <= 0 && length == 6) {
+                                cb_6.setEnabled(false);
+                                cb_6.setSelected(false);
+                                length = 0;
+                            }
                             return null;
                         }
                     };
@@ -678,31 +766,20 @@ public final class SpielStart extends JFrame{
                 }
             });
 
-            vbox_4.add(zufall);
-
-            vbox_4.add(Box.createVerticalStrut(10));
-            vbox_4.add(Box.createVerticalGlue());
-
-        }
-
-
-        vbox_4.add(Box.createVerticalStrut(10));
-        {
-
-            //CheckBox:(fuer Auswahl Schiffsgroesse)
-            JCheckBox cb_2 = new JCheckBox("2er Schiffe");
-            cb_2.setAlignmentX(Component.CENTER_ALIGNMENT);
-            JCheckBox cb_3 = new JCheckBox("3er Schiffe");
-            cb_3.setAlignmentX(Component.CENTER_ALIGNMENT);
-            JCheckBox cb_4 = new JCheckBox("4er Schiffe");
-            cb_4.setAlignmentX(Component.CENTER_ALIGNMENT);
-            JCheckBox cb_5 = new JCheckBox("5er Schiffe");
-            cb_5.setAlignmentX(Component.CENTER_ALIGNMENT);
-            JCheckBox cb_6 = new JCheckBox("6er Schiffe");
-            cb_6.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-            //Listener fuer Checkboxen
-
+            add.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    add.setEnabled(false);
+                    placeship = true;
+                    delete.setEnabled(true);
+                    if(player.remainingShips[2] > 0){cb_2.setEnabled(true);}
+                    if(player.remainingShips[3] > 0){cb_3.setEnabled(true);}
+                    if(player.remainingShips[4] > 0){cb_4.setEnabled(true);}
+                    if(player.remainingShips[5] > 0){cb_5.setEnabled(true);}
+                    if(player.remainingShips[6] > 0){cb_6.setEnabled(true);}
+                    System.out.println("add selected");
+                }
+            });
 
             cb_2.addActionListener(new ActionListener() {
                 @Override
@@ -725,7 +802,6 @@ public final class SpielStart extends JFrame{
                     }
                 }
             });
-
 
 
             cb_3.addActionListener(new ActionListener() {
@@ -835,6 +911,7 @@ public final class SpielStart extends JFrame{
 
         JButton horizontal = new JButton("Horizontal");
         JButton vertikal = new JButton("Vertikal");
+        vertikal.setEnabled(false);
 
         vbox_4.add(Box.createVerticalStrut(10));
         {

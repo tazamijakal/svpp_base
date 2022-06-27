@@ -6,11 +6,12 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="update">
+    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="added treffer + treffer versenkt image">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/SpielStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SpielStart.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/Startbildschirm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Startbildschirm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Logik/Spieler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Spieler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Socket/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Client.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -245,7 +246,28 @@
       <option name="project" value="LOCAL" />
       <updated>1656090958314</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="update / place ships manually / (doesn't check for selected ships yet) / for 20+ ships placerandom basically never stops / changed sliders a little bit / selected Space needs to be &lt;= max space">
+      <created>1656251277497</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1656251277497</updated>
+    </task>
+    <task id="LOCAL-00016" summary="update">
+      <created>1656311439721</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1656311439721</updated>
+    </task>
+    <task id="LOCAL-00017" summary="added treffer + treffer versenkt image">
+      <created>1656311597830</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1656311597830</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -273,8 +295,10 @@
     <MESSAGE value="Square cells / frames are packed / able to start with Server and Client / able to shoot at Opponent (attackToken doesn't work though)" />
     <MESSAGE value="files moved" />
     <MESSAGE value="path updated / executable jar is working" />
+    <MESSAGE value="update / place ships manually / (doesn't check for selected ships yet) / for 20+ ships placerandom basically never stops / changed sliders a little bit / selected Space needs to be &lt;= max space" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="added treffer + treffer versenkt image" />
+    <option name="LAST_COMMIT_MESSAGE" value="added treffer + treffer versenkt image" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

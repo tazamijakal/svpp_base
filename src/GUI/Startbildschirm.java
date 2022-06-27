@@ -32,6 +32,8 @@ public final class Startbildschirm{
     public static int anzahl5 = 0;
     public static int anzahl6 = 0;
 
+    public static String ClientIP;
+
     public static boolean lok_Spsp = false;
 
     public static boolean p1 = false;
@@ -316,8 +318,10 @@ public final class Startbildschirm{
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                if(role != null && (GAME.radioButton_l || GAME.radioButton_o) && selectedSpace <= maxSpace){
+                if(selectedSpace == 0 && !(role.equals("Client"))){
+                    System.out.println("Do nothing");
+                }
+                else if(role != null && (GAME.radioButton_l || GAME.radioButton_o) && selectedSpace <= maxSpace){
                     startbildschirm.setVisible(false);
                     int hp = (GAME.spielfeldgr * GAME.spielfeldgr) / 3;
                     if(GAME.radioButton_o)
@@ -366,7 +370,7 @@ public final class Startbildschirm{
                     SwingWorker<Void, Void> sw14 = new SwingWorker<Void, Void>(){
                         @Override
                         protected Void doInBackground() throws Exception {
-                            Client client = new Client(50000, "localhost", sp2, GAME, startbildschirm);
+                            Client client = new Client(50000, ClientIP, sp2, GAME, startbildschirm);
                             sp2.clientSetter(client);
                             client.connect();
                             return null;
@@ -421,7 +425,6 @@ public final class Startbildschirm{
         //Panel/Container mit Teil der Komponenten:
         //Fuer Spielmodus, Spieler-Typ usw.
         JPanel spielAuswahl = new JPanel();
-
         //Komponenten werden vertikal angeordnet
         spielAuswahl.setLayout(new BoxLayout(spielAuswahl, BoxLayout.PAGE_AXIS));
 
@@ -429,17 +432,22 @@ public final class Startbildschirm{
         JLabel spieler = new JLabel("Spieler");
         String[] list_spieler = {"[choose]", "Client", "Server", "KI"};
         JComboBox<String> auswahl_spieler = new JComboBox<String>(list_spieler);
-
-        auswahl_spieler.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Startbildschirm.role = (String) auswahl_spieler.getSelectedItem();
-            }
-        });
+        auswahl_spieler.setEnabled(false);
 
         //Erzeugung RadioButton rb_lokal und rb_online
         JRadioButton rb_lokal = new JRadioButton("Lokales Spiel");
         JRadioButton rb_online = new JRadioButton("Online Spiel");
+        auswahl_spieler.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(auswahl_spieler.getSelectedItem().equals("Client") && rb_online.isEnabled()){
+                    ClientIP = JOptionPane.showInputDialog(startbildschirm, "SERVER IP?", null);
+                    System.out.println(ClientIP);
+                }
+                Startbildschirm.role = (String) auswahl_spieler.getSelectedItem();
+            }
+        });
+
 
         //Auswahl Spielmodus lokal
         //Erzeugung ComboBox
@@ -452,7 +460,6 @@ public final class Startbildschirm{
         JComboBox<String> auswahl_online = new JComboBox<String>(list_online);
 
 
-
         //Auswahl lokales Spiel
         //Es kann entweder ein lokales Spiel oder ein online Spiel ausgewählt werden
         if(!GAME.radioButton_o)
@@ -460,9 +467,9 @@ public final class Startbildschirm{
             rb_lokal.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
                     if (GAME.radioButton_l)
                     {
+                        auswahl_spieler.setEnabled(false);
                         //rb_lokal.getAction();
                         GAME.radioButton_l = false;
                         rb_online.setEnabled(true);
@@ -470,10 +477,10 @@ public final class Startbildschirm{
                     }
                     else
                     {
+                        auswahl_spieler.setEnabled(true);
                         GAME.radioButton_l = true;
                         rb_online.setEnabled(false);
                         auswahl_online.setEnabled(false);
-
                     }
 
                 }
@@ -495,14 +502,17 @@ public final class Startbildschirm{
             rb_online.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+
                     if (GAME.radioButton_o)
                     {
+                        auswahl_spieler.setEnabled(false);
                         GAME.radioButton_o = false;
                         rb_lokal.setEnabled(true);
                         auswahl_lokal.setEnabled(true);
                     }
                     else
                     {
+                        auswahl_spieler.setEnabled(true);
                         GAME.radioButton_o = true;
                         rb_lokal.setEnabled(false);
                         auswahl_lokal.setEnabled(false);
