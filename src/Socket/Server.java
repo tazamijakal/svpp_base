@@ -6,7 +6,10 @@ import java.io.*;
 import java.util.Enumeration;
 
 import GUI.SpielStart;
+import KI.leichte_KI_zufall;
+import KI.mittlere_KI;
 import Logik.*;
+import org.w3c.dom.Text;
 
 import javax.swing.*;
 
@@ -122,7 +125,23 @@ public class Server {
 
                 //Dummy "ready"      ============================================
                 //TextClient("ready");
-                SwingUtilities.invokeLater(() -> {GAME.Setzen(player);});
+                if(player.name.equals("Server")) {
+                    SwingUtilities.invokeLater(() -> {
+                        GAME.Setzen(player);
+                    });
+                }
+                else if(player.name.equals("KI_Server_leicht")){
+                    if(player instanceof leichte_KI_zufall){
+                        ((leichte_KI_zufall) player).KIplazieren();
+                        TextClient("ready");
+                    }
+                }
+                else if(player.name.equals("KI_Server_mittel")){
+                    if(player instanceof mittlere_KI){
+                        ((mittlere_KI) player).KIplazieren();
+                        TextClient("ready");
+                    }
+                }
                 //"ready" check von Server wird intern geschickt sobald alle Schiffe plaziert sind
                 //und "ready" on Client kommt erst nach "ready" von Server
 
@@ -141,11 +160,28 @@ public class Server {
                         System.out.println("Server Starting the GAME: ");
                         System.out.println(player.name);
                         System.out.println(player.mapSize);
-                        runGame();
+                        if(player.name.equals("Server")){
+                            runGame();
+                        }
+                        else if(player.name.equals("KI_Server_leicht") || player.name.equals("KI_Server_mittel")){
+                            runGameKI();
+                        }
                         return null;
                     }
                 };
                 sw3.execute();
+                if(player.name.equals("KI_Server_leicht")){
+                    if(player instanceof leichte_KI_zufall){
+                        String newshot = ((leichte_KI_zufall) player).KIshoot();
+                        TextClient(newshot);
+                    }
+                }
+                else if(player.name.equals("KI_Server_mittel")){
+                    if(player instanceof mittlere_KI){
+                        String newshot = ((mittlere_KI) player).KIshoot();
+                        TextClient(newshot);
+                    }
+                }
             }
         }
         catch(Exception e){
@@ -192,6 +228,7 @@ public class Server {
                                 GAME.setTable2BlackCross(player.lastShotX, player.lastShotY);
                                 System.out.println("hp2: " + player.hp2);
                                 if (player.hp2 == 0) {
+                                    JOptionPane.showMessageDialog(menu, "SPIEL GEWONNEN :D" );
                                     System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
                                     menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
                                 }
@@ -210,6 +247,9 @@ public class Server {
                             int x = parseInt(Osplit[1]);
                             int y = parseInt(Osplit[2]);
                             answer = player.shootYourself(x, y);
+                            if(answer.equals("answer 0")){
+                                GAME.setTableCellBLUE(x, y);
+                            }
                             if(answer.equals("answer 1")){
                                 GAME.setTableRedCross(x, y);
                             }
@@ -222,6 +262,7 @@ public class Server {
                         }
                         TextClient(answer);
                         if (player.hp == 0) {
+                            JOptionPane.showMessageDialog(menu, "SPIEL VERLOREN :(" );
                             System.out.println("SPIEL VERLOREN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                             menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
                             //Spiel beenden
@@ -237,8 +278,118 @@ public class Server {
             }
             catch (Exception e){}
         }
-
     }
+
+    public void runGameKI(){
+        //Ping-Pong Prinzip warten auf Befehle
+        while(true) {
+            try {
+                String order = in.readLine();
+                System.out.println("Opponent: " + order);
+                String[] Osplit = order.split(" ");
+                player.attackToken = false;
+                switch (Osplit[0]) {
+                    case "answer":  //Antwort fuer Schuss aufs Gegnerische Feld
+                        switch (Osplit[1]) {
+                            case "0":
+                                player.answerReader(player.lastShotX, player.lastShotY, "answer 0");
+                                GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
+                                TextClient("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
+                                System.out.println("pass to Opponent");
+                                break;
+                            case "1":
+                                //Getroffen (nicht versenkt) Server ist wieder am Zug =================================================================
+                                //GUI wieder freischalten oder boolean in Spieler Objekt??!
+                                //player.hp2 = player.hp2 - 1;
+                                player.answerReader(player.lastShotX, player.lastShotY, "answer 1");
+                                GAME.setTable2RedCross(player.lastShotX, player.lastShotY);
+                                System.out.println("hp2: " + player.hp2);
+                                //player.attackToken = true;
+                                if(player instanceof leichte_KI_zufall){
+                                    String newshot = ((leichte_KI_zufall) player).KIshoot();
+                                    TextClient(newshot);
+                                }
+                                else if(player instanceof mittlere_KI){
+                                    String newshot = ((mittlere_KI) player).KIshoot();
+                                    TextClient(newshot);
+                                }
+                                break;
+                            case "2":
+                                //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
+                                player.hp2 = player.hp2 - 1;
+                                player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
+                                GAME.setTable2BlackCross(player.lastShotX, player.lastShotY);
+                                System.out.println("hp2: " + player.hp2);
+                                if (player.hp2 == 0) {
+                                    JOptionPane.showMessageDialog(menu, "SPIEL GEWONNEN :D" );
+                                    System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
+                                    menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
+                                }
+                                //player.attackToken = true;
+                                if(player instanceof leichte_KI_zufall){
+                                    String newshot = ((leichte_KI_zufall) player).KIshoot();
+                                    TextClient(newshot);
+                                }
+                                else if(player instanceof mittlere_KI){
+                                    String newshot = ((mittlere_KI) player).KIshoot();
+                                    TextClient(newshot);
+                                }
+                                break;
+                        }
+                        break;
+                    case "pass":    //Server wieder am Zug nachdem Client Wasser getroffen hat
+                        //Server/Logik.Spieler ist wieder am Zug <= muss noch nachgetragen werden =======================================================================
+                        //Dummy zum testen
+                        //TextClient("pass");
+                        //player.attackToken = true;
+                        if(player instanceof leichte_KI_zufall){
+                            String newshot = ((leichte_KI_zufall) player).KIshoot();
+                            TextClient(newshot);
+                        }
+                        else if(player instanceof mittlere_KI){
+                            String newshot = ((mittlere_KI) player).KIshoot();
+                            TextClient(newshot);
+                        }
+                        break;
+                    case "shot":    //Opponent hat aufs eigene Spielfeld geschossen
+                        String answer = "";
+                        try {
+                            int x = parseInt(Osplit[1]);
+                            int y = parseInt(Osplit[2]);
+                            answer = player.shootYourself(x, y);
+                            if(answer.equals("answer 0")){
+                                GAME.setTableCellBLUE(x, y);
+                            }
+                            if(answer.equals("answer 1")){
+                                GAME.setTableRedCross(x, y);
+                            }
+                            if(answer.equals("answer 2")){
+                                player.hp = player.hp - 1;
+                                GAME.setTableBlackCross(x, y);
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Array out of bounds");
+                        }
+                        TextClient(answer);
+                        if (player.hp == 0) {
+                            JOptionPane.showMessageDialog(menu, "SPIEL VERLOREN :(" );
+                            System.out.println("SPIEL VERLOREN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
+                            //Spiel beenden
+                        }
+                        break;
+                    case "save":
+                        player.attackToken = false;
+                        //Spiel speichern mit Osplit[1] => Client war am Zug ==========================================================================
+                        break;
+                }
+                //TextClient("okay :) Server");
+
+            }
+            catch (Exception e){}
+        }
+    }
+
 
     public static void TextClient(String text){
         try{

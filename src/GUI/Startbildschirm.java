@@ -1,5 +1,6 @@
 package GUI;
 
+import KI.*;
 import Logik.Spieler;
 import Logik.Game;
 import Logik.Game2KI;
@@ -318,18 +319,19 @@ public final class Startbildschirm{
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(selectedSpace == 0 && !(role.equals("Client"))){
+                if(selectedSpace == 0 && !((role.equals("Client")) || role.equals("KI_Client_leicht") || role.equals("KI_Client_mittel"))){
                     System.out.println("Do nothing");
                 }
                 else if(role != null && (GAME.radioButton_l || GAME.radioButton_o) && selectedSpace <= maxSpace){
                     startbildschirm.setVisible(false);
-                    int hp = (GAME.spielfeldgr * GAME.spielfeldgr) / 3;
+                    //int hp = (GAME.spielfeldgr * GAME.spielfeldgr) / 3;
                     if(GAME.radioButton_o)
                     {
+                        int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
+                        int hp = 2*anzahl2 + 3*anzahl3 + 4*anzahl4 + 5*anzahl5 + 6*anzahl6;
                         if(role.equals("Server")){
                             //Anzahl Schiffe
                             //int[] ships = {0, 0, 2, 2, 0, 0};
-                            int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
                             Spieler player = new Spieler("Server", GAME.spielfeldgr, hp, ships);
                             Server server = new Server(50000, 0, player, GAME, startbildschirm);
                             player.serverSetter(server);
@@ -340,6 +342,30 @@ public final class Startbildschirm{
                             Client client = new Client(50000, "localhost", player, GAME, startbildschirm);
                             player.clientSetter(client);
                             SwingUtilities.invokeLater(() -> {client.connect();});
+                        }
+                        if(role.equals("KI_Server_leicht")){
+                            leichte_KI_zufall ki = new leichte_KI_zufall("KI_Server_leicht", GAME.spielfeldgr, hp, ships);
+                            Server kiserver = new Server(50000, 0, ki, GAME, startbildschirm);
+                            ki.serverSetter(kiserver);
+                            SwingUtilities.invokeLater(() -> {kiserver.connect();});
+                        }
+                        if(role.equals("KI_Server_mittel")){
+                            mittlere_KI ki = new mittlere_KI("KI_Server_mittel", GAME.spielfeldgr, hp, ships);
+                            Server kiserver = new Server(50000, 0, ki, GAME, startbildschirm);
+                            ki.serverSetter(kiserver);
+                            SwingUtilities.invokeLater(() -> {kiserver.connect();});
+                        }
+                        if(role.equals("KI_Client_leicht")){
+                            leichte_KI_zufall ki = new leichte_KI_zufall("KI_Client_leicht", GAME.spielfeldgr, hp, ships);
+                            Client kiclient = new Client(50000, ClientIP, ki, GAME, startbildschirm);
+                            ki.clientSetter(kiclient);
+                            SwingUtilities.invokeLater(() -> {kiclient.connect();});
+                        }
+                        if(role.equals("KI_Client_mittle")){
+                            mittlere_KI ki = new mittlere_KI("KI_Client_leicht", GAME.spielfeldgr, hp, ships);
+                            Client kiclient = new Client(50000, ClientIP, ki, GAME, startbildschirm);
+                            ki.clientSetter(kiclient);
+                            SwingUtilities.invokeLater(() -> {kiclient.connect();});
                         }
                     }
 
@@ -430,7 +456,7 @@ public final class Startbildschirm{
 
         //Auswahl Spieler-Typ
         JLabel spieler = new JLabel("Spieler");
-        String[] list_spieler = {"[choose]", "Client", "Server", "KI"};
+        String[] list_spieler = {"[choose]", "Client", "Server", "KI_Client_leicht", "KI_Client_mittel", "KI_Server_leicht", "KI_Server_mittel"};
         JComboBox<String> auswahl_spieler = new JComboBox<String>(list_spieler);
         auswahl_spieler.setEnabled(false);
 
@@ -440,7 +466,7 @@ public final class Startbildschirm{
         auswahl_spieler.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(auswahl_spieler.getSelectedItem().equals("Client") && rb_online.isEnabled()){
+                if((auswahl_spieler.getSelectedItem().equals("Client") || auswahl_spieler.getSelectedItem().equals("KI_Client_leicht") || auswahl_spieler.getSelectedItem().equals("KI_Client_mittel")) && rb_online.isEnabled()){
                     ClientIP = JOptionPane.showInputDialog(startbildschirm, "SERVER IP?", null);
                     System.out.println(ClientIP);
                 }

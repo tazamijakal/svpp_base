@@ -7,7 +7,11 @@ import java.awt.event.WindowEvent;
 import java.net.*;
 import java.io.*;
 import static java.lang.Integer.parseInt;
+
+import KI.leichte_KI_zufall;
+import KI.mittlere_KI;
 import Logik.*;
+import org.w3c.dom.Text;
 
 import javax.swing.*;
 
@@ -103,8 +107,23 @@ public class Client {
                 TextServer("done");
             }
 
-            SwingUtilities.invokeLater(() -> {GAME.Setzen(player);});
-            //Schiffe auf Spielfeld plazieren <= muss noch nachgetragen werden ==========================================================================================
+            if(player.name.equals("Client")) {
+                SwingUtilities.invokeLater(() -> {
+                    GAME.Setzen(player);
+                });
+            }
+            else if(player.name.equals("KI_Client_leicht")){
+                if(player instanceof leichte_KI_zufall){
+                    ((leichte_KI_zufall) player).KIplazieren();
+                    TextServer("ready");
+                }
+            }
+            else if(player.name.equals("KI_Client_mittel")){
+                if(player instanceof mittlere_KI){
+                    ((mittlere_KI) player).KIplazieren();
+                    TextServer("ready");
+                }
+            }
             // Wenn boolean load == false => neues Spiel erstellen
 
 
@@ -124,12 +143,17 @@ public class Client {
                     System.out.println("Opponent: " + third);
                     //Warten bis Client auch "ready"
                     TextServer("ready");
-                }
+                    }
 
                     System.out.println("Client Starting the GAME: ");
                     System.out.println(player.name);
                     System.out.println(player.mapSize);
-                    runGame();
+                    if(player.name.equals("Client")){
+                        runGame();
+                    }
+                    else if(player.name.equals("KI_Client_leicht") || player.name.equals("KI_Client_mittel")){
+                        runGameKI();
+                    }
                     return null;
                 }
             };
@@ -145,6 +169,119 @@ public class Client {
 
     }
 
+    public void runGameKI(){                  //Eigene Methode fuer SwingWorker
+        System.out.println(player.hp + "   " + player.hp2);
+        try {
+            //Ping-Pong Prinzip warten auf Befehle
+            while (true) {
+                int count = 0;
+                System.out.println(count++);
+                String order = in.readLine();
+                System.out.println("Opponent: " + order);
+                String[] Osplit = order.split(" ");
+                switch (Osplit[0]) {
+                    case "answer":  //Antwort fuer Schuss aufs Gegnerische Feld
+                        switch (Osplit[1]) {
+                            case "0":
+                                System.out.println("in answer 0");
+                                player.answerReader(player.lastShotX, player.lastShotY, "answer 0");
+                                player.attackToken = false;
+                                //GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
+                                TextServer("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
+                                System.out.println("pass to Opponent");
+                                break;
+                            case "1":
+                                //Getroffen (nicht versenkt) Client ist wieder am Zug =================================================================
+                                //GUI wieder freischalten oder boolean in Spieler Objekt??!
+                                player.answerReader(player.lastShotX, player.lastShotY, "answer 1");
+                                //GAME.setTable2RedCross(player.lastShotX, player.lastShotY);
+                                player.attackToken = true;
+                                if(player instanceof leichte_KI_zufall){
+                                    String newshot = ((leichte_KI_zufall) player).KIshoot();
+                                    TextServer(newshot);
+                                }
+                                else if(player instanceof mittlere_KI){
+                                    String newshot = ((mittlere_KI) player).KIshoot();
+                                    TextServer(newshot);
+                                }
+
+                                break;
+                            case "2":
+                                //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
+                                player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
+                                player.hp2 = player.hp2 - 1;
+                                //GAME.setTable2BlackCross(player.lastShotX, player.lastShotY);
+                                player.attackToken = true;
+                                if (player.hp2 == 0) {
+                                    JOptionPane.showMessageDialog(menu, "SPIEL GEWONNEN :D" );
+                                    System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
+                                    menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
+                                }
+                                if(player instanceof leichte_KI_zufall){
+                                    String newshot = ((leichte_KI_zufall) player).KIshoot();
+                                    TextServer(newshot);
+                                }
+                                else if(player instanceof mittlere_KI){
+                                    String newshot = ((mittlere_KI) player).KIshoot();
+                                    TextServer(newshot);
+                                }
+                                break;
+                        }
+                        break;
+                    case "pass":    //Client wieder am Zug nachdem Server Wasser getroffen hat
+                        //Client/Logik.Spieler ist wieder am Zug <= muss noch nachgetragen werden =======================================================================
+                        //TextServer("pass");   //=======Dummy zum ausprobieren
+                        System.out.println("KI-pass taking new shot");
+                        player.attackToken = true;
+                        if(player instanceof leichte_KI_zufall){
+                            String newshot = ((leichte_KI_zufall) player).KIshoot();
+                            TextServer(newshot);
+                        }
+                        else if(player instanceof mittlere_KI){
+                            String newshot = ((mittlere_KI) player).KIshoot();
+                            TextServer(newshot);
+                        }
+                        System.out.println("shot was taken");
+                        break;
+                    case "shot":  //Opponent hat aufs eigene Spielfeld geschossen
+                        //Ueberpruefen ob Opponent getroffen hat und dann richtiges "answer" zurueckschicken
+                        String answer = "";
+                        try {
+                            int x = parseInt(Osplit[1]);
+                            int y = parseInt(Osplit[2]);
+                            answer = player.shootYourself(x, y);
+                            if(answer.equals("answer 0")){
+                                GAME.setTableCellBLUE(x,y);
+                            }
+                            if(answer.equals("answer 1")){
+                                //GAME.setTableRedCross(x, y);
+                            }
+                            if(answer.equals("answer 2")){
+                                player.hp = player.hp - 1;
+                                //GAME.setTableBlackCross(x, y);
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Array out of bounds");
+                        }
+                        TextServer(answer);
+                        if (player.hp == 0) {     //Spiel zu ende?
+                            JOptionPane.showMessageDialog(menu, "SPIEL VERLOREN :(" );
+                            System.out.println("SPIEL VERLOREN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
+                            //Spiel beenden   ===========================================================================
+                        }
+                        break;
+                    case "save":
+                        player.attackToken = false;
+                        //Spiel speichern mit Osplit[1] => Server war am Zug ==========================================================================
+                        break;
+                }
+                //TextServer("okay :) Client");
+            }
+        }
+        catch (Exception e){}
+    }
+
     public void runGame(){                  //Eigene Methode fuer SwingWorker
         System.out.println(player.hp + "   " + player.hp2);
         try {
@@ -153,7 +290,6 @@ public class Client {
                 String order = in.readLine();
                 System.out.println("Opponent: " + order);
                 String[] Osplit = order.split(" ");
-
                 switch (Osplit[0]) {
                     case "answer":  //Antwort fuer Schuss aufs Gegnerische Feld
                         switch (Osplit[1]) {
@@ -169,15 +305,16 @@ public class Client {
                                 //GUI wieder freischalten oder boolean in Spieler Objekt??!
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 1");
                                 player.attackToken = true;
-                                GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
+                                GAME.setTable2RedCross(player.lastShotX, player.lastShotY);
                                 break;
                             case "2":
                                 //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
                                 player.hp2 = player.hp2 - 1;
                                 player.attackToken = true;
-                                GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
+                                GAME.setTable2BlackCross(player.lastShotX, player.lastShotY);
                                 if (player.hp2 == 0) {
+                                    JOptionPane.showMessageDialog(menu, "SPIEL GEWONNEN :D" );
                                     System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
                                     menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
                                 }
@@ -196,6 +333,9 @@ public class Client {
                             int x = parseInt(Osplit[1]);
                             int y = parseInt(Osplit[2]);
                             answer = player.shootYourself(x, y);
+                            if(answer.equals("answer 0")){
+                                GAME.setTableCellBLUE(x,y);
+                            }
                             if(answer.equals("answer 1")){
                                 GAME.setTableRedCross(x, y);
                             }
@@ -208,6 +348,7 @@ public class Client {
                         }
                         TextServer(answer);
                         if (player.hp == 0) {     //Spiel zu ende?
+                            JOptionPane.showMessageDialog(menu, "SPIEL VERLOREN :(" );
                             System.out.println("SPIEL VERLOREN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                             menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
                             //Spiel beenden   ===========================================================================

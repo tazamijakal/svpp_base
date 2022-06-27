@@ -46,6 +46,7 @@ public class leichte_KI_zufall extends KI {
 
     @Override
     public String KIshoot() {
+        System.out.println("new shot");
         fieldposition rdmZielpos = RdmZielpos();
         if (visibleBoard[rdmZielpos.x][rdmZielpos.y] instanceof TrefferObject || visibleBoard[rdmZielpos.x][rdmZielpos.y] instanceof MisfireObject) {
             System.out.println("konnte nicht schießen");

@@ -62,6 +62,9 @@ public final class SpielStart extends JFrame{
     public void setTable2CellBLUE(int x, int y){
         table2.setValueAt(new ImageIcon(getClass().getResource("blue.png")), x, y);
     }
+    public void setTableCellBLUE(int x, int y){
+        table.setValueAt(new ImageIcon(getClass().getResource("blue.png")), x, y);
+    }
     public void setTable2RedCross(int x, int y){
         table2.setValueAt(new ImageIcon(getClass().getResource("redcross.png")), x, y);
     }

@@ -56,7 +56,7 @@ public class mittlere_KI extends KI {
     }
 
     public static void main(String[] args) throws Exception {
-        KI mittlere_KI = new mittlere_KI("middle", 5, 15, new int[]{0,0,1,1,1});
+        KI mittlere_KI = new mittlere_KI("middle", 5, 15, new int[]{0,0,1,1,1,0,0});
         mittlere_KI.KIplazieren();
         mittlere_KI.KIshoot();
         Hilffunktion.printField(mittlere_KI.mapSize,mittlere_KI.board);
