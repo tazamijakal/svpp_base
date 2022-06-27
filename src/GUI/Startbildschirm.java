@@ -109,7 +109,19 @@ public final class Startbildschirm{
         JLabel maxship = new JLabel("Maximum Space: 0");
         JLabel currentship = new JLabel("Selected Space: 0");
 
-        JSlider slider2 = new JSlider();
+        //Wie viele Schiffe man von welcher Groesse benutzen darf!
+        //Felder die bei Anzahl bestimmter Schiffsart gebraucht werden
+        //Schiffe haben untereinander 1 Feld breiten Rand!
+        //wird bearbeitet:
+        int ship_2 = anzahl2*2;
+        int ship_3 = anzahl3*3;
+        int ship_4 = anzahl4*4;
+        int ship_5 = anzahl5*5;
+        int ship_6 = anzahl6*6;
+
+        //int grenze_ships = ((GAME.spielfeldgr* GAME.spielfeldgr) );
+
+        JSlider slider2 = new JSlider(0, 30);
         JLabel label_slider2 = new JLabel();
         slider2.setValue(0);
         label_slider2.setText(Integer.toString(slider2.getValue()));
