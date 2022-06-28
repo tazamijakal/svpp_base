@@ -1,9 +1,11 @@
 package Logik;
 
+import java.io.Serializable;
+
 /**
  * Die Klasse Logik.Ship beinhaltet den Konstruktor für die Schiffe und eine Funktion um dem Schiff seine einzelnen Koordinaten zuzuweisen.
  */
-public class Ship {
+public class Ship implements Serializable {
     public int length;
     public boolean initialD;
     public int initialX, initialY;       //Zwischenspeicher

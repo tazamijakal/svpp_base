@@ -2,17 +2,35 @@ package ladenspeichern;
 
 import Logik.*;
 import KI.*;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.*;
+import java.io.*;
+import java.util.concurrent.atomic.AtomicReference;
 
-public class AllWeNeed {
+public class AllWeNeed implements Serializable {
     public final boolean amZug;
     public final Spieler player;
-    public final KI bot;
-    public final int ID;
+    public final Spieler player2; //eventuell KI
+    public final String ID;
+    public final JTable table;
+    public final JTable table2;
+    public final String name;
+    private static AtomicReference<Long> currentTime = new AtomicReference<>(System.currentTimeMillis());
 
-    public AllWeNeed(boolean amZug, Spieler player,KI bot,int id){
+    public AllWeNeed(boolean amZug, Spieler player, Spieler player2, JTable table, JTable table2, String name){
         this.amZug = amZug;
         this.player = player;
-        this.bot = bot;
-        this.ID = id;
+        this.player2 = player2;
+        this.table = table;
+        this.table2 = table2;
+        this.ID = nextId() + "";
+        this.name = name;
+    }
+
+    public static Long nextId() {
+        return currentTime.accumulateAndGet(System.currentTimeMillis(),
+                (prev, next) -> next > prev ? next : prev + 1);
     }
 }
+

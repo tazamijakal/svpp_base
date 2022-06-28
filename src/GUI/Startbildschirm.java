@@ -7,6 +7,8 @@ import Logik.Game2KI;
 
 import Socket.Client;
 import Socket.Server;
+import ladenspeichern.AllWeNeed;
+import ladenspeichern.Laden;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -16,6 +18,7 @@ import javax.swing.text.Utilities;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  *
@@ -345,7 +348,7 @@ public final class Startbildschirm{
                             //Anzahl Schiffe
                             //int[] ships = {0, 0, 2, 2, 0, 0};
                             Spieler player = new Spieler("Server", GAME.spielfeldgr, hp, ships);
-                            Server server = new Server(50000, 0, player, GAME, startbildschirm);
+                            Server server = new Server(50000, 0 + "", player, GAME, startbildschirm);
                             player.serverSetter(server);
                             SwingUtilities.invokeLater(() -> {server.connect();});
                         }
@@ -357,13 +360,13 @@ public final class Startbildschirm{
                         }
                         if(role.equals("KI_Server_leicht")){
                             leichte_KI_zufall ki = new leichte_KI_zufall("KI_Server_leicht", GAME.spielfeldgr, hp, ships);
-                            Server kiserver = new Server(50000, 0, ki, GAME, startbildschirm);
+                            Server kiserver = new Server(50000, 0 + "", ki, GAME, startbildschirm);
                             ki.serverSetter(kiserver);
                             SwingUtilities.invokeLater(() -> {kiserver.connect();});
                         }
                         if(role.equals("KI_Server_mittel")){
                             mittlere_KI ki = new mittlere_KI("KI_Server_mittel", GAME.spielfeldgr, hp, ships);
-                            Server kiserver = new Server(50000, 0, ki, GAME, startbildschirm);
+                            Server kiserver = new Server(50000, 0 + "", ki, GAME, startbildschirm);
                             ki.serverSetter(kiserver);
                             SwingUtilities.invokeLater(() -> {kiserver.connect();});
                         }
@@ -397,7 +400,7 @@ public final class Startbildschirm{
                     SwingWorker<Void, Void> sw13 = new SwingWorker<Void, Void>(){
                         @Override
                         protected Void doInBackground() throws Exception {
-                            Server server = new Server(50000, 0, sp1, GAME, startbildschirm);
+                            Server server = new Server(50000, 0 + "", sp1, GAME, startbildschirm);
                             sp1.serverSetter(server);
                             server.connect();
                             return null;
@@ -447,6 +450,28 @@ public final class Startbildschirm{
         laden.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                AllWeNeed loadfile = null;
+                try {
+                    loadfile = Laden.load();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+                try{
+                    startbildschirm.setVisible(false);
+                    if(loadfile.player.name.equals("Client") || loadfile.player.name.equals("Server")){
+                        loadfile.player.name = "Server";
+                        loadfile.player.client = null;
+                        Server server = new Server(50000, loadfile.ID + "", loadfile.player, GAME, startbildschirm);
+                        server.loadtoken = loadfile.player.attackToken;
+                        loadfile.player.serverSetter(server);
+                        SwingUtilities.invokeLater(() -> {server.connect();});
+                    }
+                }
+                catch(Exception exc){
+                    exc.printStackTrace();
+                }
 
             }
         });

@@ -3,6 +3,8 @@ package Logik;
 
 import KI.KI;
 import Socket.*;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -17,12 +19,12 @@ import static KI.KI.randInt;
  */
 
 
-public class Spieler {
+public class Spieler implements Serializable {
     public String Vergleich2;
     public boolean attackToken;
     public int lastShotX;
     public int lastShotY;
-    public final String name;       //damit wird der Spieler angesprochen
+    public String name;       //damit wird der Spieler angesprochen
     public Server server;
     public Client client;
     public int x, y;
@@ -39,7 +41,9 @@ public class Spieler {
     public int[][] hitMap;                //Zwischenspeicher für die einzelnen Koordinaten aus denen Schiff besteht
     public int[] remainingShips = {0,0,0,0,0,0,0};
     public ArrayList<Ship> shipList = new ArrayList<>();        //Liste mit all den Schiffen eines Spielers
-    Scanner userinput = new Scanner(System.in); //wird für Userinput benötigt
+    transient Scanner userinput = new Scanner(System.in); //wird für Userinput benötigt
+
+    public boolean load = false;
 
     /**
      *
@@ -106,14 +110,14 @@ public class Spieler {
      *
      * Ersetzt bei Treffer Schiffsobjekt auf dem Spielfeld.
      */
-    public static class TrefferObject{ public TrefferObject(){}}
+    public static class TrefferObject implements Serializable{ public TrefferObject(){}}
     TrefferObject trefferObject = new TrefferObject();
 
     /**
      *
      * Ersetzt "Wasser"-Felder(null-Onjekte) wenn man nichts trifft.
      */
-    public static class MisfireObject{ public MisfireObject(){}}
+    public static class MisfireObject implements Serializable{ public MisfireObject(){}}
     MisfireObject misfireObject = new MisfireObject();
 
     /**

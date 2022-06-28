@@ -11,17 +11,20 @@ import static java.lang.Integer.parseInt;
 import KI.leichte_KI_zufall;
 import KI.mittlere_KI;
 import Logik.*;
+import ladenspeichern.AllWeNeed;
+import ladenspeichern.Laden;
+import ladenspeichern.Speichern;
 import org.w3c.dom.Text;
 
 import javax.swing.*;
 
 
-public class Client {
+public class Client implements Serializable{
 
     public final String ip;
     public final int port;
     public int status;
-    public BufferedReader in;
+    public transient BufferedReader in;
     public static Writer out;
     public int size;
     boolean load = false;
@@ -29,7 +32,6 @@ public class Client {
     //public Spieler player2;     //Opponent
     public JFrame menu;
     public SpielStart GAME;
-
 
     /**
      *
@@ -72,8 +74,8 @@ public class Client {
             // Ein- und Ausgabestrom des Sockets ermitteln
             // und als BufferedReader bzw. Writer verpacken
             // (damit man zeilen- bzw. zeichenweise statt byteweise arbeiten kann).
-            this.in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            this.out = new OutputStreamWriter(s.getOutputStream());
+            in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            out = new OutputStreamWriter(s.getOutputStream());
 
             //Kommunikationsprotokoll
 
@@ -86,6 +88,27 @@ public class Client {
             String[] fsplit = first.split(" ");
             if(fsplit[0].equals("load")){
                 this.load = true;
+                AllWeNeed loadfile = null;
+                try {
+                    loadfile = Laden.load();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+                try{
+                    if(loadfile.player.name.equals("Client") || loadfile.player.name.equals("Server")){
+                        loadfile.player.name = "Client";
+                        loadfile.player.client = this;
+                        this.player = loadfile.player;
+                        this.size = player.mapSize;
+                        this.load = true;
+                        GAME.SpielStarten(player, loadfile);
+                    }
+                }
+                catch(Exception exc){
+                    exc.printStackTrace();
+                }
                 //Spiel laden mit fsplit[1] als ID <= muss noch nachgetragen werden ============================================================================
             }
             else{   //Wir nehmen an Server sendet korrekte Strings
@@ -121,18 +144,18 @@ public class Client {
                 TextServer("done");
             }
 
-            if(player.name.equals("Client")) {
+            if(player.name.equals("Client") && load == false) {
                 SwingUtilities.invokeLater(() -> {
                     GAME.Setzen(player);
                 });
             }
-            else if(player.name.equals("KI_Client_leicht")){
+            else if(player.name.equals("KI_Client_leicht") && load == false){
                 if(player instanceof leichte_KI_zufall){
                     ((leichte_KI_zufall) player).KIplazieren();
                     TextServer("ready");
                 }
             }
-            else if(player.name.equals("KI_Client_mittel")){
+            else if(player.name.equals("KI_Client_mittel") && load == false){
                 if(player instanceof mittlere_KI){
                     ((mittlere_KI) player).KIplazieren();
                     TextServer("ready");
@@ -143,7 +166,6 @@ public class Client {
             SwingWorker<Void, Void> sw1 = new SwingWorker<Void, Void>() {
                 @Override
                 protected Void doInBackground() throws Exception {
-                    if(load == false){
                     String third = in.readLine();
                     if(third.equals("ready")){      //Server schickt zuerst "ready"
                         status = 1;
@@ -151,7 +173,7 @@ public class Client {
                     System.out.println("Opponent: " + third);
                     //Warten bis Client auch "ready"
                     TextServer("ready");
-                    }
+
 
                     System.out.println("Client Starting the GAME: ");
                     System.out.println(player.name);
@@ -256,6 +278,16 @@ public class Client {
                         break;
                     case "save":
                         player.attackToken = false;
+                        player.load = false;
+                        System.out.println(Osplit[1]);
+                        String filename = Osplit[1];
+                        AllWeNeed newsave = new AllWeNeed(true, player,null, GAME.getTable(), GAME.getTable2(), filename);              //Speichern fuer Online versus
+                        //Long newid = newsave.nextId();
+                        try {
+                            Speichern.save(newsave, filename);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                         //Spiel speichern mit Osplit[1] => Server war am Zug ==========================================================================
                         break;
                 }

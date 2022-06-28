@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 
-public class laden {
+public class Laden implements Serializable{
     public static AllWeNeed load() throws IOException, ClassNotFoundException {
         //JFileChooser-Objekt erstellen
         JFileChooser chooser = new JFileChooser();
@@ -12,6 +12,7 @@ public class laden {
         //Filter fuer Text Dateien
         FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "*.txt", "txt", "text");
         chooser.setFileFilter(filter);
+        chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
 
         //Dialog zum Oeffnen von Dateien anzeigen
         int click = chooser.showOpenDialog(null);   //Open fuer oeffnen / Save fuer speichern

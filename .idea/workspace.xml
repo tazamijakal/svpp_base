@@ -7,10 +7,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="update">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_05_2022_13_21__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_05_2022_13_21__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/SpielStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SpielStart.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/Startbildschirm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Startbildschirm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logik/Ship.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Ship.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logik/Spieler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Spieler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Socket/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Socket/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/AllWeNeed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/AllWeNeed.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/laden.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/Laden.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/speichern.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/Speichern.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +57,7 @@
   "keyToString": {
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Jeek/IdeaProjects/svpp_base",
+    "last_opened_file_path": "C:/Users/Jeek/IdeaProjects/ProgPraktikum",
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -282,7 +288,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656340263512</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="update">
+      <created>1656351527330</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1656351527330</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

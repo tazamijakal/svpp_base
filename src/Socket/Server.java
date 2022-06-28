@@ -9,6 +9,8 @@ import GUI.SpielStart;
 import KI.leichte_KI_zufall;
 import KI.mittlere_KI;
 import Logik.*;
+import ladenspeichern.AllWeNeed;
+import ladenspeichern.Speichern;
 import org.w3c.dom.Text;
 
 import javax.swing.*;
@@ -16,19 +18,21 @@ import javax.swing.*;
 import static java.lang.Integer.parseInt;
 
 
-public class Server {
+public class Server implements Serializable{
     // Verwendete Portnummer
     public final int port;
     public int status;
     public boolean amZug;
-    public final int ID;            //Wenn ID == 0 <= neues Spiel
-    BufferedReader in;
+    public final String ID;            //Wenn ID == 0 <= neues Spiel
+    public transient BufferedReader in;
     static Writer out;
     public Spieler player;  //This is me
     //public Spieler player2; //Opponent oder schon in player?
 
     public JFrame menu;
     public SpielStart GAME;
+    public AllWeNeed toloadthegame;
+    public boolean loadtoken = false;
 
     /**
      *
@@ -40,7 +44,7 @@ public class Server {
      * @param GAME SpielStart Objekt fuer Zugriff auf tables um Images setzen zu koennen
      * @param menu JFrame um Spiel abzubrechen und fuer PopUp Nachrichten
      */
-    public Server(int port, int id, Spieler player, SpielStart GAME,  JFrame menu){
+    public Server(int port, String id, Spieler player, SpielStart GAME, JFrame menu){
         this.port = port;
         this.ID = id;
         this.status = 0;
@@ -55,7 +59,7 @@ public class Server {
      * Methode um Server Socket zu oeffnen, damit ein Client sich mit noetigen Parametern verbinden kann sowie Kommunikationsprotokoll
      *
      */
-    public void connect(){
+    public void connect() {
         if(player.attackToken == false){
             player.attackToken = true;
         }
@@ -112,8 +116,10 @@ public class Server {
             out = new OutputStreamWriter(s.getOutputStream());
 
             //Kommunikationsprotokoll
-            if(this.ID != 0){
+            if(!(this.ID.equals(0+""))){
                 TextClient("load " + this.ID);
+                GAME.SpielStarten(player, toloadthegame);
+                TextClient("ready");
             }
             else{
                 TextClient("size " + this.player.mapSize);
@@ -157,44 +163,6 @@ public class Server {
                 }
                 //"ready" check von Server wird intern geschickt sobald alle Schiffe plaziert sind
                 //und "ready" on Client kommt erst nach "ready" von Server
-
-                SwingWorker<Void, Void> sw3 = new SwingWorker<Void, Void>(){
-                    @Override
-                    protected Void doInBackground() throws Exception {
-                        String ready = in.readLine();
-                        if(ready.equals("ready")){
-                            status = 1;
-                            System.out.println("Opponent: " + ready);
-                        }
-
-                        //Spiel starten
-                        //Wenn Client am Zug war (load) pass texten
-                        //TextClient("pass");
-                        System.out.println("Server Starting the GAME: ");
-                        System.out.println(player.name);
-                        System.out.println(player.mapSize);
-                        if(player.name.equals("Server")){
-                            runGame();
-                        }
-                        else if(player.name.equals("KI_Server_leicht") || player.name.equals("KI_Server_mittel")){
-                            runGameKI();
-                        }
-                        return null;
-                    }
-                };
-                sw3.execute();
-                if(player.name.equals("KI_Server_leicht")){
-                    if(player instanceof leichte_KI_zufall){
-                        String newshot = ((leichte_KI_zufall) player).KIshoot();
-                        TextClient(newshot);
-                    }
-                }
-                else if(player.name.equals("KI_Server_mittel")){
-                    if(player instanceof mittlere_KI){
-                        String newshot = ((mittlere_KI) player).KIshoot();
-                        TextClient(newshot);
-                    }
-                }
             }
         }
         catch(Exception e){
@@ -202,7 +170,46 @@ public class Server {
             e.printStackTrace();
             menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
         }
-        
+        SwingWorker<Void, Void> sw3 = new SwingWorker<Void, Void>(){
+            @Override
+            protected Void doInBackground() throws Exception {
+                String ready = in.readLine();
+                if(ready.equals("ready")){
+                    status = 1;
+                    System.out.println("Opponent: " + ready);
+                }
+
+                System.out.println("Server Starting the GAME: ");
+                System.out.println(player.name);
+                System.out.println(player.mapSize);
+                if(player.name.equals("Server")){
+                    runGame();
+                }
+                else if(player.name.equals("KI_Server_leicht") || player.name.equals("KI_Server_mittel")){
+                    runGameKI();
+                }
+                return null;
+            }
+        };
+        sw3.execute();
+
+        if(player.name.equals("KI_Server_leicht")){
+            if(player instanceof leichte_KI_zufall){
+                String newshot = ((leichte_KI_zufall) player).KIshoot();
+                TextClient(newshot);
+            }
+        }
+        else if(player.name.equals("KI_Server_mittel")){
+            if(player instanceof mittlere_KI){
+                try{
+                    String newshot = ((mittlere_KI) player).KIshoot();
+                    TextClient(newshot);
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     /**
@@ -212,6 +219,11 @@ public class Server {
      */
     public void runGame(){                              //Eigene Methode fuer SwingWorker
         System.out.println(player.hp + "   " + player.hp2);
+        if(loadtoken == false && toloadthegame != null){
+            player.attackToken = false;
+            System.out.println("Spiel wurde geladen aber nicht am Zug!!");
+            TextClient("pass");
+        }
         //Ping-Pong Prinzip warten auf Befehle
         while(true) {
             try {
@@ -288,6 +300,14 @@ public class Server {
                         break;
                     case "save":
                         player.attackToken = false;
+                        String filename = Osplit[1];
+                        AllWeNeed newsave = new AllWeNeed(true, player,null, GAME.getTable(), GAME.getTable2(), filename);              //Speichern fuer Online versus
+                        //Long newid = newsave.nextId();
+                        try {
+                            Speichern.save(newsave, filename);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                         //Spiel speichern mit Osplit[1] => Client war am Zug ==========================================================================
                         break;
                 }
@@ -304,6 +324,11 @@ public class Server {
      *
      */
     public void runGameKI(){
+        if(loadtoken == false && toloadthegame != null){
+            player.attackToken = false;
+            System.out.println("Spiel wurde geladen aber nicht am Zug!!");
+            TextClient("pass");
+        }
         //Ping-Pong Prinzip warten auf Befehle
         while(true) {
             try {
@@ -427,6 +452,10 @@ public class Server {
             e.printStackTrace();                //Fehler Diagnose ausgeben
         }
 
+    }
+
+    public void setAllWeNeed(AllWeNeed data){
+        this.toloadthegame = data;
     }
 
     /*public static void main(String[] args) {
