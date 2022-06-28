@@ -310,7 +310,30 @@ public final class SpielStart extends JFrame{
 
         frame.add(vbox_2);
 
-        frame.add(Box.createHorizontalStrut(50));
+        frame.add(Box.createHorizontalStrut(10));
+        frame.add(Box.createHorizontalGlue());
+
+        JButton speichern = new JButton("Spiel speichern");
+
+        Box vbox_3 = Box.createVerticalBox();
+        {
+            speichern.setBackground(Color.CYAN);
+
+
+            vbox_3.add(speichern);
+
+        }
+
+        frame.add(vbox_3);
+
+        speichern.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        frame.add(Box.createHorizontalStrut(10));
         frame.add(Box.createHorizontalGlue());
 
 

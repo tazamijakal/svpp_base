@@ -439,6 +439,20 @@ public final class Startbildschirm{
             }
         });
 
+
+        JButton laden = new JButton("Spiel laden");
+        laden.setPreferredSize(new Dimension(20, 50));
+        laden.setBackground(Color.CYAN);
+
+        laden.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+
+
         //Hier werden alle Komponenten zum Panel hinzugefuegt
         //Mit passendem Zwischenraum
         spiel_Start.add(Box.createVerticalStrut(10));
@@ -454,6 +468,11 @@ public final class Startbildschirm{
         spiel_Start.add(start);
         spiel_Start.add(start_Text);
         spiel_Start.add(play);
+
+        spiel_Start.add(Box.createVerticalStrut(5));
+        spiel_Start.add(Box.createVerticalGlue());
+
+        spiel_Start.add(laden);
 
         spiel_Start.add(Box.createVerticalStrut(10));
         spiel_Start.add(Box.createVerticalGlue());
