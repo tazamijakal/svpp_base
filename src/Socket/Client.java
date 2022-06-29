@@ -184,8 +184,6 @@ public class Client implements Serializable{
 
 
                     System.out.println("Client Starting the GAME: ");
-                    System.out.println(player.name);
-                    System.out.println(player.mapSize);
                     if(player.name.equals("Client")){
                         runGame();
                     }
@@ -324,7 +322,6 @@ public class Client implements Serializable{
                     case "answer":  //Antwort fuer Schuss aufs Gegnerische Feld
                         switch (Osplit[1]) {
                             case "0":
-                                System.out.println("in answer 0");
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 0");
                                 player.attackToken = false;
                                 //GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);

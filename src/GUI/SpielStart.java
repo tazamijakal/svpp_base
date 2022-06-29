@@ -738,7 +738,7 @@ public final class SpielStart extends JFrame{
                                         int initialY = ((Ship) player.board[i][k]).initialY;
                                         int length = ((Ship) player.board[i][k]).length;
                                         boolean horizontal = ((Ship) player.board[i][k]).initialD;          //horizontal == true
-                                        data = drawShip(initialX, initialY, length, !horizontal, data);
+                                        data = drawShip(initialX, initialY, length, horizontal, data);
                                     }
                                     catch(Exception e1){}
                                 } else {
