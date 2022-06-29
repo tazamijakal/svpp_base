@@ -106,7 +106,7 @@ public class Client implements Serializable{
                             this.player = loadfile.player;
                             this.size = player.mapSize;
                             this.load = true;
-                            GAME.SpielStarten(player, loadfile, null);
+                            GAME.SpielStarten(player, loadfile);
                         }
                         else{
                             //Falsche ID Game wird geschlossen

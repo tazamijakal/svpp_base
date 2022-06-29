@@ -118,7 +118,7 @@ public class Server implements Serializable{
             //Kommunikationsprotokoll
             if(!(this.ID.equals(0+""))){
                 TextClient("load " + this.ID);
-                GAME.SpielStarten(player, toloadthegame, null);
+                GAME.SpielStarten(player, toloadthegame);
                 TextClient("ready");
             }
             else{

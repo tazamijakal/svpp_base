@@ -156,7 +156,7 @@ public final class SpielStart extends JFrame{
      * Fuer eigentlichen Spielstart.
      * Nachdem Einstellungen in Startbildschirm gemacht wurden.
      */
-    public void SpielStarten(Spieler player, AllWeNeed datei, AllWeNeed datei2)
+    public void SpielStarten(Spieler player, AllWeNeed datei)
     {
         //Headers for JTable
         String[] columns = new String[player.mapSize];
@@ -1091,7 +1091,7 @@ public final class SpielStart extends JFrame{
 
                             }
                             SwingUtilities.invokeLater(() -> {
-                                SpielStarten(player, null, null);
+                                SpielStarten(player, null);
                             });
                         }
                     }

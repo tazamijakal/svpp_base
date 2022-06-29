@@ -129,7 +129,7 @@ public class Spieler implements Serializable {
                                 player2.GAME.startframe.dispatchEvent(new WindowEvent(player2.GAME.startframe, WindowEvent.WINDOW_CLOSING));
                             }
                             catch(Exception notclosed1){}
-                            player1.GAME.SpielStarten(player1, Sp2, null);
+                            player1.GAME.SpielStarten(player1, Sp2);
                             k = 1;
                         }
                     }
@@ -139,7 +139,7 @@ public class Spieler implements Serializable {
                                 player1.GAME.startframe.dispatchEvent(new WindowEvent(player1.GAME.startframe, WindowEvent.WINDOW_CLOSING));
                             }
                             catch(Exception notclosed2){}
-                            player2.GAME.SpielStarten(player2, Sp1, null);
+                            player2.GAME.SpielStarten(player2, Sp1);
                             k = 2;
                         }
                     }

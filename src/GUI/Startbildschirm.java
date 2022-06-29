@@ -376,8 +376,8 @@ public final class Startbildschirm{
                             ki.clientSetter(kiclient);
                             SwingUtilities.invokeLater(() -> {kiclient.connect();});
                         }
-                        if(role.equals("KI_Client_mittle")){
-                            mittlere_KI ki = new mittlere_KI("KI_Client_leicht", GAME.spielfeldgr, hp, ships);
+                        if(role.equals("KI_Client_mittel")){
+                            mittlere_KI ki = new mittlere_KI("KI_Client_mittel", GAME.spielfeldgr, hp, ships);
                             Client kiclient = new Client(50000, ClientIP, ki, GAME, startbildschirm);
                             ki.clientSetter(kiclient);
                             SwingUtilities.invokeLater(() -> {kiclient.connect();});
