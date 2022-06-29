@@ -49,10 +49,12 @@ public class mittlere_KI extends KI {
     public String KIshoot() throws Exception {
         if (visibleBoard[hitX][hitY] instanceof TrefferObject) {
             fieldposition shootalg2Treffer = shootalg2Treffer(hitX, hitY);
+            //visibleBoard[shootalg2Treffer.x][shootalg2Treffer.y] = new MisfireObject();
             return shot(shootalg2Treffer.x,shootalg2Treffer.y);
         }
         fieldposition shootalg1 = shootalg1();
-    return shot(shootalg1.x,shootalg1.y);
+        //visibleBoard[shootalg1.x][shootalg1.y] = new TrefferObject();
+        return shot(shootalg1.x,shootalg1.y);
     }
 
     public static void main(String[] args) throws Exception {

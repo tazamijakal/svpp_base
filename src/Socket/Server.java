@@ -163,6 +163,31 @@ public class Server implements Serializable{
                 }
                 //"ready" check von Server wird intern geschickt sobald alle Schiffe plaziert sind
                 //und "ready" on Client kommt erst nach "ready" von Server
+                String ready = in.readLine();
+                if(ready.equals("ready")){
+                    status = 1;
+                    System.out.println("Opponent: " + ready);
+                    if(player.name.equals("KI_Server_leicht")){
+                        if(player instanceof leichte_KI_zufall){
+                            String newshot = ((leichte_KI_zufall) player).KIshoot();
+                            System.out.println(newshot);
+                            player.server.TextClient(newshot);
+                        }
+                    }
+                    else if(player.name.equals("KI_Server_mittel")){
+                        if(player instanceof mittlere_KI){
+                            try{
+                                String newshot = ((mittlere_KI) player).KIshoot();
+                                System.out.println(newshot);
+                                player.server.TextClient(newshot);
+                            }
+                            catch(Exception ex){
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+                }
+
             }
         }
         catch(Exception e){
@@ -173,12 +198,6 @@ public class Server implements Serializable{
         SwingWorker<Void, Void> sw3 = new SwingWorker<Void, Void>(){
             @Override
             protected Void doInBackground() throws Exception {
-                String ready = in.readLine();
-                if(ready.equals("ready")){
-                    status = 1;
-                    System.out.println("Opponent: " + ready);
-                }
-
                 System.out.println("Server Starting the GAME: ");
                 System.out.println(player.name);
                 System.out.println(player.mapSize);
@@ -192,8 +211,7 @@ public class Server implements Serializable{
             }
         };
         sw3.execute();
-
-        if(player.name.equals("KI_Server_leicht")){
+        /*if(player.name.equals("KI_Server_leicht")){
             if(player instanceof leichte_KI_zufall){
                 String newshot = ((leichte_KI_zufall) player).KIshoot();
                 TextClient(newshot);
@@ -209,7 +227,7 @@ public class Server implements Serializable{
                     e.printStackTrace();
                 }
             }
-        }
+        }*/
     }
 
     /**
@@ -325,6 +343,7 @@ public class Server implements Serializable{
      *
      */
     public void runGameKI(){
+        TextClient("pass");
         if(loadtoken == false && toloadthegame != null){
             player.attackToken = false;
             System.out.println("Spiel wurde geladen aber nicht am Zug!!");      //eigentlich nicht moeglich mit Spiel gegen KI
@@ -341,8 +360,11 @@ public class Server implements Serializable{
                     case "answer":  //Antwort fuer Schuss aufs Gegnerische Feld
                         switch (Osplit[1]) {
                             case "0":
+                                System.out.println("yes?");
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 0");
-                                GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
+                                player.attackToken = false;
+                                //GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
+                                System.out.println("no!");
                                 TextClient("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
                                 System.out.println("pass to Opponent");
                                 break;
@@ -351,9 +373,9 @@ public class Server implements Serializable{
                                 //GUI wieder freischalten oder boolean in Spieler Objekt??!
                                 //player.hp2 = player.hp2 - 1;
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 1");
-                                GAME.setTable2RedCross(player.lastShotX, player.lastShotY);
+                                //GAME.setTable2RedCross(player.lastShotX, player.lastShotY);
                                 System.out.println("hp2: " + player.hp2);
-                                //player.attackToken = true;
+                                player.attackToken = true;
                                 if(player instanceof leichte_KI_zufall){
                                     String newshot = ((leichte_KI_zufall) player).KIshoot();
                                     TextClient(newshot);
@@ -367,12 +389,11 @@ public class Server implements Serializable{
                                 //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
                                 player.hp2 = player.hp2 - 1;
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
-                                GAME.setTable2BlackCross(player.lastShotX, player.lastShotY);
+                                //GAME.setTable2BlackCross(player.lastShotX, player.lastShotY);
                                 System.out.println("hp2: " + player.hp2);
                                 if (player.hp2 == 0) {
-                                    JOptionPane.showMessageDialog(menu, "SPIEL GEWONNEN :D" );
-                                    System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
-                                    menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
+                                    System.exit(0);
+                                    return;   //Programm beenden
                                 }
                                 //player.attackToken = true;
                                 if(player instanceof leichte_KI_zufall){
@@ -407,24 +428,23 @@ public class Server implements Serializable{
                             int y = parseInt(Osplit[2]);
                             answer = player.shootYourself(x, y);
                             if(answer.equals("answer 0")){
-                                GAME.setTableCellBLUE(x, y);
+                                //GAME.setTableCellBLUE(x, y);
                             }
                             if(answer.equals("answer 1")){
-                                GAME.setTableRedCross(x, y);
+                                //GAME.setTableRedCross(x, y);
                             }
                             if(answer.equals("answer 2")){
-                                player.hp = player.hp - 1;
-                                GAME.setTableBlackCross(x, y);
+                                player.hp = player.hp - 2;
+                                System.out.println("player.hp: " + player.hp);
+                                //GAME.setTableBlackCross(x, y);
                             }
                         } catch (Exception e) {
                             System.out.println("Array out of bounds");
                         }
                         TextClient(answer);
                         if (player.hp == 0) {
-                            JOptionPane.showMessageDialog(menu, "SPIEL VERLOREN :(" );
-                            System.out.println("SPIEL VERLOREN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                            menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
-                            //Spiel beenden
+                            System.exit(0);
+                            return; //Spiel beenden
                         }
                         break;
                     case "save":

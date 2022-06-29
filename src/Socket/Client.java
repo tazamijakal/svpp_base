@@ -350,13 +350,13 @@ public class Client implements Serializable{
                             case "2":
                                 //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
-                                player.hp2 = player.hp2 - 1;
+                                player.hp2 = player.hp2 - 2;
                                 //GAME.setTable2BlackCross(player.lastShotX, player.lastShotY);
                                 player.attackToken = true;
+                                System.out.println("player.hp2: " + player.hp2);
                                 if (player.hp2 == 0) {
-                                    JOptionPane.showMessageDialog(menu, "SPIEL GEWONNEN :D" );
-                                    System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
-                                    menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
+                                    System.exit(0);
+                                    return;              //Spiel beenden
                                 }
                                 if(player instanceof leichte_KI_zufall){
                                     String newshot = ((leichte_KI_zufall) player).KIshoot();
@@ -398,17 +398,17 @@ public class Client implements Serializable{
                                 //GAME.setTableRedCross(x, y);
                             }
                             if(answer.equals("answer 2")){
-                                player.hp = player.hp - 1;
+                                player.hp = player.hp - 2;
+                                System.out.println("playerhp: " + player.hp);
                                 //GAME.setTableBlackCross(x, y);
                             }
                         } catch (Exception e) {
                             System.out.println("Array out of bounds");
                         }
                         TextServer(answer);
-                        if (player.hp == 0) {     //Spiel zu ende?
-                            JOptionPane.showMessageDialog(menu, "SPIEL VERLOREN :(" );
-                            System.out.println("SPIEL VERLOREN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                            menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
+                        if (player.hp == 0 || player.hp2 == 0) {     //Spiel zu ende?
+                            System.exit(0);
+                            return;
                             //Spiel beenden   ===========================================================================
                         }
                         break;

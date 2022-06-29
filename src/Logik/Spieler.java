@@ -463,14 +463,14 @@ public class Spieler implements Serializable {
      * @param answerString
      */
     public boolean answerReader(int x, int y, String answerString){
-        int answer = Integer.parseInt(answerString.substring(7,8));
-        switch(answer){
-            case 0: visibleBoard[x][y]=misfireObject;
+        String[] answer = answerString.split(" ");
+        switch(answer[1]){
+            case "0": visibleBoard[x][y]=misfireObject;
                 attackToken=false;
                 return false;
-            case 1: visibleBoard[x][y]=trefferObject;
+            case "1": visibleBoard[x][y]=trefferObject;
                 return true;
-            case 2: visibleBoard[x][y]=trefferObject;       //TODO sollte das gesamte Schiff als zerstört markieren
+            case "2": visibleBoard[x][y]=trefferObject;       //TODO sollte das gesamte Schiff als zerstört markieren
                 return true;
             default:
                 System.err.println("DEFAULT CASE");

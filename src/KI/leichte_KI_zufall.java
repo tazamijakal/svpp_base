@@ -52,6 +52,7 @@ public class leichte_KI_zufall extends KI {
             System.out.println("konnte nicht schießen");
             return KIshoot();
         }
+        //visibleBoard[rdmZielpos.x][rdmZielpos.y] = new TrefferObject();
         return shot(rdmZielpos.x,rdmZielpos.y);
     }
 

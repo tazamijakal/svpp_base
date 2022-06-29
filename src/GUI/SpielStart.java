@@ -1,5 +1,7 @@
 package GUI;
 
+import KI.leichte_KI_zufall;
+import KI.mittlere_KI;
 import Logik.Ship;
 import Logik.Spieler;
 import Socket.Server;
@@ -1071,12 +1073,10 @@ public final class SpielStart extends JFrame{
                             player.lokaltoken = false;
                             AllWeNeed Sp2 = new AllWeNeed(true, player, null, player.GAME.getTable(), player.GAME.getTable2(), null);
                             AllWeNeed Sp1 = new AllWeNeed(false, player2, null, player2.GAME.getTable(), player2.GAME.getTable2(), null);
+                            player2.attackToken = true;
+                            SpielStartLokal local = new SpielStartLokal();
                             SwingUtilities.invokeLater(() -> {
-                                player2.attackToken = true;
-                                SpielStartLokal local = new SpielStartLokal();
-                                SwingUtilities.invokeLater(() -> {
-                                    local.SpielStartenLokal(Sp1, Sp2);
-                                });
+                                local.SpielStartenLokal(Sp1, Sp2);
                             });
                         }
                         else {
