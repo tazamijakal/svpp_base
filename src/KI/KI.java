@@ -124,7 +124,7 @@ public abstract class KI extends Spieler {
      * @param remainingShips  legt die anzahl der verbleibenden schiffe fest
      */
     public KI(String name, int mapSize, int hp, int[]remainingShips) {
-        super(name, mapSize, hp, remainingShips);
+        super(name, mapSize, hp, remainingShips, null);
     }
 
     /**

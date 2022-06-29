@@ -97,13 +97,21 @@ public class Client implements Serializable{
                     ex.printStackTrace();
                 }
                 try{
+                    //Wenn geladen wird aber Spieler vorher Server war wird er jetzt zum Client
                     if(loadfile.player.name.equals("Client") || loadfile.player.name.equals("Server")){
-                        loadfile.player.name = "Client";
-                        loadfile.player.client = this;
-                        this.player = loadfile.player;
-                        this.size = player.mapSize;
-                        this.load = true;
-                        GAME.SpielStarten(player, loadfile);
+                        if(loadfile.ID.equals(fsplit[1])){
+                            loadfile.player.name = "Client";
+                            loadfile.player.client = this;
+                            loadfile.player.server = null;
+                            this.player = loadfile.player;
+                            this.size = player.mapSize;
+                            this.load = true;
+                            GAME.SpielStarten(player, loadfile, null);
+                        }
+                        else{
+                            //Falsche ID Game wird geschlossen
+                            menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
+                        }
                     }
                 }
                 catch(Exception exc){
@@ -146,7 +154,7 @@ public class Client implements Serializable{
 
             if(player.name.equals("Client") && load == false) {
                 SwingUtilities.invokeLater(() -> {
-                    GAME.Setzen(player);
+                    GAME.Setzen(player, null);
                 });
             }
             else if(player.name.equals("KI_Client_leicht") && load == false){

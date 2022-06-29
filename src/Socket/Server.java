@@ -118,7 +118,7 @@ public class Server implements Serializable{
             //Kommunikationsprotokoll
             if(!(this.ID.equals(0+""))){
                 TextClient("load " + this.ID);
-                GAME.SpielStarten(player, toloadthegame);
+                GAME.SpielStarten(player, toloadthegame, null);
                 TextClient("ready");
             }
             else{
@@ -146,7 +146,7 @@ public class Server implements Serializable{
                 //TextClient("ready");
                 if(player.name.equals("Server")) {
                     SwingUtilities.invokeLater(() -> {
-                        GAME.Setzen(player);
+                        GAME.Setzen(player, null);
                     });
                 }
                 else if(player.name.equals("KI_Server_leicht")){
@@ -219,6 +219,7 @@ public class Server implements Serializable{
      */
     public void runGame(){                              //Eigene Methode fuer SwingWorker
         System.out.println(player.hp + "   " + player.hp2);
+        //Server ist immer als erstes am Zug aber falls geladen wird und man war nicht am Zug sende pass zum Client
         if(loadtoken == false && toloadthegame != null){
             player.attackToken = false;
             System.out.println("Spiel wurde geladen aber nicht am Zug!!");
@@ -326,7 +327,7 @@ public class Server implements Serializable{
     public void runGameKI(){
         if(loadtoken == false && toloadthegame != null){
             player.attackToken = false;
-            System.out.println("Spiel wurde geladen aber nicht am Zug!!");
+            System.out.println("Spiel wurde geladen aber nicht am Zug!!");      //eigentlich nicht moeglich mit Spiel gegen KI
             TextClient("pass");
         }
         //Ping-Pong Prinzip warten auf Befehle

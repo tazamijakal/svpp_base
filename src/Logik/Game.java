@@ -1,5 +1,7 @@
 package Logik;
 
+import GUI.SpielStart;
+
 import java.util.Scanner;
 
 public class Game {
@@ -28,8 +30,8 @@ public class Game {
         String player1name = userInput.next();
         System.out.println("Name für Spieler 2: ..");
         String player2name = userInput.next();
-        Spieler spieler1 = new Spieler(player1name, mapSize, hp, shipPool);
-        Spieler spieler2 = new Spieler(player2name, mapSize, hp, shipPool);
+        Spieler spieler1 = new Spieler(player1name, mapSize, hp, shipPool, null);
+        Spieler spieler2 = new Spieler(player2name, mapSize, hp, shipPool, null);
         spieler1.oldPrintAll(spieler1, spieler2);
         startPlacingShips(spieler1, spieler2);
         startPlacingShips(spieler2, spieler1);
@@ -41,8 +43,8 @@ public class Game {
         hp = 7;
         adjustShipPool(true, 5);
         adjustShipPool(true, 2);
-        Spieler spieler1 = new Spieler("Spieler_1", mapSize, hp, shipPool);
-        Spieler spieler2 = new Spieler("Spieler_2", mapSize, hp, shipPool);
+        Spieler spieler1 = new Spieler("Spieler_1", mapSize, hp, shipPool, null);
+        Spieler spieler2 = new Spieler("Spieler_2", mapSize, hp, shipPool, null);
         spieler1.oldPrintAll(spieler1, spieler2);
         spieler1.placeRemoveShip(true,0,0,5,true);
         spieler1.placeRemoveShip(true,0,2,2,true);
@@ -97,6 +99,8 @@ public class Game {
         }
         System.out.println("GG WP");
     }
+
+
 
     /**
      *

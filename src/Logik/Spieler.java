@@ -1,9 +1,13 @@
 package Logik;
 
 
+import GUI.SpielStart;
 import KI.KI;
 import Socket.*;
+import ladenspeichern.AllWeNeed;
 
+import javax.swing.*;
+import java.awt.event.WindowEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,8 +46,9 @@ public class Spieler implements Serializable {
     public int[] remainingShips = {0,0,0,0,0,0,0};
     public ArrayList<Ship> shipList = new ArrayList<>();        //Liste mit all den Schiffen eines Spielers
     transient Scanner userinput = new Scanner(System.in); //wird für Userinput benötigt
-
+    public boolean lokaltoken = true;
     public boolean load = false;
+    public static SpielStart GAME;
 
     /**
      *
@@ -54,11 +59,12 @@ public class Spieler implements Serializable {
      * @param hp        Legt fest wie viele Felder mit Schiffen belegt werden können und wird gleichzeitig als health points verwendet.
      * @param remainingShips die verbleibenden Schiffe werden angezeigt/gespeichert.
      */
-    public Spieler(String name, int mapSize, int hp, int[] remainingShips) {     //
+    public Spieler(String name, int mapSize, int hp, int[] remainingShips, SpielStart GAME) {     //
         this.name = name;
         this.hp = hp;
         attackToken = false;
         hp2 = hp;
+        this.GAME = GAME;
         this.mapSize = mapSize;
         if(remainingShips != null){
             this.remainingShips = remainingShips.clone();
@@ -101,6 +107,65 @@ public class Spieler implements Serializable {
     public void sethps(int newhp){
         hp = newhp;
         hp2 = newhp;
+    }
+
+    public static void startWarlokal(Spieler player1, Spieler player2) {
+        boolean winloss = true;
+        AllWeNeed Sp1 = new AllWeNeed(true, player1, null, player1.GAME.getTable(), player1.GAME.getTable2(), null);
+        AllWeNeed Sp2 = new AllWeNeed(false, player2, null, player2.GAME.getTable(), player2.GAME.getTable2(), null);
+
+        /*SwingUtilities.invokeLater(() -> {
+            player1.GAME.Setzen(player1, player2);
+        });*/
+        SwingWorker<Void, Void> sw3 = new SwingWorker<Void, Void>(){
+            @Override
+            protected Void doInBackground() throws Exception {
+                while(true){
+                    System.out.println("winloss while");
+                    int k = 0;
+                    while(player1.lokaltoken == true && player2.hp > 0 && player2.hp2 > 0){
+                        if(k == 0){
+                            try{
+                                player2.GAME.startframe.dispatchEvent(new WindowEvent(player2.GAME.startframe, WindowEvent.WINDOW_CLOSING));
+                            }
+                            catch(Exception notclosed1){}
+                            player1.GAME.SpielStarten(player1, Sp2, null);
+                            k = 1;
+                        }
+                    }
+                    while(player2.lokaltoken == true && player1.hp > 0 && player1.hp2 > 0){
+                        if(k == 1){
+                            try{
+                                player1.GAME.startframe.dispatchEvent(new WindowEvent(player1.GAME.startframe, WindowEvent.WINDOW_CLOSING));
+                            }
+                            catch(Exception notclosed2){}
+                            player2.GAME.SpielStarten(player2, Sp1, null);
+                            k = 2;
+                        }
+                    }
+                    if(player1.hp == 0){
+                        System.out.println("Spieler 2 hat gewonnen!!!");
+                        try{
+                            player1.GAME.startframe.dispatchEvent(new WindowEvent(player1.GAME.startframe, WindowEvent.WINDOW_CLOSING));
+                            player2.GAME.startframe.dispatchEvent(new WindowEvent(player2.GAME.startframe, WindowEvent.WINDOW_CLOSING));
+                            break;
+                        }
+                        catch(Exception e){}
+                    }
+                    else if(player2.hp == 0){
+                        System.out.println("Spieler 1 hat gewonnen!!!");
+                        try{
+                            player1.GAME.startframe.dispatchEvent(new WindowEvent(player1.GAME.startframe, WindowEvent.WINDOW_CLOSING));
+                            player2.GAME.startframe.dispatchEvent(new WindowEvent(player2.GAME.startframe, WindowEvent.WINDOW_CLOSING));
+                            break;
+                        }
+                        catch(Exception e){}
+                    }
+                }
+                return null;
+            }
+        };
+        sw3.execute();
     }
 
 //----------------------PLACE-METHODEN--------------------------------------------------------------------------------------

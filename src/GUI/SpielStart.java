@@ -47,9 +47,11 @@ public final class SpielStart extends JFrame{
     protected boolean radioButton_l = false;
     protected boolean radioButton_o = false;
 
-    public static JTable table;
+    public JTable table;
     int[] remainingships;
-    public static JTable table2;
+    public JTable table2;
+
+    public JFrame startframe;
 
     public Spieler player;
     public SpielStart(){
@@ -154,7 +156,7 @@ public final class SpielStart extends JFrame{
      * Fuer eigentlichen Spielstart.
      * Nachdem Einstellungen in Startbildschirm gemacht wurden.
      */
-    public void SpielStarten(Spieler player, AllWeNeed datei)
+    public void SpielStarten(Spieler player, AllWeNeed datei, AllWeNeed datei2)
     {
         //Headers for JTable
         String[] columns = new String[player.mapSize];
@@ -163,7 +165,7 @@ public final class SpielStart extends JFrame{
         }
         //Fuer Schiffe setzen:
         //String[][] feldSetzen = new String[model.getSpielfeld()][model.getSpielfeld()];
-        if(datei == null){
+        if(datei == null || datei.table == null || datei.table2 == null){
             Object[][] data = new Object[player.mapSize][player.mapSize];
             for(int i = 0; i<player.board.length; i ++){
                 for(int k = 0; k<player.board.length; k++){
@@ -221,15 +223,13 @@ public final class SpielStart extends JFrame{
 
 
 
-
-
         table.setDefaultRenderer(ImageIcon.class, new MyImageCellRenderer());
         table2.setDefaultRenderer(ImageIcon.class, new MyImageCellRenderer());
         this.table = table;
         this.table2 = table2;
 
         JFrame frame = new JFrame("Schiffeversenken " + player.name);
-
+        this.startframe = frame;
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Zwischenraum der Breite 50 oder mehr.
         //frame.add(Box.createHorizontalStrut(50));
@@ -260,26 +260,30 @@ public final class SpielStart extends JFrame{
                 int selecCol = table2.getSelectedColumn();
                 //feldSetzen[selecRow][selecRow] = "ship";
                 //table2.setValueAt(new ImageIcon("src\\blue.png"), selecRow, selecCol);
-                String a = table2.getValueAt(selecRow,selecCol).toString();
-                String b = getClass().getResource("water.png").toString();
-                if(table2.getValueAt(selecRow, selecCol).equals(getClass().getResource("blue.png"))){
-                    System.out.println("do nothing");
-                }
-                else if(player.attackToken == true && a.equals(b)){
-                    if(player.name.equals("Server")){
-                        player.attackToken = false;
-                        player.lastShotX = selecRow;
-                        player.lastShotY = selecCol;
-                        player.server.TextClient("shot " + selecRow + " " + selecCol);
+                String a, b;
+                try{
+                    a = table2.getValueAt(selecRow,selecCol).toString();
+                    b = getClass().getResource("water.png").toString();
+                    if(table2.getValueAt(selecRow, selecCol).equals(getClass().getResource("blue.png"))){
+                        System.out.println("do nothing");
                     }
-                    if(player.name.equals("Client")){
-                        System.out.println(table2.getValueAt(selecRow, selecCol));
-                        player.attackToken = false;
-                        player.lastShotX = selecRow;
-                        player.lastShotY = selecCol;
-                        player.client.TextServer("shot " + selecRow + " " + selecCol);
+                    else if(player.attackToken == true && a.equals(b)){
+                        if(player.name.equals("Server")){
+                            player.attackToken = false;
+                            player.lastShotX = selecRow;
+                            player.lastShotY = selecCol;
+                            player.server.TextClient("shot " + selecRow + " " + selecCol);
+                        }
+                        else if(player.name.equals("Client")){
+                            System.out.println(table2.getValueAt(selecRow, selecCol));
+                            player.attackToken = false;
+                            player.lastShotX = selecRow;
+                            player.lastShotY = selecCol;
+                            player.client.TextServer("shot " + selecRow + " " + selecCol);
+                        }
                     }
                 }
+                catch(Exception exc){}
                 System.out.println("Tabelle2 " + selecRow + "," + selecCol);
             }
         });
@@ -292,7 +296,7 @@ public final class SpielStart extends JFrame{
 
                 //feldSetzen[selecRow][selecRow] = "ship";
                 //table.setValueAt("Ship", selecRow, selecCol);
-                table.setValueAt(new ImageIcon(getClass().getResource("blue.png")), selecRow, selecCol);
+                //table.setValueAt(new ImageIcon(getClass().getResource("blue.png")), selecRow, selecCol);
                 System.out.println("Tabelle1 " + selecRow + "," + selecCol);
 
             }
@@ -524,7 +528,7 @@ public final class SpielStart extends JFrame{
      * Um Schiffe zu setzen.
      * Nachdem Einstellungen in Startbildschirm gemacht wurden.
      */
-    public JTable Setzen(Spieler player)
+    public JTable Setzen(Spieler player, Spieler player2)
     {
         JTable table;
         remainingships = player.remainingShips.clone();
@@ -804,27 +808,27 @@ public final class SpielStart extends JFrame{
 
                             zufall.setEnabled(true);
 
-                            if (player.remainingShips[2] <= 0 && length == 2) {
+                            if (player.remainingShips[2] <= 0) {
                                 cb_2.setEnabled(false);
                                 cb_2.setSelected(false);
                                 length = 0;
                             }
-                            if (player.remainingShips[3] <= 0 && length == 3) {
+                            if (player.remainingShips[3] <= 0) {
                                 cb_3.setEnabled(false);
                                 cb_3.setSelected(false);
                                 length = 0;
                             }
-                            if (player.remainingShips[4] <= 0 && length == 4) {
+                            if (player.remainingShips[4] <= 0) {
                                 cb_4.setEnabled(false);
                                 cb_4.setSelected(false);
                                 length = 0;
                             }
-                            if (player.remainingShips[5] <= 0 && length == 5) {
+                            if (player.remainingShips[5] <= 0) {
                                 cb_5.setEnabled(false);
                                 cb_5.setSelected(false);
                                 length = 0;
                             }
-                            if (player.remainingShips[6] <= 0 && length == 6) {
+                            if (player.remainingShips[6] <= 0) {
                                 cb_6.setEnabled(false);
                                 cb_6.setSelected(false);
                                 length = 0;
@@ -1057,18 +1061,39 @@ public final class SpielStart extends JFrame{
                     //if(allshipsareplaced == true){
                     if(counter > 0){
                         setzen.setVisible(false);
-                        if(player.server != null){
-                            player.server.TextClient("ready");
+                        if(player.name.equals("Spieler1")){
+                            player.lokaltoken = false;
+                            SwingUtilities.invokeLater(() -> {
+                                player2.GAME.Setzen(player2, player);
+                            });
                         }
-                        if(player.client != null){
-                            player.client.TextServer("ready");
+                        else if(player.name.equals("Spieler2")){
+                            player.lokaltoken = false;
+                            AllWeNeed Sp2 = new AllWeNeed(true, player, null, player.GAME.getTable(), player.GAME.getTable2(), null);
+                            AllWeNeed Sp1 = new AllWeNeed(false, player2, null, player2.GAME.getTable(), player2.GAME.getTable2(), null);
+                            SwingUtilities.invokeLater(() -> {
+                                player2.attackToken = true;
+                                SpielStartLokal local = new SpielStartLokal();
+                                SwingUtilities.invokeLater(() -> {
+                                    local.SpielStartenLokal(Sp1, Sp2);
+                                });
+                            });
                         }
-                        if(radioButton_l && Startbildschirm.p1)
-                        {
+                        else {
+                            if (player.server != null) {
+                                player.server.TextClient("ready");
+                            }
+                            if (player.client != null) {
+                                player.client.TextServer("ready");
+                            }
+                            if (radioButton_l && Startbildschirm.p1) {
 
 
+                            }
+                            SwingUtilities.invokeLater(() -> {
+                                SpielStarten(player, null, null);
+                            });
                         }
-                        SwingUtilities.invokeLater(() -> {SpielStarten(player, null);});
                     }
                     else{
 

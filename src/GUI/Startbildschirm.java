@@ -347,13 +347,13 @@ public final class Startbildschirm{
                         if(role.equals("Server")){
                             //Anzahl Schiffe
                             //int[] ships = {0, 0, 2, 2, 0, 0};
-                            Spieler player = new Spieler("Server", GAME.spielfeldgr, hp, ships);
+                            Spieler player = new Spieler("Server", GAME.spielfeldgr, hp, ships, GAME);
                             Server server = new Server(50000, 0 + "", player, GAME, startbildschirm);
                             player.serverSetter(server);
                             SwingUtilities.invokeLater(() -> {server.connect();});
                         }
                         if(role.equals("Client")){
-                            Spieler player = new Spieler("Client", GAME.spielfeldgr, hp, null);
+                            Spieler player = new Spieler("Client", GAME.spielfeldgr, hp, null, GAME);
                             Client client = new Client(50000, "localhost", player, GAME, startbildschirm);
                             player.clientSetter(client);
                             SwingUtilities.invokeLater(() -> {client.connect();});
@@ -389,37 +389,28 @@ public final class Startbildschirm{
                 else if(GAME.radioButton_l /*&& lok_Spsp*/ && selectedSpace <= maxSpace)
                 {
                     startbildschirm.setVisible(false);
-                    int hp = (GAME.spielfeldgr * GAME.spielfeldgr) / 3;
+                    System.out.println("before invoke");
+                    int hp = 2*anzahl2 + 3*anzahl3 + 4*anzahl4 + 5*anzahl5 + 6*anzahl6;
                     int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
-                    SpielStart GAME2 = new SpielStart();
-                    //int k = 1;
-                    //Spieler player1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships);
-                    //Spieler player2 = new Spieler("Spieler2", GAME.spielfeldgr, hp, ships);
-                    sp1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships);
-                    sp2 = new Spieler("Spieler2", GAME.spielfeldgr, hp, ships);
-                    SwingWorker<Void, Void> sw13 = new SwingWorker<Void, Void>(){
+                    Spieler sp1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships, GAME);
+                    Spieler sp2 = new Spieler("Spieler2", GAME.spielfeldgr, hp, ships, GAME);
+
+                    SwingUtilities.invokeLater(() -> {
+                        sp1.GAME.Setzen(sp1, sp2);
+                    });
+
+                    /*SwingWorker<Void, Void> sw3 = new SwingWorker<Void, Void>(){
                         @Override
                         protected Void doInBackground() throws Exception {
-                            Server server = new Server(50000, 0 + "", sp1, GAME, startbildschirm);
-                            sp1.serverSetter(server);
-                            server.connect();
+                            Spieler.startWarlokal(sp1, sp2);
                             return null;
                         }
                     };
-                    sw13.execute();
-
-                    SwingWorker<Void, Void> sw14 = new SwingWorker<Void, Void>(){
-                        @Override
-                        protected Void doInBackground() throws Exception {
-                            Client client = new Client(50000, ClientIP, sp2, GAME, startbildschirm);
-                            sp2.clientSetter(client);
-                            client.connect();
-                            return null;
-                        }
-                    };
-                    sw14.execute();
-
-
+                    sw3.execute();
+                    /*SwingUtilities.invokeLater(() -> {
+                       Spieler.startWarlokal(sp1, sp2);
+                    });*/
+                    System.out.println("after invoke");
                     /*if(!p1 && !p2)
                     {
                         GAME.Setzen(sp1);
