@@ -30,7 +30,7 @@ public class Game2KI {
         System.out.println("Name für Spieler 1: ..");
         String player1name = userInput.next();
         Spieler spieler1 = new Spieler(player1name, mapSize, hp, shipPool, null);
-        KI spieler2 = new mittlere_KI("easy", mapSize, hp, shipPool);
+        KI spieler2 = new mittlere_KI("easy", mapSize, hp, shipPool, null);
         spieler1.oldPrintAll(spieler1, spieler2);
         startPlacingShips(spieler1, spieler2);
         spieler2.KIplazieren();
@@ -44,7 +44,7 @@ public class Game2KI {
         adjustShipPool(true, 5);
         adjustShipPool(true, 2);
         Spieler spieler1 = new Spieler("Spieler_1", mapSize, hp, shipPool, null);
-        KI spieler2 = new mittlere_KI("Spieler_2", mapSize, hp, shipPool);
+        KI spieler2 = new mittlere_KI("Spieler_2", mapSize, hp, shipPool, null);
         spieler1.oldPrintAll(spieler1, spieler2);
         spieler1.placeRemoveShip(true,0,0,5,true);
         spieler1.placeRemoveShip(true,0,2,2,true);

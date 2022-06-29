@@ -1,5 +1,6 @@
 package KI;
 
+import GUI.SpielStart;
 import Logik.Spieler;
 import java.util.Random;
 
@@ -123,8 +124,8 @@ public abstract class KI extends Spieler {
      * @param hp Legt fest wie hp man noch hat
      * @param remainingShips  legt die anzahl der verbleibenden schiffe fest
      */
-    public KI(String name, int mapSize, int hp, int[]remainingShips) {
-        super(name, mapSize, hp, remainingShips, null);
+    public KI(String name, int mapSize, int hp, int[]remainingShips, SpielStart GAME) {
+        super(name, mapSize, hp, remainingShips, GAME);
     }
 
     /**

@@ -15,7 +15,7 @@ public class AllWeNeed implements Serializable {
     public final String ID;
     public final JTable table;
     public final JTable table2;
-    public final String name;
+    public String name;
     private static AtomicReference<Long> currentTime = new AtomicReference<>(System.currentTimeMillis());
 
     public AllWeNeed(boolean amZug, Spieler player, Spieler player2, JTable table, JTable table2, String name){
@@ -24,8 +24,7 @@ public class AllWeNeed implements Serializable {
         this.player2 = player2;
         this.table = table;
         this.table2 = table2;
-        this.ID = nextId() + "";
-        this.name = name;
+        this.ID = name;
     }
 
     public static Long nextId() {

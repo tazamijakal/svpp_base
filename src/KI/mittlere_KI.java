@@ -1,4 +1,5 @@
 package KI;
+import GUI.SpielStart;
 import KI.leichte_KI_zufall;
 
 
@@ -14,8 +15,8 @@ public class mittlere_KI extends KI {
      * @param remainingShips legt die anzahl der verbleibenden schiffe fest
      */
 
-    public mittlere_KI(String name, int mapSize, int hp, int[] remainingShips) {
-        super(name, mapSize, hp, remainingShips);
+    public mittlere_KI(String name, int mapSize, int hp, int[] remainingShips, SpielStart GAME) {
+        super(name, mapSize, hp, remainingShips, GAME);
     }
 
     @Override
@@ -49,16 +50,18 @@ public class mittlere_KI extends KI {
     public String KIshoot() throws Exception {
         if (visibleBoard[hitX][hitY] instanceof TrefferObject) {
             fieldposition shootalg2Treffer = shootalg2Treffer(hitX, hitY);
-            //visibleBoard[shootalg2Treffer.x][shootalg2Treffer.y] = new MisfireObject();
+            this.lastShotX = shootalg2Treffer.x;
+            this.lastShotY = shootalg2Treffer.y;
             return shot(shootalg2Treffer.x,shootalg2Treffer.y);
         }
         fieldposition shootalg1 = shootalg1();
-        //visibleBoard[shootalg1.x][shootalg1.y] = new TrefferObject();
+        this.lastShotX = shootalg1.x;
+        this.lastShotY = shootalg1.y;
         return shot(shootalg1.x,shootalg1.y);
     }
 
     public static void main(String[] args) throws Exception {
-        KI mittlere_KI = new mittlere_KI("middle", 5, 15, new int[]{0,0,1,1,1,0,0});
+        KI mittlere_KI = new mittlere_KI("middle", 5, 15, new int[]{0,0,1,1,1,0,0}, null);
         mittlere_KI.KIplazieren();
         mittlere_KI.KIshoot();
         Hilffunktion.printField(mittlere_KI.mapSize,mittlere_KI.board);

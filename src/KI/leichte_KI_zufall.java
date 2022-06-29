@@ -1,6 +1,7 @@
 package KI;
 
 
+import GUI.SpielStart;
 
 public class leichte_KI_zufall extends KI {
 
@@ -13,8 +14,8 @@ public class leichte_KI_zufall extends KI {
      * @param remainingShips
      */
 
-    public leichte_KI_zufall(String name, int mapSize, int hp, int[] remainingShips) {
-        super(name, mapSize, hp, remainingShips);
+    public leichte_KI_zufall(String name, int mapSize, int hp, int[] remainingShips, SpielStart GAME) {
+        super(name, mapSize, hp, remainingShips, GAME);
     }
 
     @Override
@@ -52,12 +53,13 @@ public class leichte_KI_zufall extends KI {
             System.out.println("konnte nicht schießen");
             return KIshoot();
         }
-        //visibleBoard[rdmZielpos.x][rdmZielpos.y] = new TrefferObject();
+        this.lastShotX = rdmZielpos.x;
+        this.lastShotY = rdmZielpos.y;
         return shot(rdmZielpos.x,rdmZielpos.y);
     }
 
     public static void main(String[] args) throws Exception {
-        KI leichte_ki_zufall = new leichte_KI_zufall("easy", 5, 15, new int[]{0,0,1,1,1});
+        KI leichte_ki_zufall = new leichte_KI_zufall("easy", 5, 15, new int[]{0,0,1,1,1}, null);
         leichte_ki_zufall.KIplazieren();
         leichte_ki_zufall.KIshoot();
         Hilffunktion.printField(leichte_ki_zufall.mapSize,leichte_ki_zufall.board);

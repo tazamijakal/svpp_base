@@ -99,13 +99,16 @@ public class Client implements Serializable{
                 try{
                     //Wenn geladen wird aber Spieler vorher Server war wird er jetzt zum Client
                     if(loadfile.player.name.equals("Client") || loadfile.player.name.equals("Server")){
-                        if(loadfile.ID.equals(fsplit[1])){
+                        System.out.println(loadfile.ID);
+                        System.out.println(fsplit[1]);
+                        if(loadfile.name.equals(fsplit[1])){
                             loadfile.player.name = "Client";
                             loadfile.player.client = this;
                             loadfile.player.server = null;
                             this.player = loadfile.player;
                             this.size = player.mapSize;
                             this.load = true;
+                            System.out.println("Spiel wird geladen");
                             GAME.SpielStarten(player, loadfile);
                         }
                         else{
@@ -223,6 +226,7 @@ public class Client implements Serializable{
                         switch (Osplit[1]) {
                             case "0":
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 0");
+
                                 player.attackToken = false;
                                 GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
                                 TextServer("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
@@ -289,11 +293,13 @@ public class Client implements Serializable{
                         String filename = Osplit[1];
                         AllWeNeed newsave = new AllWeNeed(true, player,null, GAME.getTable(), GAME.getTable2(), filename);              //Speichern fuer Online versus
                         //Long newid = newsave.nextId();
-                        try {
-                            Speichern.save(newsave, filename);
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
+                        SwingUtilities.invokeLater(() -> {
+                            try {
+                                Speichern.save(newsave, filename);
+                            } catch (IOException ex) {
+                                throw new RuntimeException(ex);
+                            }
+                        });
                         //Spiel speichern mit Osplit[1] => Server war am Zug ==========================================================================
                         break;
                 }
@@ -322,7 +328,8 @@ public class Client implements Serializable{
                     case "answer":  //Antwort fuer Schuss aufs Gegnerische Feld
                         switch (Osplit[1]) {
                             case "0":
-                                player.answerReader(player.lastShotX, player.lastShotY, "answer 0");
+                                //player.answerReader(player.lastShotX, player.lastShotY, "answer 0");
+                                player.visibleBoard[player.lastShotX][player.lastShotY] = new Spieler.MisfireObject();
                                 player.attackToken = false;
                                 //GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
                                 TextServer("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
@@ -331,7 +338,8 @@ public class Client implements Serializable{
                             case "1":
                                 //Getroffen (nicht versenkt) Client ist wieder am Zug =================================================================
                                 //GUI wieder freischalten oder boolean in Spieler Objekt??!
-                                player.answerReader(player.lastShotX, player.lastShotY, "answer 1");
+                                //player.answerReader(player.lastShotX, player.lastShotY, "answer 1");
+                                player.visibleBoard[player.lastShotX][player.lastShotY] = new Spieler.TrefferObject();
                                 //GAME.setTable2RedCross(player.lastShotX, player.lastShotY);
                                 player.attackToken = true;
                                 if(player instanceof leichte_KI_zufall){
@@ -346,7 +354,8 @@ public class Client implements Serializable{
                                 break;
                             case "2":
                                 //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
-                                player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
+                                //player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
+                                player.visibleBoard[player.lastShotX][player.lastShotY] = new Spieler.TrefferObject();
                                 player.hp2 = player.hp2 - 2;
                                 //GAME.setTable2BlackCross(player.lastShotX, player.lastShotY);
                                 player.attackToken = true;

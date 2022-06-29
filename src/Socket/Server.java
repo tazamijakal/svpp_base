@@ -322,11 +322,13 @@ public class Server implements Serializable{
                         String filename = Osplit[1];
                         AllWeNeed newsave = new AllWeNeed(true, player,null, GAME.getTable(), GAME.getTable2(), filename);              //Speichern fuer Online versus
                         //Long newid = newsave.nextId();
-                        try {
-                            Speichern.save(newsave, filename);
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
+                        SwingUtilities.invokeLater(() -> {
+                            try {
+                                Speichern.save(newsave, filename);
+                            } catch (IOException ex) {
+                                throw new RuntimeException(ex);
+                            }
+                        });
                         //Spiel speichern mit Osplit[1] => Client war am Zug ==========================================================================
                         break;
                 }

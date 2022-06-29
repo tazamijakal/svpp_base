@@ -328,8 +328,15 @@ public final class Startbildschirm{
         play.setPreferredSize(new Dimension(20, 50));
         play.setBackground(Color.GREEN);
 
-        //ist für Schrift in Button!!
-        //play.setVerticalAlignment(SwingConstants.CENTER);
+        //Auswahl Spielmodus lokal
+        //Erzeugung ComboBox
+        String[] list_Lokal = {"[choose]", "Spieler vs Spieler", "Spieler vs KI_leicht", "Spieler vs KI_mittel"};
+        JComboBox<String> auswahl_lokal = new JComboBox<String>(list_Lokal);
+
+        //Auswahl Spielmodus Online
+        //Erzeugung ComboBox
+        String[] list_online = {"[choose]", "Spieler vs Spieler", "Spieler vs KI", "KI vs KI"};
+        JComboBox<String> auswahl_online = new JComboBox<String>(list_online);
 
         play.addActionListener(new ActionListener() {
             @Override
@@ -359,25 +366,25 @@ public final class Startbildschirm{
                             SwingUtilities.invokeLater(() -> {client.connect();});
                         }
                         if(role.equals("KI_Server_leicht")){
-                            leichte_KI_zufall ki = new leichte_KI_zufall("KI_Server_leicht", GAME.spielfeldgr, hp, ships);
+                            leichte_KI_zufall ki = new leichte_KI_zufall("KI_Server_leicht", GAME.spielfeldgr, hp, ships, null);
                             Server kiserver = new Server(50000, 0 + "", ki, GAME, startbildschirm);
                             ki.serverSetter(kiserver);
                             SwingUtilities.invokeLater(() -> {kiserver.connect();});
                         }
                         if(role.equals("KI_Server_mittel")){
-                            mittlere_KI ki = new mittlere_KI("KI_Server_mittel", GAME.spielfeldgr, hp, ships);
+                            mittlere_KI ki = new mittlere_KI("KI_Server_mittel", GAME.spielfeldgr, hp, ships, null);
                             Server kiserver = new Server(50000, 0 + "", ki, GAME, startbildschirm);
                             ki.serverSetter(kiserver);
                             SwingUtilities.invokeLater(() -> {kiserver.connect();});
                         }
                         if(role.equals("KI_Client_leicht")){
-                            leichte_KI_zufall ki = new leichte_KI_zufall("KI_Client_leicht", GAME.spielfeldgr, hp, ships);
+                            leichte_KI_zufall ki = new leichte_KI_zufall("KI_Client_leicht", GAME.spielfeldgr, hp, ships, null);
                             Client kiclient = new Client(50000, ClientIP, ki, GAME, startbildschirm);
                             ki.clientSetter(kiclient);
                             SwingUtilities.invokeLater(() -> {kiclient.connect();});
                         }
                         if(role.equals("KI_Client_mittel")){
-                            mittlere_KI ki = new mittlere_KI("KI_Client_mittel", GAME.spielfeldgr, hp, ships);
+                            mittlere_KI ki = new mittlere_KI("KI_Client_mittel", GAME.spielfeldgr, hp, ships, null);
                             Client kiclient = new Client(50000, ClientIP, ki, GAME, startbildschirm);
                             ki.clientSetter(kiclient);
                             SwingUtilities.invokeLater(() -> {kiclient.connect();});
@@ -388,43 +395,32 @@ public final class Startbildschirm{
                 }
                 else if(GAME.radioButton_l /*&& lok_Spsp*/ && selectedSpace <= maxSpace)
                 {
-                    startbildschirm.setVisible(false);
-                    System.out.println("before invoke");
-                    int hp = 2*anzahl2 + 3*anzahl3 + 4*anzahl4 + 5*anzahl5 + 6*anzahl6;
-                    int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
-                    Spieler sp1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships, GAME);
-                    Spieler sp2 = new Spieler("Spieler2", GAME.spielfeldgr, hp, ships, GAME);
-
-                    SwingUtilities.invokeLater(() -> {
-                        sp1.GAME.Setzen(sp1, sp2);
-                    });
-
-                    /*SwingWorker<Void, Void> sw3 = new SwingWorker<Void, Void>(){
-                        @Override
-                        protected Void doInBackground() throws Exception {
-                            Spieler.startWarlokal(sp1, sp2);
-                            return null;
-                        }
-                    };
-                    sw3.execute();
-                    /*SwingUtilities.invokeLater(() -> {
-                       Spieler.startWarlokal(sp1, sp2);
-                    });*/
-                    System.out.println("after invoke");
-                    /*if(!p1 && !p2)
-                    {
-                        GAME.Setzen(sp1);
-                        p1 = true;
+                    if(auswahl_lokal.getSelectedItem().equals("Spieler vs KI_leicht")){
+                        startbildschirm.setVisible(false);
+                        int hp = 2*anzahl2 + 3*anzahl3 + 4*anzahl4 + 5*anzahl5 + 6*anzahl6;
+                        int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
+                        Spieler sp1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships, GAME);
+                        leichte_KI_zufall ki = new leichte_KI_zufall("KI_leicht", GAME.spielfeldgr, hp, ships, GAME);
+                        SwingUtilities.invokeLater(() -> {
+                            sp1.GAME.Setzen(sp1, sp2);
+                        });
                     }
-                    if(p1 && !p2)
-                    {
-                        //GAME2.Setzen(sp2);
-                        p2 = true;
-                    }*/
+                    else if(auswahl_lokal.getSelectedItem().equals("Spieler vs Spieler")){
+                        startbildschirm.setVisible(false);
+                        int hp = 2*anzahl2 + 3*anzahl3 + 4*anzahl4 + 5*anzahl5 + 6*anzahl6;
+                        int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
+                        Spieler sp1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships, GAME);
+                        Spieler sp2 = new Spieler("Spieler2", GAME.spielfeldgr, hp, ships, GAME);
+
+                        SwingUtilities.invokeLater(() -> {
+                            sp1.GAME.Setzen(sp1, sp2);
+                        });
+                    }
                 }
                 else{
                     System.out.println("Finish all parameters");
                 }
+
 
                 /*SwingUtilities.invokeLater(
                         () -> { GAME.SpielStarten(player, GAME); }
@@ -451,7 +447,7 @@ public final class Startbildschirm{
                 }
                 try{
                     startbildschirm.setVisible(false);
-                    if(loadfile.player.name.equals("Client") || loadfile.player.name.equals("Server")){
+                    if(loadfile != null && (loadfile.player.name.equals("Client") || loadfile.player.name.equals("Server"))){
                         loadfile.player.name = "Server";
                         loadfile.player.client = null;
                         Server server = new Server(50000, loadfile.ID + "", loadfile.player, GAME, startbildschirm);
@@ -522,15 +518,7 @@ public final class Startbildschirm{
         });
 
 
-        //Auswahl Spielmodus lokal
-        //Erzeugung ComboBox
-        String[] list_Lokal = {"[choose]", "Spieler vs Spieler", "Spieler vs KI"};
-        JComboBox<String> auswahl_lokal = new JComboBox<String>(list_Lokal);
 
-        //Auswahl Spielmodus Online
-        //Erzeugung ComboBox
-        String[] list_online = {"[choose]", "Spieler vs Spieler", "Spieler vs KI", "KI vs KI"};
-        JComboBox<String> auswahl_online = new JComboBox<String>(list_online);
 
 
         //Auswahl lokales Spiel

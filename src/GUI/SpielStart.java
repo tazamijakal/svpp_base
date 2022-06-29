@@ -165,6 +165,9 @@ public final class SpielStart extends JFrame{
         for(int i=0; i<player.mapSize; i++){
             columns[i] = "" + (i+1);
         }
+        if(datei != null){
+            System.out.println("datei != null");
+        }
         //Fuer Schiffe setzen:
         //String[][] feldSetzen = new String[model.getSpielfeld()][model.getSpielfeld()];
         if(datei == null || datei.table == null || datei.table2 == null){
@@ -359,11 +362,13 @@ public final class SpielStart extends JFrame{
                 if(player.attackToken == true){
                     String filename = "" + AllWeNeed.nextId();
                     AllWeNeed newsave = new AllWeNeed(true, player,null, table, table2, filename);              //Speichern fuer Online versus
-                    try {
-                        Speichern.save(newsave, filename);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
+                    SwingUtilities.invokeLater(() -> {
+                        try {
+                            Speichern.save(newsave, filename);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    });
                     if(player.name.equals("Server")){
                         player.server.TextClient("save " + filename);
                     }
