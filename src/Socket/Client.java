@@ -148,7 +148,7 @@ public class Client implements Serializable{
                 }
                 //Anzahl 2,3,4,5,6er Schiffe weitergeben
                 player.remainingShips = sc;
-                int newhp = 2 * player.remainingShips[2] + 3 * player.remainingShips[3] + 4 * player.remainingShips[4] + 5 * player.remainingShips[5] + 6 * player.remainingShips[6];
+                int newhp = player.remainingShips[2] + player.remainingShips[3] + player.remainingShips[4] + player.remainingShips[5] + player.remainingShips[6];
                 System.out.println(newhp);
                 player.sethps(newhp);
                 //Server wartet wieder auf "ok"
@@ -356,7 +356,7 @@ public class Client implements Serializable{
                                 //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
                                 //player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
                                 player.visibleBoard[player.lastShotX][player.lastShotY] = new Spieler.TrefferObject();
-                                player.hp2 = player.hp2 - 2;
+                                player.hp2 = player.hp2 - 1;
                                 //GAME.setTable2BlackCross(player.lastShotX, player.lastShotY);
                                 player.attackToken = true;
                                 System.out.println("player.hp2: " + player.hp2);
@@ -404,7 +404,7 @@ public class Client implements Serializable{
                                 //GAME.setTableRedCross(x, y);
                             }
                             if(answer.equals("answer 2")){
-                                player.hp = player.hp - 2;
+                                player.hp = player.hp - 1;
                                 System.out.println("playerhp: " + player.hp);
                                 //GAME.setTableBlackCross(x, y);
                             }
@@ -412,7 +412,7 @@ public class Client implements Serializable{
                             System.out.println("Array out of bounds");
                         }
                         TextServer(answer);
-                        if (player.hp == 0 || player.hp2 == 0) {     //Spiel zu ende?
+                        if (player.hp == 0) {     //Spiel zu ende?
                             System.exit(0);
                             return;
                             //Spiel beenden   ===========================================================================

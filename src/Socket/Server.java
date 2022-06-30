@@ -133,7 +133,7 @@ public class Server implements Serializable{
                         ships = ships + i + " ";
                     }
                 }
-                int newhp = 2 * player.remainingShips[2] + 3 * player.remainingShips[3] + 4 * player.remainingShips[4] + 5 * player.remainingShips[5] + 6 * player.remainingShips[6];
+                int newhp = player.remainingShips[2] + player.remainingShips[3] + player.remainingShips[4] + player.remainingShips[5] + player.remainingShips[6];
                 System.out.println(newhp);
                 player.sethps(newhp);
                 TextClient(ships);
@@ -436,7 +436,7 @@ public class Server implements Serializable{
                                 //GAME.setTableRedCross(x, y);
                             }
                             if(answer.equals("answer 2")){
-                                player.hp = player.hp - 2;
+                                player.hp = player.hp - 1;
                                 System.out.println("player.hp: " + player.hp);
                                 //GAME.setTableBlackCross(x, y);
                             }
