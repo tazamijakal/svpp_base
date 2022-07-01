@@ -5,11 +5,13 @@ import Logik.Ship;
 import Logik.Spieler;
 import Music.AudioPlayerExample2;
 import ladenspeichern.AllWeNeed;
+import ladenspeichern.Speichern;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.io.Serializable;
 
 public class SpielStartLokal implements Serializable {
