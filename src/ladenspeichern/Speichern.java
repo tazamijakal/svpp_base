@@ -9,6 +9,9 @@ public class Speichern implements Serializable {
     AllWeNeed savefile;
 
     public static void save(AllWeNeed data, String id) throws IOException {
+        if(data.player.name.equals("Server") || data.player.name.equals("Client")){
+
+        }
         //JFileChooser-Objekt erstellen
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
@@ -17,15 +20,18 @@ public class Speichern implements Serializable {
         FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "*.txt", "txt", "text");
 
         chooser.setFileFilter(filter);
-        //Dialog zum Oeffnen von Dateien anzeigen
-        int click = chooser.showSaveDialog(null);   //Open fuer oeffnen / Save fuer speichern
-        //Abfrage ob auf "Speichern" geklickt wurde oder "cancel"
-        if(click == JFileChooser.APPROVE_OPTION){
-            //Ausgabe der ausgewaehlten Datei
-            System.out.println("Datei: " + chooser.getSelectedFile().getName());
-        }
-        else{
-            //Abbrechen?!
+
+        if(data.player.name.equals("Server") || data.player.name.equals("Client")){
+            //Dialog zum Oeffnen von Dateien anzeigen
+            int click = chooser.showSaveDialog(null);   //Open fuer oeffnen / Save fuer speichern
+            //Abfrage ob auf "Speichern" geklickt wurde oder "cancel"
+            if(click == JFileChooser.APPROVE_OPTION){
+                //Ausgabe der ausgewaehlten Datei
+                System.out.println("Datei: " + chooser.getSelectedFile().getName());
+            }
+            else{
+                //Abbrechen?!
+            }
         }
 
         //Pickup for selected file

@@ -111,8 +111,8 @@ public class Spieler implements Serializable {
 
     public static void startWarlokal(Spieler player1, Spieler player2) {
         boolean winloss = true;
-        AllWeNeed Sp1 = new AllWeNeed(true, player1, null, player1.GAME.getTable(), player1.GAME.getTable2(), null);
-        AllWeNeed Sp2 = new AllWeNeed(false, player2, null, player2.GAME.getTable(), player2.GAME.getTable2(), null);
+        AllWeNeed Sp1 = new AllWeNeed(true, player1, null, player1.GAME.getTable(), player1.GAME.getTable2(), null, null, null);
+        AllWeNeed Sp2 = new AllWeNeed(false, player2, null, player2.GAME.getTable(), player2.GAME.getTable2(), null, null, null);
 
         /*SwingUtilities.invokeLater(() -> {
             player1.GAME.Setzen(player1, player2);

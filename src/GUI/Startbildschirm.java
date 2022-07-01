@@ -511,12 +511,16 @@ public final class Startbildschirm{
                         }
                     } else {
                         System.out.println("Finish all parameters");
+                        displayoutput.setVisible(true);
+                        displayoutput.setText("Finish all parameters");
                     }
 
                 }
                 catch(NullPointerException nullexc)
                 {
-                    JOptionPane.showMessageDialog(startbildschirm, "Du hast keine Werte gesetzt!!");
+                    //JOptionPane.showMessageDialog(startbildschirm, "Du hast keine Werte gesetzt!!");
+                    displayoutput.setVisible(true);
+                    displayoutput.setText("Finish all parameters");
                 }
 
 
@@ -550,6 +554,25 @@ public final class Startbildschirm{
                         loadfile.player.client = null;
                         Server server = new Server(50000, loadfile.ID + "", loadfile.player, GAME, startbildschirm);
                         server.loadtoken = loadfile.player.attackToken;
+                        server.toloadthegame = loadfile;
+                        loadfile.player.serverSetter(server);
+                        SwingUtilities.invokeLater(() -> {server.connect();});
+                    }
+                    else if(loadfile.player.name.equals("KI_Client_leicht") || loadfile.player.name.equals("KI_Server_leicht")){
+                        loadfile.player.name = "KI_Server_leicht";
+                        loadfile.player.client = null;
+                        Server server = new Server(50000, loadfile.ID + "", loadfile.player, GAME, startbildschirm);
+                        server.loadtoken = loadfile.player.attackToken;
+                        server.toloadthegame = loadfile;
+                        loadfile.player.serverSetter(server);
+                        SwingUtilities.invokeLater(() -> {server.connect();});
+                    }
+                    else if(loadfile.player.name.equals("KI_Server_mittel") || loadfile.player.name.equals("KI_Client_mittel")){
+                        loadfile.player.name = "KI_Server_mittel";
+                        loadfile.player.client = null;
+                        Server server = new Server(50000, loadfile.ID + "", loadfile.player, GAME, startbildschirm);
+                        server.loadtoken = loadfile.player.attackToken;
+                        server.toloadthegame = loadfile;
                         loadfile.player.serverSetter(server);
                         SwingUtilities.invokeLater(() -> {server.connect();});
                     }

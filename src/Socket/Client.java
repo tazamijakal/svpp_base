@@ -101,7 +101,7 @@ public class Client implements Serializable{
                     if(loadfile.player.name.equals("Client") || loadfile.player.name.equals("Server")){
                         System.out.println(loadfile.ID);
                         System.out.println(fsplit[1]);
-                        if(loadfile.name.equals(fsplit[1])){
+                        if(loadfile.ID.equals(fsplit[1])){
                             loadfile.player.name = "Client";
                             loadfile.player.client = this;
                             loadfile.player.server = null;
@@ -116,6 +116,43 @@ public class Client implements Serializable{
                             menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
                         }
                     }
+                    else if(loadfile.player.name.equals("KI_Client_leicht") || loadfile.player.name.equals("KI_Server_leicht")){
+                        System.out.println(loadfile.ID);
+                        System.out.println(fsplit[1]);
+                        if(loadfile.ID.equals(fsplit[1])){
+                            loadfile.player.name = "KI_Client_leicht";
+                            loadfile.player.client = this;
+                            loadfile.player.server = null;
+                            this.player = loadfile.player;
+                            this.size = player.mapSize;
+                            this.load = true;
+                            System.out.println("Spiel wird geladen");
+                            //GAME.SpielStarten(player, loadfile);
+                        }
+                        else{
+                            //Falsche ID Game wird geschlossen
+                            menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
+                        }
+                    }
+                    else if(loadfile.player.name.equals("KI_Client_mittel") || loadfile.player.name.equals("KI_Server_mittel")){
+                        System.out.println(loadfile.ID);
+                        System.out.println(fsplit[1]);
+                        if(loadfile.ID.equals(fsplit[1])){
+                            loadfile.player.name = "KI_Client_mittel";
+                            loadfile.player.client = this;
+                            loadfile.player.server = null;
+                            this.player = loadfile.player;
+                            this.size = player.mapSize;
+                            this.load = true;
+                            System.out.println("Spiel wird geladen");
+                            //GAME.SpielStarten(player, loadfile);
+                        }
+                        else{
+                            //Falsche ID Game wird geschlossen
+                            menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
+                        }
+                    }
+
                 }
                 catch(Exception exc){
                     exc.printStackTrace();
@@ -291,7 +328,7 @@ public class Client implements Serializable{
                         player.load = false;
                         System.out.println(Osplit[1]);
                         String filename = Osplit[1];
-                        AllWeNeed newsave = new AllWeNeed(true, player,null, GAME.getTable(), GAME.getTable2(), filename);              //Speichern fuer Online versus
+                        AllWeNeed newsave = new AllWeNeed(true, player,null, GAME.getTable(), GAME.getTable2(), null, null, filename);              //Speichern fuer Online versus
                         //Long newid = newsave.nextId();
                         SwingUtilities.invokeLater(() -> {
                             try {

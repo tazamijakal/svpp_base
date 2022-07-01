@@ -6,6 +6,7 @@ import java.io.*;
 import java.util.Enumeration;
 
 import GUI.SpielStart;
+import GUI.Startbildschirm;
 import KI.leichte_KI_zufall;
 import KI.mittlere_KI;
 import Logik.*;
@@ -81,6 +82,7 @@ public class Server implements Serializable{
             // damit der Benutzer sie dem Benutzer des Clients mitteilen kann.
             System.out.println("My IP address(es):");
             Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
+            String adress = " ";
             while (nis.hasMoreElements()) {
                 NetworkInterface ni = nis.nextElement();
                 Enumeration<InetAddress> ias = ni.getInetAddresses();
@@ -88,9 +90,13 @@ public class Server implements Serializable{
                     InetAddress ia = ias.nextElement();
                     if (!ia.isLoopbackAddress()) {
                         System.out.print(" " + ia.getHostAddress());
+                        adress = adress + ia.getHostAddress() + "  |  ";
+                        //JOptionPane.showMessageDialog(menu, "Server ip: " + ia.getHostAddress());
                     }
                 }
             }
+            String finalAdress = adress;
+            JOptionPane.showMessageDialog(menu, "Server ip Adressen: " + finalAdress);
             System.out.println("");
         }
         catch(Exception e){
@@ -320,7 +326,7 @@ public class Server implements Serializable{
                     case "save":
                         player.attackToken = false;
                         String filename = Osplit[1];
-                        AllWeNeed newsave = new AllWeNeed(true, player,null, GAME.getTable(), GAME.getTable2(), filename);              //Speichern fuer Online versus
+                        AllWeNeed newsave = new AllWeNeed(true, player,null, GAME.getTable(), GAME.getTable2(), null, null, filename);              //Speichern fuer Online versus
                         //Long newid = newsave.nextId();
                         SwingUtilities.invokeLater(() -> {
                             try {

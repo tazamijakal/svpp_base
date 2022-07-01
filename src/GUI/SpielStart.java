@@ -361,7 +361,7 @@ public final class SpielStart extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 if(player.attackToken == true){
                     String filename = "" + AllWeNeed.nextId();
-                    AllWeNeed newsave = new AllWeNeed(true, player,null, table, table2, filename);              //Speichern fuer Online versus
+                    AllWeNeed newsave = new AllWeNeed(true, player,null, table, table2 ,null, null, filename);              //Speichern fuer Online versus
                     SwingUtilities.invokeLater(() -> {
                         try {
                             Speichern.save(newsave, filename);
@@ -1076,8 +1076,8 @@ public final class SpielStart extends JFrame{
                         }
                         else if(player.name.equals("Spieler2")){
                             player.lokaltoken = false;
-                            AllWeNeed Sp2 = new AllWeNeed(true, player, null, player.GAME.getTable(), player.GAME.getTable2(), null);
-                            AllWeNeed Sp1 = new AllWeNeed(false, player2, null, player2.GAME.getTable(), player2.GAME.getTable2(), null);
+                            AllWeNeed Sp2 = new AllWeNeed(true, player, null, player.GAME.getTable(), player.GAME.getTable2(), null, null, null);
+                            AllWeNeed Sp1 = new AllWeNeed(false, player2, null, player2.GAME.getTable(), player2.GAME.getTable2(), null, null, null);
                             player2.attackToken = true;
                             SpielStartLokal local = new SpielStartLokal();
                             SwingUtilities.invokeLater(() -> {
