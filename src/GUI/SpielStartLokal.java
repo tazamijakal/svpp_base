@@ -216,7 +216,7 @@ public class SpielStartLokal implements Serializable {
         JFrame frame = new JFrame("Schiffeversenken " + player1.player.name);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Zwischenraum der Breite 50 oder mehr.
-
+        JFrame frame2 = new JFrame("Schiffeversenken " + player2.player.name);
 
         frame.setContentPane(Box.createHorizontalBox());
 
@@ -227,17 +227,12 @@ public class SpielStartLokal implements Serializable {
         JScrollPane scrollPane = new JScrollPane(table);
         JScrollPane scrollPane2 = new JScrollPane(table2);
 
-        JButton spieler1_frame = new JButton("Spieler1");
-        JButton spieler2_frame = new JButton("Spieler2");
-
-        JButton spieler1_frame2 = new JButton("Spieler1");
-        JButton spieler2_frame2 = new JButton("Spieler2");
+        JButton spieler1_frame = new JButton("AM ZUG");
+        JButton spieler2_frame = new JButton("AM ZUG");
 
         spieler1_frame.setBackground(Color.GREEN);
         spieler2_frame.setBackground(Color.RED);
 
-        spieler1_frame2.setBackground(Color.GREEN);
-        spieler2_frame2.setBackground(Color.RED);
 
 
         table2.addMouseListener(new MouseAdapter() {
@@ -258,6 +253,10 @@ public class SpielStartLokal implements Serializable {
                         if(answer.equals("answer 0")){
                             table2.setValueAt(new ImageIcon(getClass().getResource("blue.png")), selecRow, selecCol);
                             table3.setValueAt(new ImageIcon(getClass().getResource("blue.png")), selecRow, selecCol);
+                            spieler1_frame.setBackground(Color.RED);
+                            spieler2_frame.setBackground(Color.GREEN);
+                            frame.repaint();
+                            frame2.repaint();
                             Spieler1.attackToken = false;
                             Spieler2.attackToken = true;
                         }
@@ -277,35 +276,6 @@ public class SpielStartLokal implements Serializable {
                             }
                         }
                     }
-                    if(Spieler1.attackToken && !Spieler2.attackToken)
-                    {
-                        spieler1_frame.setBackground(Color.GREEN);
-                        spieler2_frame.setBackground(Color.RED);
-
-                        spieler1_frame2.setBackground(Color.GREEN);
-                        spieler2_frame2.setBackground(Color.RED);
-
-                        spieler1_frame.repaint();
-                        spieler2_frame.repaint();
-
-                        spieler1_frame2.repaint();
-                        spieler2_frame2.repaint();
-                    }
-                    else if(Spieler2.attackToken && !Spieler1.attackToken)
-                    {
-                        spieler1_frame.setBackground(Color.RED);
-                        spieler2_frame.setBackground(Color.GREEN);
-
-                        spieler1_frame2.setBackground(Color.RED);
-                        spieler2_frame2.setBackground(Color.GREEN);
-
-                        spieler1_frame.repaint();
-                        spieler2_frame.repaint();
-
-                        spieler1_frame2.repaint();
-                        spieler2_frame2.repaint();
-                    }
-
                 }
                 catch(Exception exc){}
                 System.out.println("Tabelle2 " + selecRow + "," + selecCol);
@@ -365,7 +335,6 @@ public class SpielStartLokal implements Serializable {
             speichern.setBackground(Color.CYAN);
 
             vbox_3.add(spieler1_frame);
-            vbox_3.add(spieler2_frame);
 
             vbox_3.add(speichern);
 
@@ -427,7 +396,7 @@ public class SpielStartLokal implements Serializable {
         frame.setVisible(true);
 
 
-        JFrame frame2 = new JFrame("Schiffeversenken " + player2.player.name);
+        //JFrame frame2 = new JFrame("Schiffeversenken " + player2.player.name);
 
         frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Zwischenraum der Breite 50 oder mehr.
@@ -460,6 +429,10 @@ public class SpielStartLokal implements Serializable {
                         if(answer.equals("answer 0")){
                             table.setValueAt(new ImageIcon(getClass().getResource("blue.png")), selecRow, selecCol);
                             table4.setValueAt(new ImageIcon(getClass().getResource("blue.png")), selecRow, selecCol);
+                            spieler1_frame.setBackground(Color.GREEN);
+                            spieler2_frame.setBackground(Color.RED);
+                            frame2.repaint();
+                            frame.repaint();
                             Spieler2.attackToken = false;
                             Spieler1.attackToken = true;
                         }
@@ -479,36 +452,6 @@ public class SpielStartLokal implements Serializable {
                             }
                         }
                     }
-
-                    if(Spieler1.attackToken && !Spieler2.attackToken)
-                    {
-                        spieler1_frame.setBackground(Color.GREEN);
-                        spieler2_frame.setBackground(Color.RED);
-
-                        spieler1_frame2.setBackground(Color.GREEN);
-                        spieler2_frame2.setBackground(Color.RED);
-
-                        spieler1_frame.repaint();
-                        spieler2_frame.repaint();
-
-                        spieler1_frame2.repaint();
-                        spieler2_frame2.repaint();
-                    }
-                    else if(Spieler2.attackToken && !Spieler1.attackToken)
-                    {
-                        spieler1_frame.setBackground(Color.RED);
-                        spieler2_frame.setBackground(Color.GREEN);
-
-                        spieler1_frame2.setBackground(Color.RED);
-                        spieler2_frame2.setBackground(Color.GREEN);
-
-                        spieler1_frame.repaint();
-                        spieler2_frame.repaint();
-
-                        spieler1_frame2.repaint();
-                        spieler2_frame2.repaint();
-                    }
-
                 }
                 catch(Exception exc){}
                 System.out.println("Tabelle4 " + selecRow + "," + selecCol);
@@ -565,11 +508,9 @@ public class SpielStartLokal implements Serializable {
 
         Box vbox_30 = Box.createVerticalBox();
         {
+
+            vbox_30.add(spieler2_frame);
             speichernn.setBackground(Color.CYAN);
-
-            vbox_30.add(spieler1_frame2);
-            vbox_30.add(spieler2_frame2);
-
             vbox_30.add(speichernn);
 
         }

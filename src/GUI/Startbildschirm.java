@@ -51,7 +51,6 @@ public final class Startbildschirm{
 
 
 
-
     /**
      *
      * Graphische Oberfläche aufbauen und anzeigen.
@@ -112,6 +111,10 @@ public final class Startbildschirm{
         JLabel Schiffe6 = new JLabel("6er Schiffe:");
         JLabel maxship = new JLabel("Maximum Space: 0");
         JLabel currentship = new JLabel("Selected Space: 0");
+
+        JLabel displayoutput = new JLabel("");
+        displayoutput.setFont(new Font("Calibri", Font.BOLD, 20));
+        displayoutput.setForeground(Color.RED);
 
         //Wie viele Schiffe man von welcher Groesse benutzen darf!
         //Felder die bei Anzahl bestimmter Schiffsart gebraucht werden
@@ -324,6 +327,8 @@ public final class Startbildschirm{
 
         JLabel start = new JLabel("Spiele Schiffe versenken!");
         JLabel start_Text = new JLabel("Das Spiel beginnt hier!");
+        start.setFont(new Font("Calibri", Font.BOLD, 20));
+        start_Text.setFont(new Font("Calibri", Font.BOLD, 20));
         JButton play = new JButton("Play");
         play.setPreferredSize(new Dimension(20, 50));
         play.setBackground(Color.GREEN);
@@ -332,6 +337,7 @@ public final class Startbildschirm{
         //Erzeugung ComboBox
         String[] list_Lokal = {"[choose]", "Spieler vs Spieler", "Spieler vs KI_leicht", "Spieler vs KI_mittel"};
         JComboBox<String> auswahl_lokal = new JComboBox<String>(list_Lokal);
+        auswahl_lokal.setBackground(Color.lightGray);
 
         //Auswahl Spielmodus Online
         //Erzeugung ComboBox
@@ -427,6 +433,7 @@ public final class Startbildschirm{
                     } else {
                         System.out.println("Finish all parameters");
                     }
+
                 }
                 catch(NullPointerException nullexc)
                 {
@@ -496,6 +503,11 @@ public final class Startbildschirm{
         spiel_Start.add(Box.createVerticalStrut(5));
         spiel_Start.add(Box.createVerticalGlue());
 
+        spiel_Start.add(displayoutput);
+
+        spiel_Start.add(Box.createVerticalStrut(5));
+        spiel_Start.add(Box.createVerticalGlue());
+
         spiel_Start.add(laden);
 
         spiel_Start.add(Box.createVerticalStrut(10));
@@ -513,11 +525,15 @@ public final class Startbildschirm{
         JLabel spieler = new JLabel("Spieler");
         String[] list_spieler = {"[choose]", "Client", "Server", "KI_Client_leicht", "KI_Client_mittel", "KI_Server_leicht", "KI_Server_mittel"};
         JComboBox<String> auswahl_spieler = new JComboBox<String>(list_spieler);
+        auswahl_spieler.setBackground(Color.lightGray);
         auswahl_spieler.setEnabled(false);
+        auswahl_lokal.setEnabled(false);
 
         //Erzeugung RadioButton rb_lokal und rb_online
         JRadioButton rb_lokal = new JRadioButton("Lokales Spiel");
         JRadioButton rb_online = new JRadioButton("Online Spiel");
+        rb_lokal.setFont(new Font("Calibri", Font.BOLD, 20));
+        rb_online.setFont(new Font("Calibri", Font.BOLD, 20));
         auswahl_spieler.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -543,10 +559,11 @@ public final class Startbildschirm{
                     if (GAME.radioButton_l)
                     {
                         //auswahl_spieler.setEnabled(false);
-                        auswahl_spieler.setEnabled(true);
+                        //auswahl_spieler.setEnabled(true);
                         //rb_lokal.getAction();
                         GAME.radioButton_l = false;
                         rb_online.setEnabled(true);
+                        auswahl_lokal.setEnabled(false);
                         //auswahl_online.setEnabled(true);
                     }
                     else
@@ -555,6 +572,7 @@ public final class Startbildschirm{
                         auswahl_spieler.setEnabled(false);
                         GAME.radioButton_l = true;
                         rb_online.setEnabled(false);
+                        auswahl_lokal.setEnabled(true);
                         //auswahl_online.setEnabled(false);
                     }
 
@@ -583,7 +601,7 @@ public final class Startbildschirm{
                         auswahl_spieler.setEnabled(false);
                         GAME.radioButton_o = false;
                         rb_lokal.setEnabled(true);
-                        auswahl_lokal.setEnabled(true);
+                        //auswahl_lokal.setEnabled(true);
                     }
                     else
                     {
@@ -604,15 +622,17 @@ public final class Startbildschirm{
         }
 
 
-
-
         //Hier werden alle Komponenten zum Panel hinzugefuegt
         //Mit passendem Zwischenraum
         spielAuswahl.add(Box.createVerticalStrut(10));
         spielAuswahl.add(Box.createVerticalGlue());
 
-        spielAuswahl.add(spieler);
+        spielAuswahl.add(rb_online);
         spielAuswahl.add(auswahl_spieler);
+        //spielAuswahl.add(auswahl_online);
+
+        //spielAuswahl.add(spieler);
+
 
         spielAuswahl.add(Box.createVerticalStrut(10));
         spielAuswahl.add(Box.createVerticalGlue());
@@ -623,11 +643,7 @@ public final class Startbildschirm{
         spielAuswahl.add(Box.createVerticalStrut(10));
         spielAuswahl.add(Box.createVerticalGlue());
 
-        spielAuswahl.add(rb_online);
-        //spielAuswahl.add(auswahl_online);
 
-        spielAuswahl.add(Box.createVerticalStrut(10));
-        spielAuswahl.add(Box.createVerticalGlue());
 
 
 
@@ -742,6 +758,7 @@ public final class Startbildschirm{
         startbildschirm.pack();
 
         //Startbildschirm sichtbar machen und im Vollbildmodus
+        //startbildschirm.setBackground(Color.LIGHT_GRAY);
         startbildschirm.setExtendedState(JFrame.MAXIMIZED_BOTH);
         startbildschirm.setResizable(true);
         startbildschirm.setVisible(true);
