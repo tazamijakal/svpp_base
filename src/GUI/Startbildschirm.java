@@ -494,11 +494,22 @@ public final class Startbildschirm{
                             int hp = 2 * anzahl2 + 3 * anzahl3 + 4 * anzahl4 + 5 * anzahl5 + 6 * anzahl6;
                             int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
                             Spieler sp1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships, GAME);
-                            leichte_KI_zufall ki = new leichte_KI_zufall("KI_leicht", GAME.spielfeldgr, hp, ships, GAME);
+                            leichte_KI_zufall KI = new leichte_KI_zufall("KI_leicht", GAME.spielfeldgr, hp, ships, GAME);
                             SwingUtilities.invokeLater(() -> {
-                                sp1.GAME.Setzen(sp1, sp2);
+                                sp1.GAME.Setzen(sp1, KI);
                             });
-                        } else if (auswahl_lokal.getSelectedItem().equals("Spieler vs Spieler")) {
+                        }
+                        else if (auswahl_lokal.getSelectedItem().equals("Spieler vs KI_mittel")) {
+                            startbildschirm.setVisible(false);
+                            int hp = 2 * anzahl2 + 3 * anzahl3 + 4 * anzahl4 + 5 * anzahl5 + 6 * anzahl6;
+                            int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
+                            Spieler sp1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships, GAME);
+                            mittlere_KI KI = new mittlere_KI("KI_mittel", GAME.spielfeldgr, hp, ships, GAME);
+                            SwingUtilities.invokeLater(() -> {
+                                sp1.GAME.Setzen(sp1, KI);
+                            });
+                        }
+                        else if (auswahl_lokal.getSelectedItem().equals("Spieler vs Spieler")) {
                             startbildschirm.setVisible(false);
                             int hp = 2 * anzahl2 + 3 * anzahl3 + 4 * anzahl4 + 5 * anzahl5 + 6 * anzahl6;
                             int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};

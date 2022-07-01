@@ -2,7 +2,6 @@ package Logik;
 
 
 import GUI.SpielStart;
-import KI.KI;
 import Socket.*;
 import ladenspeichern.AllWeNeed;
 

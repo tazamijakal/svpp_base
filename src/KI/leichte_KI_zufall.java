@@ -55,6 +55,8 @@ public class leichte_KI_zufall extends KI {
         }
         this.lastShotX = rdmZielpos.x;
         this.lastShotY = rdmZielpos.y;
+        this.testx = rdmZielpos.x;
+        this.testy = rdmZielpos.y;
         return shot(rdmZielpos.x,rdmZielpos.y);
     }
 
