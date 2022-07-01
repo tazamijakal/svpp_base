@@ -124,7 +124,9 @@ public class Server implements Serializable{
             //Kommunikationsprotokoll
             if(!(this.ID.equals(0+""))){
                 TextClient("load " + this.ID);
-                GAME.SpielStarten(player, toloadthegame);
+                if(player.name.equals("Client") || player.name.equals("Server")){
+                    GAME.SpielStarten(player, toloadthegame);
+                }
                 TextClient("ready");
             }
             else{
@@ -151,6 +153,7 @@ public class Server implements Serializable{
                 //Dummy "ready"      ============================================
                 //TextClient("ready");
                 if(player.name.equals("Server")) {
+                    System.out.println("Server wird gesetzt");
                     SwingUtilities.invokeLater(() -> {
                         GAME.Setzen(player, null);
                     });

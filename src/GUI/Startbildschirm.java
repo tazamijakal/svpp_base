@@ -576,7 +576,7 @@ public final class Startbildschirm{
                         loadfile.player.serverSetter(server);
                         SwingUtilities.invokeLater(() -> {server.connect();});
                     }
-                    else if(loadfile.player.name.equals("KI_Client_leicht") || loadfile.player.name.equals("KI_Server_leicht")){
+                    else if(loadfile != null && (loadfile.player.name.equals("KI_Client_leicht") || loadfile.player.name.equals("KI_Server_leicht"))){
                         loadfile.player.name = "KI_Server_leicht";
                         loadfile.player.client = null;
                         Server server = new Server(50000, loadfile.ID + "", loadfile.player, GAME, startbildschirm);
@@ -585,7 +585,7 @@ public final class Startbildschirm{
                         loadfile.player.serverSetter(server);
                         SwingUtilities.invokeLater(() -> {server.connect();});
                     }
-                    else if(loadfile.player.name.equals("KI_Server_mittel") || loadfile.player.name.equals("KI_Client_mittel")){
+                    else if(loadfile != null && (loadfile.player.name.equals("KI_Server_mittel") || loadfile.player.name.equals("KI_Client_mittel"))){
                         loadfile.player.name = "KI_Server_mittel";
                         loadfile.player.client = null;
                         Server server = new Server(50000, loadfile.ID + "", loadfile.player, GAME, startbildschirm);
@@ -593,6 +593,17 @@ public final class Startbildschirm{
                         server.toloadthegame = loadfile;
                         loadfile.player.serverSetter(server);
                         SwingUtilities.invokeLater(() -> {server.connect();});
+                    }
+                    else if(loadfile != null && (loadfile.player.name.equals("Spieler1"))){
+                        SpielStartLokal newlocal = new SpielStartLokal();
+                        newlocal.table = loadfile.table;
+                        newlocal.table2 = loadfile.table2;
+                        newlocal.table3 = loadfile.table3;
+                        newlocal.table4 = loadfile.table4;
+                        newlocal.Spieler1 = loadfile.player;
+                        newlocal.Spieler2 = loadfile.player2;
+                        newlocal.mapSize = loadfile.player.mapSize;
+                        newlocal.SpielStartenLokal(null, null);
                     }
                 }
                 catch(Exception exc){

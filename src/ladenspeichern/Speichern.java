@@ -21,7 +21,7 @@ public class Speichern implements Serializable {
 
         chooser.setFileFilter(filter);
 
-        if(data.player.name.equals("Server") || data.player.name.equals("Client")){
+        if(data.player.name.equals("Server") || data.player.name.equals("Client") || data.player.name.equals("Spieler1") || data.player.name.equals("Spieler2")){
             //Dialog zum Oeffnen von Dateien anzeigen
             int click = chooser.showSaveDialog(null);   //Open fuer oeffnen / Save fuer speichern
             //Abfrage ob auf "Speichern" geklickt wurde oder "cancel"
