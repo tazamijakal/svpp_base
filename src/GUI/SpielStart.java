@@ -366,7 +366,7 @@ public final class SpielStart extends JFrame{
                         try {
                             Speichern.save(newsave, filename);
                         } catch (IOException ex) {
-                            throw new RuntimeException(ex);
+                            ex.printStackTrace();
                         }
                     });
                     if(player.name.equals("Server")){

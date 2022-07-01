@@ -104,120 +104,132 @@ public class SpielStartLokal implements Serializable {
 
     public void SpielStartenLokal(AllWeNeed player1, AllWeNeed player2)
     {
-        this.Spieler1 = player1.player;
-        Spieler1.attackToken = true;
-        System.out.println(Spieler1.name);
-        this.Spieler2 = player2.player;
-        Spieler2.attackToken = false;
-        System.out.println(Spieler2.name);
-        this.mapSize = Spieler1.mapSize;
-        //Headers for JTable
-        String[] columns = new String[player1.player.mapSize];
-        for(int i=0; i<player1.player.mapSize; i++){
-            columns[i] = "" + (i+1);
+        if(player1 != null && player2 != null){
+            this.Spieler1 = player1.player;
+            Spieler1.attackToken = true;
+            System.out.println(Spieler1.name);
+            this.Spieler2 = player2.player;
+            Spieler2.attackToken = false;
+            System.out.println(Spieler2.name);
+            this.mapSize = Spieler1.mapSize;
         }
 
-        //Fuer Schiffe setzen:
-        //String[][] feldSetzen = new String[model.getSpielfeld()][model.getSpielfeld()];
-        Object[][] data = new Object[mapSize][mapSize];
-        for(int i = 0; i<mapSize; i ++){
-            for(int k = 0; k<mapSize; k++){
-                if(Spieler1.board[i][k] != null && Spieler1.board[i][k] instanceof Ship){
-                    int initialX = ((Ship) Spieler1.board[i][k]).initialX;
-                    int initialY = ((Ship) Spieler1.board[i][k]).initialY;
-                    int length = ((Ship) Spieler1.board[i][k]).length;
-                    boolean horizontal = ((Ship) Spieler1.board[i][k]).initialD;          //horizontal == true
-                    data = drawShip(initialX, initialY, length, horizontal, data);
-                }
-                else{
-                    data[i][k] = new ImageIcon(getClass().getResource("water.png"));
+        if(table == null) {
+
+
+            //Headers for JTable
+            String[] columns = new String[mapSize];
+            for (int i = 0; i < mapSize; i++) {
+                columns[i] = "" + (i + 1);
+            }
+
+            //Fuer Schiffe setzen:
+            //String[][] feldSetzen = new String[model.getSpielfeld()][model.getSpielfeld()];
+            Object[][] data = new Object[mapSize][mapSize];
+            for (int i = 0; i < mapSize; i++) {
+                for (int k = 0; k < mapSize; k++) {
+                    if (Spieler1.board[i][k] != null && Spieler1.board[i][k] instanceof Ship) {
+                        int initialX = ((Ship) Spieler1.board[i][k]).initialX;
+                        int initialY = ((Ship) Spieler1.board[i][k]).initialY;
+                        int length = ((Ship) Spieler1.board[i][k]).length;
+                        boolean horizontal = ((Ship) Spieler1.board[i][k]).initialD;          //horizontal == true
+                        data = drawShip(initialX, initialY, length, horizontal, data);
+                    } else {
+                        data[i][k] = new ImageIcon(getClass().getResource("water.png"));
+                    }
                 }
             }
+
+            Object[][] data3 = new Object[mapSize][mapSize];
+            for (int i = 0; i < Spieler2.board.length; i++) {
+                for (int k = 0; k < Spieler2.board.length; k++) {
+                    if (Spieler2.board[i][k] != null && Spieler2.board[i][k] instanceof Ship) {
+                        int initialX = ((Ship) Spieler2.board[i][k]).initialX;
+                        int initialY = ((Ship) Spieler2.board[i][k]).initialY;
+                        int length = ((Ship) Spieler2.board[i][k]).length;
+                        boolean horizontal = ((Ship) Spieler2.board[i][k]).initialD;          //horizontal == true
+                        data3 = drawShip(initialX, initialY, length, horizontal, data3);
+                    } else {
+                        data3[i][k] = new ImageIcon(getClass().getResource("water.png"));
+                    }
+                }
+            }
+
+            //data for JTable in a 2D table
+            Object[][] data2 = new Object[mapSize][mapSize];
+            for (int j = 0; j < mapSize; j++) {
+                for (int k = 0; k < mapSize; k++) {
+                    data2[j][k] = new ImageIcon(getClass().getResource("water.png"));
+                }
+            }
+
+            DefaultTableModel model = new DefaultTableModel(data, columns);
+            DefaultTableModel model2 = new DefaultTableModel(data2, columns);
+            DefaultTableModel model3 = new DefaultTableModel(data3, columns);
+            DefaultTableModel model4 = new DefaultTableModel(data2.clone(), columns);
+
+            table = new JTable(model) {
+                public Class getColumnClass(int column) {
+                    return ImageIcon.class;
+                }
+
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+
+                public int getRowHeight() {              //Cells are squares
+                    return this.getColumnModel().getColumn(0).getWidth();
+                }
+            };
+            table2 = new JTable(model2) {
+                public Class getColumnClass(int column) {
+                    return ImageIcon.class;
+                }
+
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+
+                public int getRowHeight() {              //Cells are squares
+                    return this.getColumnModel().getColumn(0).getWidth();
+                }
+            };
+            table3 = new JTable(model3) {
+                public Class getColumnClass(int column) {
+                    return ImageIcon.class;
+                }
+
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+
+                public int getRowHeight() {              //Cells are squares
+                    return this.getColumnModel().getColumn(0).getWidth();
+                }
+            };
+            table4 = new JTable(model4) {
+                public Class getColumnClass(int column) {
+                    return ImageIcon.class;
+                }
+
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+
+                public int getRowHeight() {              //Cells are squares
+                    return this.getColumnModel().getColumn(0).getWidth();
+                }
+            };
         }
-
-        Object[][] data3 = new Object[mapSize][mapSize];
-        for(int i = 0; i<Spieler2.board.length; i ++){
-            for(int k = 0; k<Spieler2.board.length; k++){
-                if(Spieler2.board[i][k] != null && Spieler2.board[i][k] instanceof Ship){
-                    int initialX = ((Ship) Spieler2.board[i][k]).initialX;
-                    int initialY = ((Ship) Spieler2.board[i][k]).initialY;
-                    int length = ((Ship) Spieler2.board[i][k]).length;
-                    boolean horizontal = ((Ship) Spieler2.board[i][k]).initialD;          //horizontal == true
-                    data3 = drawShip(initialX, initialY, length, horizontal, data3);
-                }
-                else{
-                    data3[i][k] = new ImageIcon(getClass().getResource("water.png"));
-                }
-            }
-        }
-
-        //data for JTable in a 2D table
-        Object[][] data2 = new Object[player1.player.mapSize][player1.player.mapSize];
-        for(int j=0; j<player1.player.mapSize; j++){
-            for(int k=0; k<player1.player.mapSize; k++){
-                data2[j][k] = new ImageIcon(getClass().getResource("water.png"));
-            }
-        }
-
-        DefaultTableModel model = new DefaultTableModel(data, columns);
-        DefaultTableModel model2 = new DefaultTableModel(data2, columns);
-        DefaultTableModel model3 = new DefaultTableModel(data3, columns);
-        DefaultTableModel model4 = new DefaultTableModel(data2.clone(), columns);
-
-        table = new JTable(model) {
-            public Class getColumnClass(int column) {
-                return ImageIcon.class;
-            }
-            public boolean isCellEditable(int row, int column){
-                return false;
-            }
-            public int getRowHeight(){              //Cells are squares
-                return this.getColumnModel().getColumn(0).getWidth();
-            }
-        };
-        table2 = new JTable(model2) {
-            public Class getColumnClass(int column) {
-                return ImageIcon.class;
-            }
-            public boolean isCellEditable(int row, int column){
-                return false;
-            }
-            public int getRowHeight(){              //Cells are squares
-                return this.getColumnModel().getColumn(0).getWidth();
-            }
-        };
-        table3 = new JTable(model3) {
-            public Class getColumnClass(int column) {
-                return ImageIcon.class;
-            }
-            public boolean isCellEditable(int row, int column){
-                return false;
-            }
-            public int getRowHeight(){              //Cells are squares
-                return this.getColumnModel().getColumn(0).getWidth();
-            }
-        };
-        table4 = new JTable(model4) {
-            public Class getColumnClass(int column) {
-                return ImageIcon.class;
-            }
-            public boolean isCellEditable(int row, int column){
-                return false;
-            }
-            public int getRowHeight(){              //Cells are squares
-                return this.getColumnModel().getColumn(0).getWidth();
-            }
-        };
-
         table.setDefaultRenderer(ImageIcon.class, new MyImageCellRenderer());
         table2.setDefaultRenderer(ImageIcon.class, new MyImageCellRenderer());
         table3.setDefaultRenderer(ImageIcon.class, new MyImageCellRenderer());
         table4.setDefaultRenderer(ImageIcon.class, new MyImageCellRenderer());
 
-        JFrame frame = new JFrame("Schiffeversenken " + player1.player.name);
+        JFrame frame = new JFrame("Schiffeversenken " + Spieler1.name);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Zwischenraum der Breite 50 oder mehr.
-        JFrame frame2 = new JFrame("Schiffeversenken " + player2.player.name);
+        JFrame frame2 = new JFrame("Schiffeversenken " + Spieler2.name);
 
         frame.setContentPane(Box.createHorizontalBox());
 
@@ -247,7 +259,7 @@ public class SpielStartLokal implements Serializable {
                 try {
                     a = table2.getValueAt(selecRow, selecCol).toString();
                     b = getClass().getResource("water.png").toString();
-                    if (player1.player.attackToken == true && a.equals(b)) {
+                    if (Spieler1.attackToken == true && a.equals(b)) {
                         Spieler1.lastShotX = selecRow;
                         Spieler1.lastShotY = selecCol;
 
@@ -262,7 +274,7 @@ public class SpielStartLokal implements Serializable {
                             Spieler1.attackToken = false;
                             Spieler2.attackToken = true;
                             if (Spieler2.name.equals("KI_leicht") || Spieler2.name.equals("KI_mittel")) {
-                                while (player2.player.attackToken == true) {
+                                while (Spieler2.attackToken == true) {
                                     if (Spieler2.name.equals("KI_leicht")) {
                                         ((leichte_KI_zufall) Spieler2).KIshoot();
                                         selecRow = ((leichte_KI_zufall) Spieler2).testx;
@@ -390,7 +402,18 @@ public class SpielStartLokal implements Serializable {
         speichern.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if(Spieler1.attackToken == true){
+                    String filename = "" + AllWeNeed.nextId();
+                    AllWeNeed newsave = new AllWeNeed(true, Spieler1, Spieler2, table, table2, table3, table4, filename);              //Speichern fuer Online versus
+                    SwingUtilities.invokeLater(() -> {
+                        try {
+                            System.out.println("speichern: ");
+                            Speichern.save(newsave, filename);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    });
+                }
             }
         });
 
@@ -468,7 +491,7 @@ public class SpielStartLokal implements Serializable {
                 try{
                     a = table4.getValueAt(selecRow,selecCol).toString();
                     b = getClass().getResource("water.png").toString();
-                    if(player2.player.attackToken == true && a.equals(b)){
+                    if(Spieler2.attackToken == true && a.equals(b)){
                         Spieler2.lastShotX = selecRow;
                         Spieler2.lastShotY = selecCol;
                         String answer = Spieler1.shootYourself(selecRow, selecCol);
@@ -499,7 +522,9 @@ public class SpielStartLokal implements Serializable {
                         }
                     }
                 }
-                catch(Exception exc){}
+                catch(Exception exc){
+                    exc.printStackTrace();
+                }
                 System.out.println("Tabelle4 " + selecRow + "," + selecCol);
             }
         });
@@ -566,7 +591,17 @@ public class SpielStartLokal implements Serializable {
         speichernn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if(Spieler2.attackToken == true){
+                    String filename = "" + AllWeNeed.nextId();
+                    AllWeNeed newsave = new AllWeNeed(true, Spieler1, Spieler2, table, table2, table3, table4, filename);              //Speichern fuer Online versus
+                    SwingUtilities.invokeLater(() -> {
+                        try {
+                            Speichern.save(newsave, filename);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    });
+                }
             }
         });
 
