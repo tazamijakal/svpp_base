@@ -225,7 +225,10 @@ public class SpielStartLokal implements Serializable {
         table2.setDefaultRenderer(ImageIcon.class, new MyImageCellRenderer());
         table3.setDefaultRenderer(ImageIcon.class, new MyImageCellRenderer());
         table4.setDefaultRenderer(ImageIcon.class, new MyImageCellRenderer());
-
+        table.getTableHeader().setReorderingAllowed(false);
+        table2.getTableHeader().setReorderingAllowed(false);
+        table3.getTableHeader().setReorderingAllowed(false);
+        table4.getTableHeader().setReorderingAllowed(false);
         JFrame frame = new JFrame("Schiffeversenken " + Spieler1.name);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Zwischenraum der Breite 50 oder mehr.

@@ -6,14 +6,10 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="ki fix">
+    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="local game speichern + laden">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/SpielStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SpielStart.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/SpielStartLokal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SpielStartLokal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Startbildschirm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Startbildschirm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Socket/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/AllWeNeed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/AllWeNeed.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/Speichern.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/Speichern.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -332,7 +328,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656690220391</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="local game speichern + laden">
+      <created>1656692848270</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1656692848270</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -367,7 +370,8 @@
     <MESSAGE value="update" />
     <MESSAGE value="Ampel wer am Zug lokal, Combobox online weg, try-catch bei play Button sonst NullPointerException" />
     <MESSAGE value="ki fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="ki fix" />
+    <MESSAGE value="local game speichern + laden" />
+    <option name="LAST_COMMIT_MESSAGE" value="local game speichern + laden" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

@@ -232,6 +232,8 @@ public final class SpielStart extends JFrame{
         table2.setDefaultRenderer(ImageIcon.class, new MyImageCellRenderer());
         this.table = table;
         this.table2 = table2;
+        table.getTableHeader().setReorderingAllowed(false);
+        table2.getTableHeader().setReorderingAllowed(false);
 
         JFrame frame = new JFrame("Schiffeversenken " + player.name);
         this.startframe = frame;
@@ -572,6 +574,7 @@ public final class SpielStart extends JFrame{
 
 
         table.setDefaultRenderer(ImageIcon.class, new MyImageCellRenderer());
+        table.getTableHeader().setReorderingAllowed(false);
 
         /*if(radioButton_l)
         {
