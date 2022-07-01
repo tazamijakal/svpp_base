@@ -261,11 +261,18 @@ public class SpielStartLokal implements Serializable {
                             frame2.repaint();
                             Spieler1.attackToken = false;
                             Spieler2.attackToken = true;
-                            if (Spieler2.name.equals("KI_leicht")) {
+                            if (Spieler2.name.equals("KI_leicht") || Spieler2.name.equals("KI_mittel")) {
                                 while (player2.player.attackToken == true) {
-                                    ((leichte_KI_zufall) Spieler2).KIshoot();
-                                    selecRow = ((leichte_KI_zufall) Spieler2).testx;
-                                    selecCol = ((leichte_KI_zufall) Spieler2).testy;
+                                    if (Spieler2.name.equals("KI_leicht")) {
+                                        ((leichte_KI_zufall) Spieler2).KIshoot();
+                                        selecRow = ((leichte_KI_zufall) Spieler2).testx;
+                                        selecCol = ((leichte_KI_zufall) Spieler2).testy;
+                                    }
+                                    if (Spieler2.name.equals("KI_mittel")) {
+                                        ((mittlere_KI) Spieler2).KIshoot();
+                                        selecRow = ((mittlere_KI) Spieler2).testx;
+                                        selecCol = ((mittlere_KI) Spieler2).testy;
+                                    }
                                     String answer2 = Spieler1.shootYourself(selecRow, selecCol);
                                     if (answer2.equals("answer 0")) {
                                         Spieler2.visibleBoard[selecRow][selecCol] = new Spieler.MisfireObject();

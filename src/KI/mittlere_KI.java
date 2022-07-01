@@ -52,11 +52,15 @@ public class mittlere_KI extends KI {
             fieldposition shootalg2Treffer = shootalg2Treffer(hitX, hitY);
             this.lastShotX = shootalg2Treffer.x;
             this.lastShotY = shootalg2Treffer.y;
+            this.testx = shootalg2Treffer.x;
+            this.testy = shootalg2Treffer.y;
             return shot(shootalg2Treffer.x,shootalg2Treffer.y);
         }
         fieldposition shootalg1 = shootalg1();
         this.lastShotX = shootalg1.x;
         this.lastShotY = shootalg1.y;
+        this.testx = shootalg1.x;
+        this.testy = shootalg1.y;
         return shot(shootalg1.x,shootalg1.y);
     }
 
