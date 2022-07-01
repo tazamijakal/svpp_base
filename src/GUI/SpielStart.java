@@ -1080,7 +1080,11 @@ public final class SpielStart extends JFrame{
                             }
                             else if ((player2.name.equals("KI_leicht")) ||(player2.name.equals("KI_mittel"))) {
                                 if (player2.name.equals("KI_leicht")){
-                                    ((leichte_KI_zufall) player2).KIplazieren();
+                                    try {
+                                        ((leichte_KI_zufall) player2).KIplazieren();
+                                    } catch (Exception ex) {
+                                        System.err.println("Error");
+                                    }
                                 }
                                 if (player2.name.equals("KI_mittel")){
                                     ((mittlere_KI) player2).KIplazieren();

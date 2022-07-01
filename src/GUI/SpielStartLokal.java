@@ -357,10 +357,28 @@ public class SpielStartLokal implements Serializable {
                             }
                         }
                         else if(answer.equals("answer 1")){
+                            Runnable k = new Runnable() {
+                                public void run() {
+                                    String audioFilePath = "src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                    AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
+                                    MusicPlayer.Soundplay(audioFilePath);
+                                }
+                            };
+
+                            new Thread(k).start();
                             table2.setValueAt(new ImageIcon(getClass().getResource("redcross.png")), selecRow, selecCol);
                             table3.setValueAt(new ImageIcon(getClass().getResource("redcross.png")), selecRow, selecCol);
                         }
                         else if(answer.equals("answer 2")){
+                            Runnable k = new Runnable() {
+                                public void run() {
+                                    String audioFilePath = "src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                    AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
+                                    MusicPlayer.Soundplay(audioFilePath);
+                                }
+                            };
+
+                            new Thread(k).start();
                             table2.setValueAt(new ImageIcon(getClass().getResource("blackcross.png")), selecRow, selecCol);
                             table3.setValueAt(new ImageIcon(getClass().getResource("blackcross.png")), selecRow, selecCol);
                             Spieler2.hp = Spieler2.hp - 1;

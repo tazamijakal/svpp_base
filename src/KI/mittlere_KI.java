@@ -26,7 +26,12 @@ public class mittlere_KI extends KI {
         for (int shiplength = 0; shiplength < this.remainingShips.length; shiplength++) {
             counter = 0;
             while (remainingShips[shiplength] > 0) {
-                fieldposition rdmZielpos = RdmZielpos();
+                fieldposition rdmZielpos = null;
+                try {
+                    rdmZielpos = RdmZielpos();
+                } catch (Exception e) {
+                    System.err.println("Error");
+                }
                 boolean direction = getRandomBoolean();
                 if (spaceCheck(rdmZielpos.x, rdmZielpos.y, shiplength, direction)) {
                     placeRemoveShip(true, rdmZielpos.x, rdmZielpos.y, shiplength, direction);

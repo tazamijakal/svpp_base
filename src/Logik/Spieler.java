@@ -659,7 +659,7 @@ public class Spieler implements Serializable {
         return random.nextBoolean();
     }
 
-    public fieldposition RdmZielpos() {
+    public fieldposition RdmZielpos() throws Exception {
         Integer x;
         Integer y;
         x = randInt(0, mapSize - 1);
@@ -674,7 +674,12 @@ public class Spieler implements Serializable {
         for (int shiplength = 0; shiplength < this.remainingShips.length; shiplength++) {
             counter = 0;
             while (remainingShips[shiplength] > 0) {
-                fieldposition rdmZielpos = RdmZielpos();
+                fieldposition rdmZielpos = null;
+                try {
+                    rdmZielpos = RdmZielpos();
+                } catch (Exception e) {
+                    System.err.println("Error");
+                }
                 boolean direction = getRandomBoolean();
                 if (spaceCheck(rdmZielpos.x, rdmZielpos.y, shiplength, direction)) {
                     placeRemoveShip(true, rdmZielpos.x, rdmZielpos.y, shiplength, direction);

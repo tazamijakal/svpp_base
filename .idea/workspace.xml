@@ -6,7 +6,14 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="Fix" />
+    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="Fix">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/SpielStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SpielStart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/SpielStartLokal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SpielStartLokal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/KI/KI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/KI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/KI/leichte_KI_zufall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/leichte_KI_zufall.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logik/Spieler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Spieler.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -338,7 +345,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656710774775</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Fix">
+      <created>1656710906393</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1656710906393</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

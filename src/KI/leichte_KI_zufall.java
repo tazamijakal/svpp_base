@@ -19,7 +19,7 @@ public class leichte_KI_zufall extends KI {
     }
 
     @Override
-    public void KIplazieren() {
+    public void KIplazieren() throws Exception {
         String Vergleich = "Here";
         int counter;
         for (int shiplength = 0; shiplength < this.remainingShips.length; shiplength++) {
@@ -46,14 +46,24 @@ public class leichte_KI_zufall extends KI {
     }
 
     @Override
-    public String KIshoot() {
+    public String KIshoot() throws Exception {
         System.out.println("new shot");
         fieldposition rdmZielpos = RdmZielpos();
         if (shoottester(rdmZielpos.x, rdmZielpos.y)) {
+            if (visibleBoard[hitX][hitY] instanceof TrefferObject) {
+                fieldposition shootalg2Treffer = shootalg2Treffer(hitX, hitY);
+                this.lastShotX = shootalg2Treffer.x;
+                this.lastShotY = shootalg2Treffer.y;
+                this.testx = shootalg2Treffer.x;
+                this.testy = shootalg2Treffer.y;
+                return shot(shootalg2Treffer.x,shootalg2Treffer.y);
+            }
             this.lastShotX = rdmZielpos.x;
             this.lastShotY = rdmZielpos.y;
             this.testx = rdmZielpos.x;
             this.testy = rdmZielpos.y;
+            hitX = rdmZielpos.x;
+            hitY = rdmZielpos.y;
             return shot(rdmZielpos.x, rdmZielpos.y);
         }
         return KIshoot();

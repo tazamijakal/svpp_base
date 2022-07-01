@@ -37,9 +37,18 @@ public abstract class KI extends Spieler {
     }
 
     final fieldposition shootalg1 () throws Exception {
+
         int x, y, feldzaehler;
-        //schiessen auf (2)(1), danach (mapsize-1)(1).... (2)(mapsize-1)(mapsize-1)(mapsize-1)ausser es trifft etwas.
         feldzaehler = mapSize > 1?1:0;
+        for (int i =0;i<100;i++) {
+            int randY= (randInt(0,mapSize * mapSize - 1) * 2 + feldzaehler) / mapSize;
+            int randX= ((randInt(0,mapSize * mapSize - 1) * 2 + feldzaehler) + (randY % 2 == 0 ? 0 : 1)) % mapSize;
+            if (shoottester(randX, randY)){
+                hitX = randX;
+                hitY = randY;
+                return new fieldposition(randX, randY);
+            }
+        }
         while (feldzaehler < mapSize*mapSize) {
             y = feldzaehler / mapSize;
             x = (feldzaehler+(y%2==0?0:1)) %    mapSize;
@@ -104,7 +113,15 @@ public abstract class KI extends Spieler {
         return shootalg1()  ;
     }
 
-    public fieldposition RdmZielpos() {
+    public fieldposition RdmZielpos() throws Exception {
+        if (visibleBoard[hitX][hitY] instanceof TrefferObject) {
+            fieldposition shootalg2Treffer = shootalg2Treffer(hitX, hitY);
+            this.lastShotX = shootalg2Treffer.x;
+            this.lastShotY = shootalg2Treffer.y;
+            this.testx = shootalg2Treffer.x;
+            this.testy = shootalg2Treffer.y;
+            return new fieldposition(shootalg2Treffer.x,shootalg2Treffer.y);
+        }
         Integer x;
         Integer y;
         x = randInt(0, mapSize - 1);
@@ -132,7 +149,7 @@ public abstract class KI extends Spieler {
     /**
      * KI plaziert hiermiet spaeter die Schiffe
      */
-    public abstract void KIplazieren();
+    public abstract void KIplazieren() throws Exception;
 
     /**
      * KI schiesst auf ein Feld, entweder zufaellig, oder mit logik.
