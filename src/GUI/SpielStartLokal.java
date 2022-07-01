@@ -227,6 +227,19 @@ public class SpielStartLokal implements Serializable {
         JScrollPane scrollPane = new JScrollPane(table);
         JScrollPane scrollPane2 = new JScrollPane(table2);
 
+        JButton spieler1_frame = new JButton("Spieler1");
+        JButton spieler2_frame = new JButton("Spieler2");
+
+        JButton spieler1_frame2 = new JButton("Spieler1");
+        JButton spieler2_frame2 = new JButton("Spieler2");
+
+        spieler1_frame.setBackground(Color.GREEN);
+        spieler2_frame.setBackground(Color.RED);
+
+        spieler1_frame2.setBackground(Color.GREEN);
+        spieler2_frame2.setBackground(Color.RED);
+
+
         table2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -264,6 +277,35 @@ public class SpielStartLokal implements Serializable {
                             }
                         }
                     }
+                    if(Spieler1.attackToken && !Spieler2.attackToken)
+                    {
+                        spieler1_frame.setBackground(Color.GREEN);
+                        spieler2_frame.setBackground(Color.RED);
+
+                        spieler1_frame2.setBackground(Color.GREEN);
+                        spieler2_frame2.setBackground(Color.RED);
+
+                        spieler1_frame.repaint();
+                        spieler2_frame.repaint();
+
+                        spieler1_frame2.repaint();
+                        spieler2_frame2.repaint();
+                    }
+                    else if(Spieler2.attackToken && !Spieler1.attackToken)
+                    {
+                        spieler1_frame.setBackground(Color.RED);
+                        spieler2_frame.setBackground(Color.GREEN);
+
+                        spieler1_frame2.setBackground(Color.RED);
+                        spieler2_frame2.setBackground(Color.GREEN);
+
+                        spieler1_frame.repaint();
+                        spieler2_frame.repaint();
+
+                        spieler1_frame2.repaint();
+                        spieler2_frame2.repaint();
+                    }
+
                 }
                 catch(Exception exc){}
                 System.out.println("Tabelle2 " + selecRow + "," + selecCol);
@@ -322,6 +364,8 @@ public class SpielStartLokal implements Serializable {
         {
             speichern.setBackground(Color.CYAN);
 
+            vbox_3.add(spieler1_frame);
+            vbox_3.add(spieler2_frame);
 
             vbox_3.add(speichern);
 
@@ -435,6 +479,36 @@ public class SpielStartLokal implements Serializable {
                             }
                         }
                     }
+
+                    if(Spieler1.attackToken && !Spieler2.attackToken)
+                    {
+                        spieler1_frame.setBackground(Color.GREEN);
+                        spieler2_frame.setBackground(Color.RED);
+
+                        spieler1_frame2.setBackground(Color.GREEN);
+                        spieler2_frame2.setBackground(Color.RED);
+
+                        spieler1_frame.repaint();
+                        spieler2_frame.repaint();
+
+                        spieler1_frame2.repaint();
+                        spieler2_frame2.repaint();
+                    }
+                    else if(Spieler2.attackToken && !Spieler1.attackToken)
+                    {
+                        spieler1_frame.setBackground(Color.RED);
+                        spieler2_frame.setBackground(Color.GREEN);
+
+                        spieler1_frame2.setBackground(Color.RED);
+                        spieler2_frame2.setBackground(Color.GREEN);
+
+                        spieler1_frame.repaint();
+                        spieler2_frame.repaint();
+
+                        spieler1_frame2.repaint();
+                        spieler2_frame2.repaint();
+                    }
+
                 }
                 catch(Exception exc){}
                 System.out.println("Tabelle4 " + selecRow + "," + selecCol);
@@ -493,6 +567,8 @@ public class SpielStartLokal implements Serializable {
         {
             speichernn.setBackground(Color.CYAN);
 
+            vbox_30.add(spieler1_frame2);
+            vbox_30.add(spieler2_frame2);
 
             vbox_30.add(speichernn);
 

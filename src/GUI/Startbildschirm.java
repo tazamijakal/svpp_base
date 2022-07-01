@@ -130,22 +130,22 @@ public final class Startbildschirm{
         slider2.setValue(0);
         label_slider2.setText(Integer.toString(slider2.getValue()));
 
-        JSlider slider3 = new JSlider();
+        JSlider slider3 = new JSlider(0, 30);
         JLabel label_slider3 = new JLabel();
         slider3.setValue(0);
         label_slider3.setText(Integer.toString(slider3.getValue()));
 
-        JSlider slider4 = new JSlider();
+        JSlider slider4 = new JSlider(0, 30);
         JLabel label_slider4 = new JLabel();
         slider4.setValue(0);
         label_slider4.setText(Integer.toString(slider4.getValue()));
 
-        JSlider slider5 = new JSlider();
+        JSlider slider5 = new JSlider(0, 30);
         JLabel label_slider5 = new JLabel();
         slider5.setValue(0);
         label_slider5.setText(Integer.toString(slider5.getValue()));
 
-        JSlider slider6 = new JSlider();
+        JSlider slider6 = new JSlider(0, 30);
         JLabel label_slider6 = new JLabel();
         slider6.setValue(0);
         label_slider6.setText(Integer.toString(slider6.getValue()));
@@ -335,90 +335,102 @@ public final class Startbildschirm{
 
         //Auswahl Spielmodus Online
         //Erzeugung ComboBox
-        String[] list_online = {"[choose]", "Spieler vs Spieler", "Spieler vs KI", "KI vs KI"};
-        JComboBox<String> auswahl_online = new JComboBox<String>(list_online);
+        //String[] list_online = {"[choose]", "Spieler vs Spieler", "Spieler vs KI", "KI vs KI"};
+        //JComboBox<String> auswahl_online = new JComboBox<String>(list_online);
 
         play.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(selectedSpace == 0 && !((role.equals("Client")) || role.equals("KI_Client_leicht") || role.equals("KI_Client_mittel"))){
-                    System.out.println("Do nothing");
-                }
-                else if(role != null && (GAME.radioButton_l || GAME.radioButton_o) && selectedSpace <= maxSpace){
-                    startbildschirm.setVisible(false);
-                    //int hp = (GAME.spielfeldgr * GAME.spielfeldgr) / 3;
-                    if(GAME.radioButton_o)
-                    {
-                        int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
-                        int hp = 2*anzahl2 + 3*anzahl3 + 4*anzahl4 + 5*anzahl5 + 6*anzahl6;
-                        if(role.equals("Server")){
-                            //Anzahl Schiffe
-                            //int[] ships = {0, 0, 2, 2, 0, 0};
-                            Spieler player = new Spieler("Server", GAME.spielfeldgr, hp, ships, GAME);
-                            Server server = new Server(50000, 0 + "", player, GAME, startbildschirm);
-                            player.serverSetter(server);
-                            SwingUtilities.invokeLater(() -> {server.connect();});
+                try {
+                    if (selectedSpace == 0 && !((role.equals("Client")) || role.equals("KI_Client_leicht") || role.equals("KI_Client_mittel"))) {
+                        System.out.println("Do nothing");
+                    } else if (role != null && (GAME.radioButton_l || GAME.radioButton_o) && selectedSpace <= maxSpace) {
+                        startbildschirm.setVisible(false);
+                        //int hp = (GAME.spielfeldgr * GAME.spielfeldgr) / 3;
+                        if (GAME.radioButton_o) {
+                            int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
+                            int hp = 2 * anzahl2 + 3 * anzahl3 + 4 * anzahl4 + 5 * anzahl5 + 6 * anzahl6;
+                            if (role.equals("Server")) {
+                                //Anzahl Schiffe
+                                //int[] ships = {0, 0, 2, 2, 0, 0};
+                                Spieler player = new Spieler("Server", GAME.spielfeldgr, hp, ships, GAME);
+                                Server server = new Server(50000, 0 + "", player, GAME, startbildschirm);
+                                player.serverSetter(server);
+                                SwingUtilities.invokeLater(() -> {
+                                    server.connect();
+                                });
+                            }
+                            if (role.equals("Client")) {
+                                Spieler player = new Spieler("Client", GAME.spielfeldgr, hp, null, GAME);
+                                Client client = new Client(50000, "localhost", player, GAME, startbildschirm);
+                                player.clientSetter(client);
+                                SwingUtilities.invokeLater(() -> {
+                                    client.connect();
+                                });
+                            }
+                            if (role.equals("KI_Server_leicht")) {
+                                leichte_KI_zufall ki = new leichte_KI_zufall("KI_Server_leicht", GAME.spielfeldgr, hp, ships, null);
+                                Server kiserver = new Server(50000, 0 + "", ki, GAME, startbildschirm);
+                                ki.serverSetter(kiserver);
+                                SwingUtilities.invokeLater(() -> {
+                                    kiserver.connect();
+                                });
+                            }
+                            if (role.equals("KI_Server_mittel")) {
+                                mittlere_KI ki = new mittlere_KI("KI_Server_mittel", GAME.spielfeldgr, hp, ships, null);
+                                Server kiserver = new Server(50000, 0 + "", ki, GAME, startbildschirm);
+                                ki.serverSetter(kiserver);
+                                SwingUtilities.invokeLater(() -> {
+                                    kiserver.connect();
+                                });
+                            }
+                            if (role.equals("KI_Client_leicht")) {
+                                leichte_KI_zufall ki = new leichte_KI_zufall("KI_Client_leicht", GAME.spielfeldgr, hp, ships, null);
+                                Client kiclient = new Client(50000, ClientIP, ki, GAME, startbildschirm);
+                                ki.clientSetter(kiclient);
+                                SwingUtilities.invokeLater(() -> {
+                                    kiclient.connect();
+                                });
+                            }
+                            if (role.equals("KI_Client_mittel")) {
+                                mittlere_KI ki = new mittlere_KI("KI_Client_mittel", GAME.spielfeldgr, hp, ships, null);
+                                Client kiclient = new Client(50000, ClientIP, ki, GAME, startbildschirm);
+                                ki.clientSetter(kiclient);
+                                SwingUtilities.invokeLater(() -> {
+                                    kiclient.connect();
+                                });
+                            }
                         }
-                        if(role.equals("Client")){
-                            Spieler player = new Spieler("Client", GAME.spielfeldgr, hp, null, GAME);
-                            Client client = new Client(50000, "localhost", player, GAME, startbildschirm);
-                            player.clientSetter(client);
-                            SwingUtilities.invokeLater(() -> {client.connect();});
+
+
+                    } else if (GAME.radioButton_l /*&& lok_Spsp*/ && selectedSpace <= maxSpace) {
+                        if (auswahl_lokal.getSelectedItem().equals("Spieler vs KI_leicht")) {
+                            startbildschirm.setVisible(false);
+                            int hp = 2 * anzahl2 + 3 * anzahl3 + 4 * anzahl4 + 5 * anzahl5 + 6 * anzahl6;
+                            int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
+                            Spieler sp1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships, GAME);
+                            leichte_KI_zufall ki = new leichte_KI_zufall("KI_leicht", GAME.spielfeldgr, hp, ships, GAME);
+                            SwingUtilities.invokeLater(() -> {
+                                sp1.GAME.Setzen(sp1, sp2);
+                            });
+                        } else if (auswahl_lokal.getSelectedItem().equals("Spieler vs Spieler")) {
+                            startbildschirm.setVisible(false);
+                            int hp = 2 * anzahl2 + 3 * anzahl3 + 4 * anzahl4 + 5 * anzahl5 + 6 * anzahl6;
+                            int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
+                            Spieler sp1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships, GAME);
+                            Spieler sp2 = new Spieler("Spieler2", GAME.spielfeldgr, hp, ships, GAME);
+
+                            SwingUtilities.invokeLater(() -> {
+                                sp1.GAME.Setzen(sp1, sp2);
+                            });
                         }
-                        if(role.equals("KI_Server_leicht")){
-                            leichte_KI_zufall ki = new leichte_KI_zufall("KI_Server_leicht", GAME.spielfeldgr, hp, ships, null);
-                            Server kiserver = new Server(50000, 0 + "", ki, GAME, startbildschirm);
-                            ki.serverSetter(kiserver);
-                            SwingUtilities.invokeLater(() -> {kiserver.connect();});
-                        }
-                        if(role.equals("KI_Server_mittel")){
-                            mittlere_KI ki = new mittlere_KI("KI_Server_mittel", GAME.spielfeldgr, hp, ships, null);
-                            Server kiserver = new Server(50000, 0 + "", ki, GAME, startbildschirm);
-                            ki.serverSetter(kiserver);
-                            SwingUtilities.invokeLater(() -> {kiserver.connect();});
-                        }
-                        if(role.equals("KI_Client_leicht")){
-                            leichte_KI_zufall ki = new leichte_KI_zufall("KI_Client_leicht", GAME.spielfeldgr, hp, ships, null);
-                            Client kiclient = new Client(50000, ClientIP, ki, GAME, startbildschirm);
-                            ki.clientSetter(kiclient);
-                            SwingUtilities.invokeLater(() -> {kiclient.connect();});
-                        }
-                        if(role.equals("KI_Client_mittel")){
-                            mittlere_KI ki = new mittlere_KI("KI_Client_mittel", GAME.spielfeldgr, hp, ships, null);
-                            Client kiclient = new Client(50000, ClientIP, ki, GAME, startbildschirm);
-                            ki.clientSetter(kiclient);
-                            SwingUtilities.invokeLater(() -> {kiclient.connect();});
-                        }
+                    } else {
+                        System.out.println("Finish all parameters");
                     }
-
-
                 }
-                else if(GAME.radioButton_l /*&& lok_Spsp*/ && selectedSpace <= maxSpace)
+                catch(NullPointerException nullexc)
                 {
-                    if(auswahl_lokal.getSelectedItem().equals("Spieler vs KI_leicht")){
-                        startbildschirm.setVisible(false);
-                        int hp = 2*anzahl2 + 3*anzahl3 + 4*anzahl4 + 5*anzahl5 + 6*anzahl6;
-                        int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
-                        Spieler sp1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships, GAME);
-                        leichte_KI_zufall ki = new leichte_KI_zufall("KI_leicht", GAME.spielfeldgr, hp, ships, GAME);
-                        SwingUtilities.invokeLater(() -> {
-                            sp1.GAME.Setzen(sp1, sp2);
-                        });
-                    }
-                    else if(auswahl_lokal.getSelectedItem().equals("Spieler vs Spieler")){
-                        startbildschirm.setVisible(false);
-                        int hp = 2*anzahl2 + 3*anzahl3 + 4*anzahl4 + 5*anzahl5 + 6*anzahl6;
-                        int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
-                        Spieler sp1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships, GAME);
-                        Spieler sp2 = new Spieler("Spieler2", GAME.spielfeldgr, hp, ships, GAME);
-
-                        SwingUtilities.invokeLater(() -> {
-                            sp1.GAME.Setzen(sp1, sp2);
-                        });
-                    }
-                }
-                else{
-                    System.out.println("Finish all parameters");
+                    JOptionPane.showMessageDialog(startbildschirm, "Du hast keine Werte gesetzt!!");
                 }
 
 
@@ -534,14 +546,14 @@ public final class Startbildschirm{
                         //rb_lokal.getAction();
                         GAME.radioButton_l = false;
                         rb_online.setEnabled(true);
-                        auswahl_online.setEnabled(true);
+                        //auswahl_online.setEnabled(true);
                     }
                     else
                     {
                         auswahl_spieler.setEnabled(true);
                         GAME.radioButton_l = true;
                         rb_online.setEnabled(false);
-                        auswahl_online.setEnabled(false);
+                        //auswahl_online.setEnabled(false);
                     }
 
                 }
@@ -586,7 +598,7 @@ public final class Startbildschirm{
         else
         {
             rb_online.setEnabled(false);
-            auswahl_online.setEnabled(false);
+            //auswahl_online.setEnabled(false);
         }
 
 
@@ -610,7 +622,7 @@ public final class Startbildschirm{
         spielAuswahl.add(Box.createVerticalGlue());
 
         spielAuswahl.add(rb_online);
-        spielAuswahl.add(auswahl_online);
+        //spielAuswahl.add(auswahl_online);
 
         spielAuswahl.add(Box.createVerticalStrut(10));
         spielAuswahl.add(Box.createVerticalGlue());
