@@ -542,7 +542,8 @@ public final class Startbildschirm{
                 public void actionPerformed(ActionEvent e) {
                     if (GAME.radioButton_l)
                     {
-                        auswahl_spieler.setEnabled(false);
+                        //auswahl_spieler.setEnabled(false);
+                        auswahl_spieler.setEnabled(true);
                         //rb_lokal.getAction();
                         GAME.radioButton_l = false;
                         rb_online.setEnabled(true);
@@ -550,7 +551,8 @@ public final class Startbildschirm{
                     }
                     else
                     {
-                        auswahl_spieler.setEnabled(true);
+                        //auswahl_spieler.setEnabled(true);
+                        auswahl_spieler.setEnabled(false);
                         GAME.radioButton_l = true;
                         rb_online.setEnabled(false);
                         //auswahl_online.setEnabled(false);
