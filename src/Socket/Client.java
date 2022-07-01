@@ -11,6 +11,7 @@ import static java.lang.Integer.parseInt;
 import KI.leichte_KI_zufall;
 import KI.mittlere_KI;
 import Logik.*;
+import Music.AudioPlayerExample2;
 import ladenspeichern.AllWeNeed;
 import ladenspeichern.Laden;
 import ladenspeichern.Speichern;
@@ -262,6 +263,15 @@ public class Client implements Serializable{
                     case "answer":  //Antwort fuer Schuss aufs Gegnerische Feld
                         switch (Osplit[1]) {
                             case "0":
+                                Runnable k = new Runnable() {
+                                    public void run() {
+                                        String audioFilePath = "src/Music/Water Splash Sound FX 1.wav";
+                                        AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
+                                        MusicPlayer.Soundplay(audioFilePath);
+                                    }
+                                };
+
+                                new Thread(k).start();
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 0");
 
                                 player.attackToken = false;
@@ -270,6 +280,15 @@ public class Client implements Serializable{
                                 System.out.println("pass to Opponent");
                                 break;
                             case "1":
+                                Runnable l = new Runnable() {
+                                    public void run() {
+                                        String audioFilePath = "src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                        AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
+                                        MusicPlayer.Soundplay(audioFilePath);
+                                    }
+                                };
+
+                                new Thread(l).start();
                                 //Getroffen (nicht versenkt) Client ist wieder am Zug =================================================================
                                 //GUI wieder freischalten oder boolean in Spieler Objekt??!
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 1");
@@ -277,6 +296,15 @@ public class Client implements Serializable{
                                 GAME.setTable2RedCross(player.lastShotX, player.lastShotY);
                                 break;
                             case "2":
+                                Runnable j = new Runnable() {
+                                    public void run() {
+                                        String audioFilePath = "src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                        AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
+                                        MusicPlayer.Soundplay(audioFilePath);
+                                    }
+                                };
+
+                                new Thread(j).start();
                                 //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
                                 player.hp2 = player.hp2 - 1;
@@ -284,6 +312,14 @@ public class Client implements Serializable{
                                 GAME.setTable2BlackCross(player.lastShotX, player.lastShotY);
                                 if (player.hp2 == 0) {
                                     JOptionPane.showMessageDialog(menu, "SPIEL GEWONNEN :D" );
+                                    Runnable w = new Runnable() {
+                                        public void run() {
+                                            String audioFilePath = "src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
+                                            AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
+                                            MusicPlayer.Soundplay(audioFilePath);
+                                        }
+                                    };
+                                    new Thread(w).start();
                                     System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
                                     menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
                                 }

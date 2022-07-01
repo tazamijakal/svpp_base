@@ -385,6 +385,14 @@ public class SpielStartLokal implements Serializable {
                             Spieler1.hp2 = Spieler1.hp2 - 1;
                             System.out.println(Spieler2.hp + " " + Spieler1.hp2);
                             if(Spieler2.hp == 0){
+                                Runnable w = new Runnable() {
+                                    public void run() {
+                                        String audioFilePath = "src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
+                                        AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
+                                        MusicPlayer.Soundplay(audioFilePath);
+                                    }
+                                };
+                                new Thread(w).start();
                                 JOptionPane.showMessageDialog(frame, "Spieler 1 hat das Spiel gewonnen :)" );
                                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                             }
@@ -598,6 +606,14 @@ public class SpielStartLokal implements Serializable {
                             Spieler2.hp2 = Spieler2.hp2 - 1;
                             System.out.println(Spieler1.hp + " " + Spieler2.hp2);
                             if(Spieler1.hp == 0){
+                                Runnable w = new Runnable() {
+                                    public void run() {
+                                        String audioFilePath = "src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
+                                        AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
+                                        MusicPlayer.Soundplay(audioFilePath);
+                                    }
+                                };
+                                new Thread(w).start();
                                 JOptionPane.showMessageDialog(frame, "Spieler 2 hat das Spiel gewonnen :)" );
                                 frame2.dispatchEvent(new WindowEvent(frame2, WindowEvent.WINDOW_CLOSING));
                             }
