@@ -1,5 +1,6 @@
 package GUI;
 
+import KI.*;
 import Logik.Ship;
 import Logik.Spieler;
 import ladenspeichern.AllWeNeed;
@@ -243,14 +244,15 @@ public class SpielStartLokal implements Serializable {
                 //feldSetzen[selecRow][selecRow] = "ship";
                 //table2.setValueAt(new ImageIcon("src\\blue.png"), selecRow, selecCol);
                 String a, b;
-                try{
-                    a = table2.getValueAt(selecRow,selecCol).toString();
+                try {
+                    a = table2.getValueAt(selecRow, selecCol).toString();
                     b = getClass().getResource("water.png").toString();
-                    if(player1.player.attackToken == true && a.equals(b)){
+                    if (player1.player.attackToken == true && a.equals(b)) {
                         Spieler1.lastShotX = selecRow;
                         Spieler1.lastShotY = selecCol;
+
                         String answer = Spieler2.shootYourself(selecRow, selecCol);
-                        if(answer.equals("answer 0")){
+                        if (answer.equals("answer 0")) {
                             table2.setValueAt(new ImageIcon(getClass().getResource("blue.png")), selecRow, selecCol);
                             table3.setValueAt(new ImageIcon(getClass().getResource("blue.png")), selecRow, selecCol);
                             spieler1_frame.setBackground(Color.RED);
@@ -259,6 +261,42 @@ public class SpielStartLokal implements Serializable {
                             frame2.repaint();
                             Spieler1.attackToken = false;
                             Spieler2.attackToken = true;
+                            if (Spieler2.name.equals("KI_leicht")) {
+                                while (player2.player.attackToken == true) {
+                                    ((leichte_KI_zufall) Spieler2).KIshoot();
+                                    selecRow = ((leichte_KI_zufall) Spieler2).testx;
+                                    selecCol = ((leichte_KI_zufall) Spieler2).testy;
+                                    String answer2 = Spieler1.shootYourself(selecRow, selecCol);
+                                    if (answer2.equals("answer 0")) {
+                                        Spieler2.visibleBoard[selecRow][selecCol] = new Spieler.MisfireObject();
+                                        table.setValueAt(new ImageIcon(getClass().getResource("blue.png")), selecRow, selecCol);
+                                        table4.setValueAt(new ImageIcon(getClass().getResource("blue.png")), selecRow, selecCol);
+                                        spieler1_frame.setBackground(Color.GREEN);
+                                        spieler2_frame.setBackground(Color.RED);
+                                        frame2.repaint();
+                                        frame.repaint();
+                                        Spieler2.attackToken = false;
+                                        Spieler1.attackToken = true;
+                                    }
+                                    if (answer2.equals("answer 1")) {
+                                        table.setValueAt(new ImageIcon(getClass().getResource("redcross.png")), selecRow, selecCol);
+                                        table4.setValueAt(new ImageIcon(getClass().getResource("redcross.png")), selecRow, selecCol);
+                                        Spieler2.visibleBoard[selecRow][selecCol] = new Spieler.TrefferObject();
+                                    }
+                                    if (answer2.equals("answer 2")) {
+                                        table.setValueAt(new ImageIcon(getClass().getResource("blackcross.png")), selecRow, selecCol);
+                                        table4.setValueAt(new ImageIcon(getClass().getResource("blackcross.png")), selecRow, selecCol);
+                                        Spieler1.hp = Spieler1.hp - 1;
+                                        Spieler2.hp2 = Spieler2.hp2 - 1;
+                                        System.out.println(Spieler1.hp + " " + Spieler2.hp2);
+                                        Spieler2.visibleBoard[selecRow][selecCol] = new Spieler.TrefferObject();
+                                        if (Spieler1.hp == 0) {
+                                            JOptionPane.showMessageDialog(frame, "Spieler 2 hat das Spiel gewonnen :)");
+                                            frame2.dispatchEvent(new WindowEvent(frame2, WindowEvent.WINDOW_CLOSING));
+                                        }
+                                    }
+                                }
+                            }
                         }
                         else if(answer.equals("answer 1")){
                             table2.setValueAt(new ImageIcon(getClass().getResource("redcross.png")), selecRow, selecCol);
@@ -410,6 +448,7 @@ public class SpielStartLokal implements Serializable {
 
         JScrollPane scrollPane3 = new JScrollPane(table3);
         JScrollPane scrollPane4 = new JScrollPane(table4);
+
 
         table4.addMouseListener(new MouseAdapter() {
             @Override

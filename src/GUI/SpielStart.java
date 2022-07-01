@@ -1068,11 +1068,24 @@ public final class SpielStart extends JFrame{
                     //if(allshipsareplaced == true){
                     if(counter > 0){
                         setzen.setVisible(false);
-                        if(player.name.equals("Spieler1")){
+                        if(player.name.equals("Spieler1")) {
                             player.lokaltoken = false;
-                            SwingUtilities.invokeLater(() -> {
-                                player2.GAME.Setzen(player2, player);
-                            });
+                            if (player2.name.equals("Spieler2")) {
+                                SwingUtilities.invokeLater(() -> {
+                                    player2.GAME.Setzen(player2, player);
+                                });
+                            }
+                            if ((player2.name.equals("KI_leicht"))) {
+                                ((leichte_KI_zufall) player2).KIplazieren();
+                                player.lokaltoken = false;
+                                AllWeNeed Sp2 = new AllWeNeed(true, player2, null, player2.GAME.getTable(), player2.GAME.getTable2(), null);
+                                AllWeNeed Sp1 = new AllWeNeed(false, player, null, player.GAME.getTable(), player.GAME.getTable2(), null);
+                                player2.attackToken = true;
+                                SpielStartLokal local = new SpielStartLokal();
+                                SwingUtilities.invokeLater(() -> {
+                                    local.SpielStartenLokal(Sp1, Sp2);
+                                });
+                            }
                         }
                         else if(player.name.equals("Spieler2")){
                             player.lokaltoken = false;

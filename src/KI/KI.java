@@ -7,6 +7,7 @@ import java.util.Random;
 public abstract class KI extends Spieler {
 
     protected int hitX, hitY;
+    public int testx,testy;
     /**
      * hier wird ein random number generator erstellt, welcher spaeter mit dem kleinsten int wert der Karte und
      * dem groessten int wert der Karte ein Schiff plaziert, und auch schiessen wird.
