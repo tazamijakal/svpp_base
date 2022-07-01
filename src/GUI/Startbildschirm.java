@@ -97,6 +97,28 @@ public final class Startbildschirm{
         //Damit aktueller Wert von Slider angezeigt werden kann
         JLabel label_slider = new JLabel();
 
+        //Anzeige, welche Werte noch nicht gesetzt sind
+        JLabel spielfeldgr_fehlt = new JLabel("Spielfeldgroesse fehlt");
+        spielfeldgr_fehlt.setForeground(Color.RED);
+        spielfeldgr_fehlt.setVisible(false);
+
+        JLabel lok_on_fehlt = new JLabel("lokal/online Spiel fehlt");
+        lok_on_fehlt.setForeground(Color.RED);
+        lok_on_fehlt.setVisible(false);
+
+        JLabel lok_modus_fehlt = new JLabel("Spielmodus fehlt");
+        lok_modus_fehlt.setForeground(Color.RED);
+        lok_modus_fehlt.setVisible(false);
+
+        JLabel spieler_fehlt = new JLabel("Spieler fehlt");
+        spieler_fehlt.setForeground(Color.RED);
+        spieler_fehlt.setVisible(false);
+
+        JLabel schiffe_fehlen = new JLabel("Schiffe fehlen");
+        schiffe_fehlen.setForeground(Color.RED);
+        schiffe_fehlen.setVisible(false);
+
+
 
 
         //Panel für Schiffe Labels machen:
@@ -170,6 +192,7 @@ public final class Startbildschirm{
             @Override
             public void stateChanged(ChangeEvent e) {
 
+                schiffe_fehlen.setVisible(false);
                 //int value2 = slider2.getValue();
                 anzahl2 = slider2.getValue();
                 selectedSpace = (anzahl2*2 + anzahl3*3 + anzahl4*4 + anzahl5*5 + anzahl6*6);
@@ -189,6 +212,7 @@ public final class Startbildschirm{
             @Override
             public void stateChanged(ChangeEvent e) {
 
+                schiffe_fehlen.setVisible(false);
                 //int value3 = slider3.getValue();
                 anzahl3 = slider3.getValue();
                 selectedSpace = (anzahl2*2 + anzahl3*3 + anzahl4*4 + anzahl5*5 + anzahl6*6);
@@ -207,6 +231,7 @@ public final class Startbildschirm{
             @Override
             public void stateChanged(ChangeEvent e) {
 
+                schiffe_fehlen.setVisible(false);
                 //int value4 = slider4.getValue();
                 anzahl4 = slider4.getValue();
                 selectedSpace = (anzahl2*2 + anzahl3*3 + anzahl4*4 + anzahl5*5 + anzahl6*6);
@@ -226,6 +251,7 @@ public final class Startbildschirm{
             @Override
             public void stateChanged(ChangeEvent e) {
 
+                schiffe_fehlen.setVisible(false);
                 //int value5 = slider5.getValue();
                 anzahl5 = slider5.getValue();
                 selectedSpace = (anzahl2*2 + anzahl3*3 + anzahl4*4 + anzahl5*5 + anzahl6*6);
@@ -245,6 +271,7 @@ public final class Startbildschirm{
             @Override
             public void stateChanged(ChangeEvent e) {
 
+                schiffe_fehlen.setVisible(false);
                 //int value6 = slider6.getValue();
                 anzahl6 = slider6.getValue();
                 selectedSpace = (anzahl2*2 + anzahl3*3 + anzahl4*4 + anzahl5*5 + anzahl6*6);
@@ -263,6 +290,8 @@ public final class Startbildschirm{
         slider_gr.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
+
+                spielfeldgr_fehlt.setVisible(false);
 
                 int value = slider_gr.getValue();
                 maxship.setText("Maximum Space: " + (value*value/3));
@@ -339,6 +368,33 @@ public final class Startbildschirm{
         JComboBox<String> auswahl_lokal = new JComboBox<String>(list_Lokal);
         auswahl_lokal.setBackground(Color.lightGray);
 
+        //Auswahl Spieler-Typ
+        JLabel spieler = new JLabel("Spieler");
+        String[] list_spieler = {"[choose]", "Client", "Server", "KI_Client_leicht", "KI_Client_mittel", "KI_Server_leicht", "KI_Server_mittel"};
+        JComboBox<String> auswahl_spieler = new JComboBox<String>(list_spieler);
+        auswahl_spieler.setBackground(Color.lightGray);
+        auswahl_spieler.setEnabled(false);
+        auswahl_lokal.setEnabled(false);
+
+
+        //Erzeugung RadioButton rb_lokal und rb_online
+        JRadioButton rb_lokal = new JRadioButton("Lokales Spiel");
+        JRadioButton rb_online = new JRadioButton("Online Spiel");
+        rb_lokal.setFont(new Font("Calibri", Font.BOLD, 20));
+        rb_online.setFont(new Font("Calibri", Font.BOLD, 20));
+
+
+
+        auswahl_lokal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(rb_lokal.isSelected() && !auswahl_lokal.getSelectedItem().equals("[choose]"))
+                {
+                    lok_modus_fehlt.setVisible(false);
+                }
+            }
+        });
+
         //Auswahl Spielmodus Online
         //Erzeugung ComboBox
         //String[] list_online = {"[choose]", "Spieler vs Spieler", "Spieler vs KI", "KI vs KI"};
@@ -348,6 +404,29 @@ public final class Startbildschirm{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    //rote Schrift, wenn etwas nicht ausgewaehlt
+                    if(GAME.spielfeldgr <= 0)
+                    {
+                        spielfeldgr_fehlt.setVisible(true);
+                    }
+                    if(!rb_lokal.isSelected() && !rb_online.isSelected())
+                    {
+                        lok_on_fehlt.setVisible(true);
+                    }
+                    if(rb_online.isSelected() && !rb_lokal.isSelected() && auswahl_spieler.getSelectedItem().equals("[choose]"))
+                    {
+                        spieler_fehlt.setVisible(true);
+                    }
+                    if(rb_lokal.isSelected() && !rb_online.isSelected() && auswahl_lokal.getSelectedItem().equals("[choose]"))
+                    {
+                        lok_modus_fehlt.setVisible(true);
+                    }
+                    if(slider2.getValue() == 0 && slider3.getValue() == 0 && slider4.getValue() == 0 && slider5.getValue() == 0 && slider6.getValue() == 0)
+                    {
+                        schiffe_fehlen.setVisible(true);
+                    }
+
+
                     if (selectedSpace == 0 && !((role.equals("Client")) || role.equals("KI_Client_leicht") || role.equals("KI_Client_mittel"))) {
                         System.out.println("Do nothing");
                     } else if (role != null && (GAME.radioButton_l || GAME.radioButton_o) && selectedSpace <= maxSpace) {
@@ -492,6 +571,7 @@ public final class Startbildschirm{
         spiel_Start.add(Spielfeldgr);
         spiel_Start.add(slider_gr);
         spiel_Start.add(label_slider);
+        spiel_Start.add(spielfeldgr_fehlt);
 
         spiel_Start.add(Box.createVerticalStrut(5));
         spiel_Start.add(Box.createVerticalGlue());
@@ -521,26 +601,26 @@ public final class Startbildschirm{
         //Komponenten werden vertikal angeordnet
         spielAuswahl.setLayout(new BoxLayout(spielAuswahl, BoxLayout.PAGE_AXIS));
 
-        //Auswahl Spieler-Typ
-        JLabel spieler = new JLabel("Spieler");
-        String[] list_spieler = {"[choose]", "Client", "Server", "KI_Client_leicht", "KI_Client_mittel", "KI_Server_leicht", "KI_Server_mittel"};
-        JComboBox<String> auswahl_spieler = new JComboBox<String>(list_spieler);
-        auswahl_spieler.setBackground(Color.lightGray);
-        auswahl_spieler.setEnabled(false);
-        auswahl_lokal.setEnabled(false);
 
-        //Erzeugung RadioButton rb_lokal und rb_online
-        JRadioButton rb_lokal = new JRadioButton("Lokales Spiel");
-        JRadioButton rb_online = new JRadioButton("Online Spiel");
-        rb_lokal.setFont(new Font("Calibri", Font.BOLD, 20));
-        rb_online.setFont(new Font("Calibri", Font.BOLD, 20));
+
+
         auswahl_spieler.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if((auswahl_spieler.getSelectedItem().equals("Client") || auswahl_spieler.getSelectedItem().equals("KI_Client_leicht") || auswahl_spieler.getSelectedItem().equals("KI_Client_mittel")) && rb_online.isEnabled()){
                     ClientIP = JOptionPane.showInputDialog(startbildschirm, "SERVER IP?", null);
                     System.out.println(ClientIP);
+
+                    spieler_fehlt.setVisible(false);
                 }
+
+                //Hinweis in rot welche Werte fehlen
+                //Hinweis nicht sichtbar, wenn Spieler-Typ ausgewaehlt
+                if(auswahl_spieler.getSelectedItem().equals("Server") || auswahl_spieler.getSelectedItem().equals("KI_Server_leicht") || auswahl_spieler.getSelectedItem().equals("KI_Server_mittel"))
+                {
+                    spieler_fehlt.setVisible(false);
+                }
+
                 Startbildschirm.role = (String) auswahl_spieler.getSelectedItem();
             }
         });
@@ -565,6 +645,7 @@ public final class Startbildschirm{
                         rb_online.setEnabled(true);
                         auswahl_lokal.setEnabled(false);
                         //auswahl_online.setEnabled(true);
+                        lok_modus_fehlt.setVisible(false);
                     }
                     else
                     {
@@ -574,6 +655,8 @@ public final class Startbildschirm{
                         rb_online.setEnabled(false);
                         auswahl_lokal.setEnabled(true);
                         //auswahl_online.setEnabled(false);
+
+                        lok_on_fehlt.setVisible(false);
                     }
 
                 }
@@ -602,6 +685,8 @@ public final class Startbildschirm{
                         GAME.radioButton_o = false;
                         rb_lokal.setEnabled(true);
                         //auswahl_lokal.setEnabled(true);
+
+                        spieler_fehlt.setVisible(false);
                     }
                     else
                     {
@@ -609,6 +694,8 @@ public final class Startbildschirm{
                         GAME.radioButton_o = true;
                         rb_lokal.setEnabled(false);
                         auswahl_lokal.setEnabled(false);
+
+                        lok_on_fehlt.setVisible(false);
                     }
 
 
@@ -629,6 +716,7 @@ public final class Startbildschirm{
 
         spielAuswahl.add(rb_online);
         spielAuswahl.add(auswahl_spieler);
+        spielAuswahl.add(spieler_fehlt);
         //spielAuswahl.add(auswahl_online);
 
         //spielAuswahl.add(spieler);
@@ -639,6 +727,12 @@ public final class Startbildschirm{
 
         spielAuswahl.add(rb_lokal);
         spielAuswahl.add(auswahl_lokal);
+        spielAuswahl.add(lok_modus_fehlt);
+
+        spielAuswahl.add(Box.createVerticalStrut(10));
+        spielAuswahl.add(Box.createVerticalGlue());
+
+        spielAuswahl.add(lok_on_fehlt);
 
         spielAuswahl.add(Box.createVerticalStrut(10));
         spielAuswahl.add(Box.createVerticalGlue());
@@ -682,6 +776,10 @@ public final class Startbildschirm{
         schiffAuswahl1.add(Box.createHorizontalStrut(5));
         schiffAuswahl1.add(Box.createHorizontalGlue());
 
+        schiffAuswahl1.add(schiffe_fehlen);
+
+        schiffAuswahl1.add(Box.createHorizontalStrut(5));
+        schiffAuswahl1.add(Box.createHorizontalGlue());
 
 
 
@@ -724,6 +822,11 @@ public final class Startbildschirm{
 
         schiffSlider.add(slider6);
         schiffSlider.add(label_slider6);
+
+        schiffSlider.add(Box.createVerticalStrut(5));
+        schiffSlider.add(Box.createVerticalGlue());
+
+        schiffSlider.add(schiffe_fehlen);
 
         schiffSlider.add(Box.createVerticalStrut(5));
         schiffSlider.add(Box.createVerticalGlue());

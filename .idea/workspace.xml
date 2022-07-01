@@ -7,8 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="update + ki fix">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_05_2022_13_21__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_05_2022_13_21__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/SpielStartLokal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SpielStartLokal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/Startbildschirm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Startbildschirm.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -148,6 +148,7 @@
       <workItem from="1655463934646" duration="6055000" />
       <workItem from="1656399915792" duration="1570000" />
       <workItem from="1656674285228" duration="3182000" />
+      <workItem from="1656682255029" duration="2613000" />
     </task>
     <task id="LOCAL-00001" summary="Projekt Struktur angepasst">
       <created>1652448475215</created>
