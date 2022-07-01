@@ -298,7 +298,7 @@ public class SpielStartLokal implements Serializable {
                                         System.out.println(Spieler1.hp + " " + Spieler2.hp2);
                                         Spieler2.visibleBoard[selecRow][selecCol] = new Spieler.TrefferObject();
                                         if (Spieler1.hp == 0) {
-                                            JOptionPane.showMessageDialog(frame, "Spieler 2 hat das Spiel gewonnen :)");
+                                            JOptionPane.showMessageDialog(frame, Spieler2.name + " hat das Spiel gewonnen :)");
                                             frame2.dispatchEvent(new WindowEvent(frame2, WindowEvent.WINDOW_CLOSING));
                                         }
                                     }

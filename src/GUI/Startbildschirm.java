@@ -434,7 +434,7 @@ public final class Startbildschirm{
                         //int hp = (GAME.spielfeldgr * GAME.spielfeldgr) / 3;
                         if (GAME.radioButton_o) {
                             int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
-                            int hp = 2 * anzahl2 + 3 * anzahl3 + 4 * anzahl4 + 5 * anzahl5 + 6 * anzahl6;
+                            int hp = anzahl2 + anzahl3 + anzahl4 + anzahl5 + anzahl6;
                             if (role.equals("Server")) {
                                 //Anzahl Schiffe
                                 //int[] ships = {0, 0, 2, 2, 0, 0};
@@ -491,7 +491,7 @@ public final class Startbildschirm{
                     } else if (GAME.radioButton_l /*&& lok_Spsp*/ && selectedSpace <= maxSpace) {
                         if (auswahl_lokal.getSelectedItem().equals("Spieler vs KI_leicht")) {
                             startbildschirm.setVisible(false);
-                            int hp = 2 * anzahl2 + 3 * anzahl3 + 4 * anzahl4 + 5 * anzahl5 + 6 * anzahl6;
+                            int hp = anzahl2 + anzahl3 + anzahl4 + anzahl5 + anzahl6;
                             int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
                             Spieler sp1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships, GAME);
                             leichte_KI_zufall KI = new leichte_KI_zufall("KI_leicht", GAME.spielfeldgr, hp, ships, GAME);
@@ -501,7 +501,7 @@ public final class Startbildschirm{
                         }
                         else if (auswahl_lokal.getSelectedItem().equals("Spieler vs KI_mittel")) {
                             startbildschirm.setVisible(false);
-                            int hp = 2 * anzahl2 + 3 * anzahl3 + 4 * anzahl4 + 5 * anzahl5 + 6 * anzahl6;
+                            int hp = anzahl2 + anzahl3 + anzahl4 + anzahl5 + anzahl6;
                             int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
                             Spieler sp1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships, GAME);
                             mittlere_KI KI = new mittlere_KI("KI_mittel", GAME.spielfeldgr, hp, ships, GAME);
@@ -511,7 +511,7 @@ public final class Startbildschirm{
                         }
                         else if (auswahl_lokal.getSelectedItem().equals("Spieler vs Spieler")) {
                             startbildschirm.setVisible(false);
-                            int hp = 2 * anzahl2 + 3 * anzahl3 + 4 * anzahl4 + 5 * anzahl5 + 6 * anzahl6;
+                            int hp = anzahl2 + anzahl3 + anzahl4 + anzahl5 + anzahl6;
                             int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
                             Spieler sp1 = new Spieler("Spieler1", GAME.spielfeldgr, hp, ships, GAME);
                             Spieler sp2 = new Spieler("Spieler2", GAME.spielfeldgr, hp, ships, GAME);

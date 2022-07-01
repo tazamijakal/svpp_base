@@ -457,7 +457,18 @@ public class Client implements Serializable{
                         break;
                     case "save":
                         player.attackToken = false;
-                        //Spiel speichern mit Osplit[1] => Server war am Zug ==========================================================================
+                        player.load = false;
+                        System.out.println(Osplit[1]);
+                        String filename = Osplit[1];
+                        AllWeNeed newsave = new AllWeNeed(true, player,null, GAME.getTable(), GAME.getTable2(), null, null, filename);              //Speichern fuer Online versus
+                        //Long newid = newsave.nextId();
+                        SwingUtilities.invokeLater(() -> {
+                            try {
+                                Speichern.save(newsave, filename);
+                            } catch (IOException ex) {
+                                throw new RuntimeException(ex);
+                            }
+                        });
                         break;
                 }
                 //TextServer("okay :) Client");
