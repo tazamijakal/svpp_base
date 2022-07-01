@@ -4,7 +4,6 @@ import KI.leichte_KI_zufall;
 import KI.mittlere_KI;
 import Logik.Ship;
 import Logik.Spieler;
-import Socket.Server;
 import ladenspeichern.AllWeNeed;
 import ladenspeichern.Speichern;
 
@@ -225,6 +224,7 @@ public final class SpielStart extends JFrame{
             table = datei.table;
             table2 = datei.table2;
         }
+
 
 
 

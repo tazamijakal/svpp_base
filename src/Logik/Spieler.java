@@ -681,7 +681,7 @@ public class Spieler implements Serializable {
                 }
                 boolean true_false = Vergleich.equals(Vergleich2);
                 if (true_false) {
-                    if (counter >= 100) {
+                    if (counter >= 5000) {
                         while (shipList.size() > 0) {
                             removeShipRequest(shipList.get(0).initialX, shipList.get(0).initialY);
                         }

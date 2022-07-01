@@ -49,15 +49,14 @@ public class leichte_KI_zufall extends KI {
     public String KIshoot() {
         System.out.println("new shot");
         fieldposition rdmZielpos = RdmZielpos();
-        if (visibleBoard[rdmZielpos.x][rdmZielpos.y] instanceof TrefferObject || visibleBoard[rdmZielpos.x][rdmZielpos.y] instanceof MisfireObject) {
-            System.out.println("konnte nicht schießen");
-            return KIshoot();
+        if (shoottester(rdmZielpos.x, rdmZielpos.y)) {
+            this.lastShotX = rdmZielpos.x;
+            this.lastShotY = rdmZielpos.y;
+            this.testx = rdmZielpos.x;
+            this.testy = rdmZielpos.y;
+            return shot(rdmZielpos.x, rdmZielpos.y);
         }
-        this.lastShotX = rdmZielpos.x;
-        this.lastShotY = rdmZielpos.y;
-        this.testx = rdmZielpos.x;
-        this.testy = rdmZielpos.y;
-        return shot(rdmZielpos.x,rdmZielpos.y);
+        return KIshoot();
     }
 
     public static void main(String[] args) throws Exception {

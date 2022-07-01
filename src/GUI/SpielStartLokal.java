@@ -3,14 +3,13 @@ package GUI;
 import KI.*;
 import Logik.Ship;
 import Logik.Spieler;
+import Music.AudioPlayerExample2;
 import ladenspeichern.AllWeNeed;
-import ladenspeichern.Speichern;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
 import java.io.Serializable;
 
 public class SpielStartLokal implements Serializable {
@@ -235,7 +234,6 @@ public class SpielStartLokal implements Serializable {
         spieler2_frame.setBackground(Color.RED);
 
 
-
         table2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -253,6 +251,15 @@ public class SpielStartLokal implements Serializable {
 
                         String answer = Spieler2.shootYourself(selecRow, selecCol);
                         if (answer.equals("answer 0")) {
+                            Runnable k = new Runnable() {
+                                public void run() {
+                                    String audioFilePath = "src/Music/Water Splash Sound FX 1.wav";
+                                    AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
+                                    MusicPlayer.Soundplay(audioFilePath);
+                            }
+                        };
+
+                            new Thread(k).start();
                             table2.setValueAt(new ImageIcon(getClass().getResource("blue.png")), selecRow, selecCol);
                             table3.setValueAt(new ImageIcon(getClass().getResource("blue.png")), selecRow, selecCol);
                             spieler1_frame.setBackground(Color.RED);
@@ -275,6 +282,15 @@ public class SpielStartLokal implements Serializable {
                                     }
                                     String answer2 = Spieler1.shootYourself(selecRow, selecCol);
                                     if (answer2.equals("answer 0")) {
+                                        Runnable j = new Runnable() {
+                                            public void run() {
+                                                String audioFilePath = "src/Music/Water Splash Sound FX 1.wav";
+                                                AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
+                                                MusicPlayer.Soundplay(audioFilePath);
+                                            }
+                                        };
+
+                                        new Thread(j).start();
                                         Spieler2.visibleBoard[selecRow][selecCol] = new Spieler.MisfireObject();
                                         table.setValueAt(new ImageIcon(getClass().getResource("blue.png")), selecRow, selecCol);
                                         table4.setValueAt(new ImageIcon(getClass().getResource("blue.png")), selecRow, selecCol);
@@ -286,11 +302,29 @@ public class SpielStartLokal implements Serializable {
                                         Spieler1.attackToken = true;
                                     }
                                     if (answer2.equals("answer 1")) {
+                                        Runnable j = new Runnable() {
+                                            public void run() {
+                                                String audioFilePath = "src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                                AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
+                                                MusicPlayer.Soundplay(audioFilePath);
+                                            }
+                                        };
+
+                                        new Thread(j).start();
                                         table.setValueAt(new ImageIcon(getClass().getResource("redcross.png")), selecRow, selecCol);
                                         table4.setValueAt(new ImageIcon(getClass().getResource("redcross.png")), selecRow, selecCol);
                                         Spieler2.visibleBoard[selecRow][selecCol] = new Spieler.TrefferObject();
                                     }
                                     if (answer2.equals("answer 2")) {
+                                        Runnable j = new Runnable() {
+                                            public void run() {
+                                                String audioFilePath = "src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                                AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
+                                                MusicPlayer.Soundplay(audioFilePath);
+                                            }
+                                        };
+
+                                        new Thread(j).start();
                                         table.setValueAt(new ImageIcon(getClass().getResource("blackcross.png")), selecRow, selecCol);
                                         table4.setValueAt(new ImageIcon(getClass().getResource("blackcross.png")), selecRow, selecCol);
                                         Spieler1.hp = Spieler1.hp - 1;
@@ -473,6 +507,15 @@ public class SpielStartLokal implements Serializable {
                         Spieler2.lastShotY = selecCol;
                         String answer = Spieler1.shootYourself(selecRow, selecCol);
                         if(answer.equals("answer 0")){
+                            Runnable k = new Runnable() {
+                                public void run() {
+                                    String audioFilePath = "src/Music/Water Splash Sound FX 1.wav";
+                                    AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
+                                    MusicPlayer.Soundplay(audioFilePath);
+                                }
+                            };
+
+                            new Thread(k).start();
                             table.setValueAt(new ImageIcon(getClass().getResource("blue.png")), selecRow, selecCol);
                             table4.setValueAt(new ImageIcon(getClass().getResource("blue.png")), selecRow, selecCol);
                             spieler1_frame.setBackground(Color.GREEN);
@@ -483,10 +526,26 @@ public class SpielStartLokal implements Serializable {
                             Spieler1.attackToken = true;
                         }
                         if(answer.equals("answer 1")){
+                            Runnable k = new Runnable() {
+                                public void run() {
+                                    String audioFilePath = "src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                    AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
+                                    MusicPlayer.Soundplay(audioFilePath);
+                                }
+                            };
+
+                            new Thread(k).start();
                             table.setValueAt(new ImageIcon(getClass().getResource("redcross.png")), selecRow, selecCol);
                             table4.setValueAt(new ImageIcon(getClass().getResource("redcross.png")), selecRow, selecCol);
                         }
                         if(answer.equals("answer 2")){
+                            Runnable k = new Runnable() {
+                                public void run() {
+                                    String audioFilePath = "src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                    AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
+                                    MusicPlayer.Soundplay(audioFilePath);
+                                }
+                            };
                             table.setValueAt(new ImageIcon(getClass().getResource("blackcross.png")), selecRow, selecCol);
                             table4.setValueAt(new ImageIcon(getClass().getResource("blackcross.png")), selecRow, selecCol);
                             Spieler1.hp = Spieler1.hp - 1;

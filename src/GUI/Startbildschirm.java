@@ -2,9 +2,8 @@ package GUI;
 
 import KI.*;
 import Logik.Spieler;
-import Logik.Game;
-import Logik.Game2KI;
 
+import Music.AudioPlayerExample2;
 import Socket.Client;
 import Socket.Server;
 import ladenspeichern.AllWeNeed;
@@ -13,8 +12,6 @@ import ladenspeichern.Laden;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.text.Utilities;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -59,6 +56,15 @@ public final class Startbildschirm{
     public static void start() {
 
         SpielStart GAME = new SpielStart();
+        Runnable r = new Runnable() {
+            public void run() {
+                String audioFilePath = "src/Music/Gangplank, the Saltwater Scourge  Login Screen - League of Legends.wav";
+                AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
+                MusicPlayer.play(audioFilePath);
+            }
+        };
+
+        new Thread(r).start();
 
 
         //model und model2 werden als Parameter an Funktion von SpielStart uebergeben
@@ -541,6 +547,7 @@ public final class Startbildschirm{
 
             }
         });
+
 
 
         JButton laden = new JButton("Spiel laden");

@@ -2,16 +2,19 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="svpp_base:jar" />
+      <artifact name="svpp_base:jar2" />
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="update + ki fix">
+    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="Lokal KI Mittel">
+      <change afterPath="$PROJECT_DIR$/src/Music/AudioPlayerExample2.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/SpielStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SpielStart.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/SpielStartLokal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SpielStartLokal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI/Startbildschirm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Startbildschirm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Socket/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Socket/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/KI/KI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/KI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/KI/leichte_KI_zufall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/leichte_KI_zufall.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logik/Spieler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Spieler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,13 +51,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
   <component name="RunManager" selected="Application.Main (1)">
-    <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Socket.Client" />
+    <configuration name="AudioPlayerExample1" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Music.AudioPlayerExample1" />
       <module name="svpp_base" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="Socket.*" />
+          <option name="PATTERN" value="Music.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -62,12 +73,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GUI.TableIcon" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="GUI.TableIcon" />
+    <configuration name="AudioPlayerExample2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Music.AudioPlayerExample2" />
       <module name="svpp_base" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="GUI.*" />
+          <option name="PATTERN" value="Music.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -95,12 +106,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="GUI.test" />
+    <configuration name="Sound" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Music.Sound" />
       <module name="svpp_base" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="GUI.*" />
+          <option name="PATTERN" value="Music.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -110,18 +121,18 @@
     </configuration>
     <list>
       <item itemvalue="Application.Main (1)" />
-      <item itemvalue="Application.Client" />
       <item itemvalue="Application.Main" />
-      <item itemvalue="Application.GUI.TableIcon" />
-      <item itemvalue="Application.test" />
+      <item itemvalue="Application.AudioPlayerExample1" />
+      <item itemvalue="Application.Sound" />
+      <item itemvalue="Application.AudioPlayerExample2" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main (1)" />
+        <item itemvalue="Application.AudioPlayerExample2" />
+        <item itemvalue="Application.Sound" />
+        <item itemvalue="Application.AudioPlayerExample1" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.Client" />
-        <item itemvalue="Application.test" />
-        <item itemvalue="Application.GUI.TableIcon" />
       </list>
     </recent_temporary>
   </component>
@@ -140,6 +151,7 @@
       <workItem from="1656399915792" duration="1570000" />
       <workItem from="1656674285228" duration="3182000" />
       <workItem from="1656682255029" duration="2613000" />
+      <workItem from="1656698127463" duration="8568000" />
     </task>
     <task id="LOCAL-00001" summary="Projekt Struktur angepasst">
       <created>1652448475215</created>
@@ -339,8 +351,10 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Projekt Struktur angepasst" />
     <MESSAGE value="Platziermethoden sollten jetzt fertig sein, Änderungen an shoot-methoden" />
     <MESSAGE value="Shoot-Methoden nur noch x/y vertauscht und -1" />

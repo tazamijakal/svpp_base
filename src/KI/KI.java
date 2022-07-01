@@ -41,8 +41,8 @@ public abstract class KI extends Spieler {
         //schiessen auf (2)(1), danach (mapsize-1)(1).... (2)(mapsize-1)(mapsize-1)(mapsize-1)ausser es trifft etwas.
         feldzaehler = mapSize > 1?1:0;
         while (feldzaehler < mapSize*mapSize) {
-            x = feldzaehler % mapSize;
             y = feldzaehler / mapSize;
+            x = (feldzaehler+(y%2==0?0:1)) %    mapSize;
             if (!shoottester(x, y)){
                 feldzaehler+=2;
             }
@@ -109,7 +109,7 @@ public abstract class KI extends Spieler {
         Integer y;
         x = randInt(0, mapSize - 1);
         y = randInt(0, mapSize - 1);
-        return new fieldposition(x, y);
+            return new fieldposition(x, y);
     }
 
     public boolean getRandomBoolean() {
