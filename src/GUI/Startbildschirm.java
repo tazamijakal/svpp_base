@@ -9,12 +9,15 @@ import Socket.Server;
 import ladenspeichern.AllWeNeed;
 import ladenspeichern.Laden;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -53,7 +56,7 @@ public final class Startbildschirm{
      * Graphische Oberfläche aufbauen und anzeigen.
      * Fuer Startbildschirm.
      */
-    public static void start() {
+    public static void start() throws IOException{
 
         SpielStart GAME = new SpielStart();
         Runnable r = new Runnable() {
@@ -74,6 +77,7 @@ public final class Startbildschirm{
 
         //Erzeugt Fenster mit Titel Schiffeversenken
         JFrame startbildschirm = new JFrame("Schiffeversenken");
+        startbildschirm.setIconImage(new ImageIcon("src/GUI/PirateBay.png").getImage());
         startbildschirm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //setzt Layout auf vertikale Box
