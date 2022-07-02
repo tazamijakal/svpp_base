@@ -76,7 +76,7 @@ public final class Startbildschirm{
 
         //Erzeugt Fenster mit Titel Schiffeversenken
         JFrame startbildschirm = new JFrame("Schiffeversenken");
-        startbildschirm.setIconImage(new ImageIcon("src/GUI/PirateBay.png").getImage());
+        startbildschirm.setIconImage(new ImageIcon(Startbildschirm.class.getResource("PirateBay.png")).getImage());
         startbildschirm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //setzt Layout auf vertikale Box

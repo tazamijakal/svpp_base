@@ -95,17 +95,6 @@ public final class SpielStart extends JFrame{
         return table2;
     }
 
-    /**
-     *
-     * Setzt Spaltenindex von einzelnem Kaestchen von Gegner Spielfeld auf uebergebene Groesse.
-     * Index geginnt bei 0 zu zaehlen.
-     * Hier fuer Spielfeld mit Gegner Schiffe.
-     */
-    public void setIndex_spalte (int groesse) {
-
-        this.index_spalte = groesse;
-
-    }
 
     public Object[][] drawShip(int initialX, int initialY, int length, boolean horizontal, Object[][] data){
         try{
@@ -238,6 +227,7 @@ public final class SpielStart extends JFrame{
         JFrame frame = new JFrame("Schiffeversenken " + player.name);
         this.startframe = frame;
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setIconImage(new ImageIcon(getClass().getResource("PirateBay.png")).getImage());
         // Zwischenraum der Breite 50 oder mehr.
         //frame.add(Box.createHorizontalStrut(50));
         //frame.add(Box.createHorizontalGlue());
@@ -624,7 +614,7 @@ public final class SpielStart extends JFrame{
 
 
         JFrame setzen = new JFrame("Schiffeversenken " + player.name);
-
+        setzen.setIconImage(new ImageIcon(getClass().getResource("PirateBay.png")).getImage());
         setzen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Zwischenraum der Breite 50 oder mehr.
         //frame.add(Box.createHorizontalStrut(50));

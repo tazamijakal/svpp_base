@@ -111,41 +111,6 @@ public class AudioPlayer implements LineListener {
         }
     }
 
-    public static void playtitle(){
-        Runnable k = new Runnable() {
-            public void run() {
-                AudioPlayer MusicPlayer = new AudioPlayer();
-                System.out.println(getClass().getResource("title.wav"));
-                MusicPlayer.play(getClass().getResource("tile.wav"));
-            }
-        };
-        new Thread(k).start();
-    }
-
-    public static void playwater(){
-        Runnable k = new Runnable() {
-            public void run() {
-                AudioPlayer MusicPlayer = new AudioPlayer();
-                System.out.println(getClass().getResource("water.wav"));
-                MusicPlayer.play(getClass().getResource("water.wav"));
-            }
-        };
-
-        new Thread(k).start();
-    }
-
-    public static void playexplode(){
-        Runnable k = new Runnable() {
-            public void run() {
-                //String audioFilePath = System.getProperty("user.dir") + "/src/Music/Water Splash Sound FX 1.wav";
-                AudioPlayer MusicPlayer = new AudioPlayer();
-                System.out.println(getClass().getResource("explode.wav"));
-                MusicPlayer.play(getClass().getResource("explode.wav"));
-            }
-        };
-        new Thread(k).start();
-    }
-
     /**
      * Listener fuer start und stop
      */

@@ -234,6 +234,9 @@ public class SpielStartLokal implements Serializable {
         // Zwischenraum der Breite 50 oder mehr.
         JFrame frame2 = new JFrame("Schiffeversenken " + Spieler2.name);
 
+        frame.setIconImage(new ImageIcon(getClass().getResource("PirateBay.png")).getImage());
+        frame2.setIconImage(new ImageIcon(getClass().getResource("PirateBay.png")).getImage());
+
         frame.setContentPane(Box.createHorizontalBox());
 
         // Zwischenraum der Breite 50 oder mehr.
