@@ -1097,7 +1097,7 @@ public final class SpielStart extends JFrame{
                         }
                     }
                     //if(allshipsareplaced == true){
-                    if(counter > 0){
+                    if(counter > 0 && player.remainingShips[2] == 0 && player.remainingShips[3] == 0 && player.remainingShips[4] == 0 && player.remainingShips[5] == 0 && player.remainingShips[6] == 0){
                         setzen.setVisible(false);
                         if(player.name.equals("Spieler1")) {
                             player.lokaltoken = false;
@@ -1156,7 +1156,7 @@ public final class SpielStart extends JFrame{
                     else{
 
                         //Meldung, wenn keine Schiffe gesetzt sind
-                        JOptionPane.showMessageDialog(setzen, "Du hast keine Schiffe gesetzt!!");
+                        JOptionPane.showMessageDialog(setzen, "Du hast nicht alle Schiffe gesetzt!!");
                     }
                 }
             });

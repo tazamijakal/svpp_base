@@ -3,6 +3,7 @@ import GUI.Startbildschirm;
 import Logik.Game2KI;
 
 import javax.swing.*;
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -18,7 +19,11 @@ public class Main {
 //        game.demoGame();        /5/5x5 game mit bereits gesetzten Schiffen*/
         try {
             SwingUtilities.invokeLater(() -> {
-                Startbildschirm.start();
+                try {
+                    Startbildschirm.start();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             });
         }
         catch(Exception e){}
