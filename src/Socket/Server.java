@@ -312,7 +312,6 @@ public class Server implements Serializable{
                                 GAME.setTable2BlackCross(player.lastShotX, player.lastShotY);
                                 System.out.println("hp2: " + player.hp2);
                                 if (player.hp2 == 0) {
-                                    JOptionPane.showMessageDialog(menu, "SPIEL GEWONNEN :D" );
                                     Runnable w = new Runnable() {
                                         public void run() {
                                             //String audioFilePath = System.getProperty("user.dir") + "/src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
@@ -321,6 +320,7 @@ public class Server implements Serializable{
                                         }
                                     };
                                     new Thread(w).start();
+                                    JOptionPane.showMessageDialog(menu, "SPIEL GEWONNEN :D" );
                                     System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
                                     menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
                                 }

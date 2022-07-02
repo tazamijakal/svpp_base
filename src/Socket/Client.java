@@ -315,6 +315,14 @@ public class Client implements Serializable{
                                 player.attackToken = true;
                                 GAME.setTable2BlackCross(player.lastShotX, player.lastShotY);
                                 if (player.hp2 == 0) {
+                                    Runnable w = new Runnable() {
+                                        public void run() {
+                                            //String audioFilePath = System.getProperty("user.dir") + "/src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
+                                            AudioPlayer MusicPlayer = new AudioPlayer();
+                                            MusicPlayer.Soundplay(getClass().getResource("Music/csgo.wav"));
+                                        }
+                                    };
+                                    new Thread(w).start();
                                     JOptionPane.showMessageDialog(menu, "SPIEL GEWONNEN :D" );
                                     SwingUtilities.invokeLater(() -> {
                                         AudioPlayer MusicPlayer = new AudioPlayer();
