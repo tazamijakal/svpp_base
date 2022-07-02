@@ -256,6 +256,19 @@ public final class SpielStart extends JFrame{
         JScrollPane scrollPane = new JScrollPane(table);
         JScrollPane scrollPane2 = new JScrollPane(table2);
 
+        JButton spielerzugdisplay = new JButton("AM ZUG");
+        JLabel amzug = new JLabel("");
+
+        if(player.attackToken == true){
+            spielerzugdisplay.setBackground(Color.GREEN);
+        }
+        else if (player.name.equals("Server")){
+            spielerzugdisplay.setBackground(Color.GREEN);
+        }
+        else {
+            spielerzugdisplay.setBackground(Color.RED);
+        }
+
         //table.setDropMode(DropMode.USE_SELECTION);
         //table.getToolTipLocation()
         //table.isCellEditable()
@@ -288,6 +301,18 @@ public final class SpielStart extends JFrame{
                             player.lastShotY = selecCol;
                             player.client.TextServer("shot " + selecRow + " " + selecCol);
                         }
+                    }
+                    else if(player.attackToken == false){
+                        SwingWorker<Void, Void> sw33 = new SwingWorker<Void, Void>(){
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                amzug.setText("Waiting for Opponent!");
+                                Thread.sleep(2000);
+                                amzug.setText("");
+                                return null;
+                            }
+                        };
+                        sw33.execute();
                     }
                 }
                 catch(Exception exc){}
@@ -351,8 +376,11 @@ public final class SpielStart extends JFrame{
         {
             speichern.setBackground(Color.CYAN);
 
+            vbox_3.add(spielerzugdisplay);
 
             vbox_3.add(speichern);
+
+            vbox_3.add(amzug);
 
         }
 

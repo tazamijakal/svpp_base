@@ -246,6 +246,8 @@ public class SpielStartLokal implements Serializable {
 
         JButton spieler1_frame = new JButton("AM ZUG");
         JButton spieler2_frame = new JButton("AM ZUG");
+        JLabel amzug1 = new JLabel("");
+        JLabel amzug2 = new JLabel("");
 
         spieler1_frame.setBackground(Color.GREEN);
         spieler2_frame.setBackground(Color.RED);
@@ -398,6 +400,18 @@ public class SpielStartLokal implements Serializable {
                             }
                         }
                     }
+                    else if(Spieler1.attackToken == false){
+                        SwingWorker<Void, Void> sw33 = new SwingWorker<Void, Void>(){
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                amzug1.setText("Waiting for Opponent!");
+                                Thread.sleep(2000);
+                                amzug1.setText("");
+                                return null;
+                            }
+                        };
+                        sw33.execute();
+                    }
                 }
                 catch(Exception exc){}
                 System.out.println("Tabelle2 " + selecRow + "," + selecCol);
@@ -459,6 +473,8 @@ public class SpielStartLokal implements Serializable {
             vbox_3.add(spieler1_frame);
 
             vbox_3.add(speichern);
+
+            vbox_3.add(amzug1);
 
         }
 
@@ -619,6 +635,18 @@ public class SpielStartLokal implements Serializable {
                             }
                         }
                     }
+                    else if(Spieler2.attackToken == false){
+                        SwingWorker<Void, Void> sw33 = new SwingWorker<Void, Void>(){
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                amzug2.setText("Waiting for Opponent!");
+                                Thread.sleep(2000);
+                                amzug2.setText("");
+                                return null;
+                            }
+                        };
+                        sw33.execute();
+                    }
                 }
                 catch(Exception exc){
                     exc.printStackTrace();
@@ -681,7 +709,7 @@ public class SpielStartLokal implements Serializable {
             vbox_30.add(spieler2_frame);
             speichernn.setBackground(Color.CYAN);
             vbox_30.add(speichernn);
-
+            vbox_30.add(amzug2);
         }
 
         frame2.add(vbox_30);
