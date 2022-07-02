@@ -1,11 +1,9 @@
 package GUI;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-
 import javax.sound.sampled.*;
-import javax.swing.*;
+
 
 public class AudioPlayer implements LineListener {
 
