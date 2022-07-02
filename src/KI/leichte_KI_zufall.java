@@ -18,6 +18,12 @@ public class leichte_KI_zufall extends KI {
         super(name, mapSize, hp, remainingShips, GAME);
     }
 
+    /**
+     * KI plaziert autamtisch und zufaellig die Schiffe, falls zu viele Versuche gebraucht werden,
+     * faengt sie neu an zu plazieren.
+     *
+     * @throws Exception
+     */
     @Override
     public void KIplazieren() throws Exception {
         String Vergleich = "Here";
@@ -33,7 +39,7 @@ public class leichte_KI_zufall extends KI {
                 boolean true_false = Vergleich.equals(Vergleich2);
                 if (true_false) {
                     if (counter >= 100) {
-                        while(shipList.size() > 0){
+                        while (shipList.size() > 0) {
                             removeShipRequest(shipList.get(0).initialX, shipList.get(0).initialY);
                         }
                         counter = 0;
@@ -45,6 +51,12 @@ public class leichte_KI_zufall extends KI {
         }
     }
 
+    /**
+     * KI schiesst zufaellig bis sie etwas trifft und fuehrt dann schootalg2 aus.
+     *
+     * @return
+     * @throws Exception
+     */
     @Override
     public String KIshoot() throws Exception {
         System.out.println("new shot");
@@ -56,7 +68,7 @@ public class leichte_KI_zufall extends KI {
                 this.lastShotY = shootalg2Treffer.y;
                 this.testx = shootalg2Treffer.x;
                 this.testy = shootalg2Treffer.y;
-                return shot(shootalg2Treffer.x,shootalg2Treffer.y);
+                return shot(shootalg2Treffer.x, shootalg2Treffer.y);
             }
             this.lastShotX = rdmZielpos.x;
             this.lastShotY = rdmZielpos.y;
@@ -67,12 +79,5 @@ public class leichte_KI_zufall extends KI {
             return shot(rdmZielpos.x, rdmZielpos.y);
         }
         return KIshoot();
-    }
-
-    public static void main(String[] args) throws Exception {
-        KI leichte_ki_zufall = new leichte_KI_zufall("easy", 5, 15, new int[]{0,0,1,1,1}, null);
-        leichte_ki_zufall.KIplazieren();
-        leichte_ki_zufall.KIshoot();
-        Hilffunktion.printField(leichte_ki_zufall.mapSize,leichte_ki_zufall.board);
     }
 }

@@ -21,14 +21,14 @@ public abstract class KI extends Spieler {
 
         return randomNum;
     }
-    /*public static final class fieldposition {
-        public int x, y;
-        public fieldposition (int x,int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }*/
 
+
+    /**
+     * Ueberprueft ob die Felder angeschossen werden darf oder nicht.
+     * @param x
+     * @param y
+     * @return
+     */
     public boolean shoottester(int x, int y) {
         if (x < 0 || y < 0 || x >= mapSize || y >= mapSize) {
             return false;
@@ -36,6 +36,11 @@ public abstract class KI extends Spieler {
         return !(visibleBoard[x][y] instanceof TrefferObject || visibleBoard[x][y] instanceof MisfireObject);
     }
 
+    /**
+     * Schussverfahren von Mittlerer KI, shiesst zufaellig im Karomuster.
+     * @return
+     * @throws Exception
+     */
     final fieldposition shootalg1 () throws Exception {
 
         int x, y, feldzaehler;
@@ -65,6 +70,13 @@ public abstract class KI extends Spieler {
         throw new Exception("no position left");
     }
 
+    /**
+     * Schussalgorithmus falls die KI etwas trifft, damit sie das Schiff versenkt.
+     * @param hitX
+     * @param hitY
+     * @return
+     * @throws Exception
+     */
     final fieldposition shootalg2Treffer (int hitX, int hitY) throws Exception {
         int counter = 1;
         if (shoottester(hitX, hitY - counter)) {
@@ -113,6 +125,11 @@ public abstract class KI extends Spieler {
         return shootalg1()  ;
     }
 
+    /**
+     * Zufaellig schiessen.
+     * @return
+     * @throws Exception
+     */
     public fieldposition RdmZielpos() throws Exception {
         if (visibleBoard[hitX][hitY] instanceof TrefferObject) {
             fieldposition shootalg2Treffer = shootalg2Treffer(hitX, hitY);

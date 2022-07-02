@@ -19,6 +19,10 @@ public class mittlere_KI extends KI {
         super(name, mapSize, hp, remainingShips, GAME);
     }
 
+    /**
+     * KI plaziert autamtisch und zufaellig die Schiffe, falls zu viele Versuche gebraucht werden,
+     * faengt sie neu an zu plazieren.
+     */
     @Override
     public void KIplazieren() {
         String Vergleich = "Here";
@@ -51,6 +55,11 @@ public class mittlere_KI extends KI {
         }
     }
 
+    /**
+     * KI schiesst zufaellig im Karomusster und braucht dadurch weniger Schuesse als die leichte KI.
+     * @return
+     * @throws Exception
+     */
     @Override
     public String KIshoot() throws Exception {
         if (visibleBoard[hitX][hitY] instanceof TrefferObject) {
@@ -69,10 +78,4 @@ public class mittlere_KI extends KI {
         return shot(shootalg1.x,shootalg1.y);
     }
 
-    public static void main(String[] args) throws Exception {
-        KI mittlere_KI = new mittlere_KI("middle", 5, 15, new int[]{0,0,1,1,1,0,0}, null);
-        mittlere_KI.KIplazieren();
-        mittlere_KI.KIshoot();
-        Hilffunktion.printField(mittlere_KI.mapSize,mittlere_KI.board);
-    }
 }
