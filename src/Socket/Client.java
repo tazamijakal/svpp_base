@@ -265,7 +265,7 @@ public class Client implements Serializable{
                             case "0":
                                 Runnable k = new Runnable() {
                                     public void run() {
-                                        String audioFilePath = "src/Music/Water Splash Sound FX 1.wav";
+                                        String audioFilePath = System.getProperty("user.dir") + "/src/Music/Water Splash Sound FX 1.wav";
                                         AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                         MusicPlayer.Soundplay(audioFilePath);
                                     }
@@ -276,20 +276,20 @@ public class Client implements Serializable{
 
                                 player.attackToken = false;
                                 GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
-                                TextServer("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
+                                TextServer("pass");    //Nicht getroffen Gegner wieder am Zug
                                 System.out.println("pass to Opponent");
                                 break;
                             case "1":
                                 Runnable l = new Runnable() {
                                     public void run() {
-                                        String audioFilePath = "src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                        String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
                                         AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                         MusicPlayer.Soundplay(audioFilePath);
                                     }
                                 };
 
                                 new Thread(l).start();
-                                //Getroffen (nicht versenkt) Client ist wieder am Zug =================================================================
+                                //Getroffen (nicht versenkt) Client ist wieder am Zug
                                 //GUI wieder freischalten oder boolean in Spieler Objekt??!
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 1");
                                 player.attackToken = true;
@@ -298,14 +298,14 @@ public class Client implements Serializable{
                             case "2":
                                 Runnable j = new Runnable() {
                                     public void run() {
-                                        String audioFilePath = "src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                        String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
                                         AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                         MusicPlayer.Soundplay(audioFilePath);
                                     }
                                 };
 
                                 new Thread(j).start();
-                                //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
+                                //Getroffen/versenkt    ?Spiel gewonnen?
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
                                 player.hp2 = player.hp2 - 1;
                                 player.attackToken = true;
@@ -314,7 +314,7 @@ public class Client implements Serializable{
                                     JOptionPane.showMessageDialog(menu, "SPIEL GEWONNEN :D" );
                                     Runnable w = new Runnable() {
                                         public void run() {
-                                            String audioFilePath = "src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
+                                            String audioFilePath = System.getProperty("user.dir") + "/src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
                                             AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                             MusicPlayer.Soundplay(audioFilePath);
                                         }
@@ -327,8 +327,6 @@ public class Client implements Serializable{
                         }
                         break;
                     case "pass":    //Client wieder am Zug nachdem Server Wasser getroffen hat
-                        //Client/Logik.Spieler ist wieder am Zug <= muss noch nachgetragen werden =======================================================================
-                        //TextServer("pass");   //=======Dummy zum ausprobieren
                         player.attackToken = true;
                         break;
                     case "shot":  //Opponent hat aufs eigene Spielfeld geschossen
@@ -356,7 +354,7 @@ public class Client implements Serializable{
                             JOptionPane.showMessageDialog(menu, "SPIEL VERLOREN :(" );
                             System.out.println("SPIEL VERLOREN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                             menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
-                            //Spiel beenden   ===========================================================================
+                            //Spiel beenden
                         }
                         break;
                     case "save":
@@ -373,10 +371,9 @@ public class Client implements Serializable{
                                 throw new RuntimeException(ex);
                             }
                         });
-                        //Spiel speichern mit Osplit[1] => Server war am Zug ==========================================================================
+                        //Spiel speichern mit Osplit[1] => Server war am Zug
                         break;
                 }
-                //TextServer("okay :) Client");
             }
         }
         catch (Exception e){}
@@ -449,8 +446,6 @@ public class Client implements Serializable{
                         }
                         break;
                     case "pass":    //Client wieder am Zug nachdem Server Wasser getroffen hat
-                        //Client/Logik.Spieler ist wieder am Zug <= muss noch nachgetragen werden =======================================================================
-                        //TextServer("pass");   //=======Dummy zum ausprobieren
                         System.out.println("KI-pass taking new shot");
                         player.attackToken = true;
                         if(player instanceof leichte_KI_zufall){
@@ -488,7 +483,7 @@ public class Client implements Serializable{
                         if (player.hp == 0) {     //Spiel zu ende?
                             System.exit(0);
                             return;
-                            //Spiel beenden   ===========================================================================
+                            //Spiel beenden
                         }
                         break;
                     case "save":
@@ -507,7 +502,6 @@ public class Client implements Serializable{
                         });
                         break;
                 }
-                //TextServer("okay :) Client");
             }
         }
         catch (Exception e){}
@@ -526,13 +520,5 @@ public class Client implements Serializable{
         catch(Exception e){                     //Exception wieder selber behandeln
             e.printStackTrace();                //Fehler Diagnose ausgeben
         }
-
     }
-
-
-    /*public static void main(String[] args) {
-        Client p1 = new Client(50000,"localhost",new Spieler("client", 21, 7, new int[7]));
-        p1.connect();
-    }*/
-
 }

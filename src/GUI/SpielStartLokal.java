@@ -272,7 +272,7 @@ public class SpielStartLokal implements Serializable {
                         if (answer.equals("answer 0")) {
                             Runnable k = new Runnable() {
                                 public void run() {
-                                    String audioFilePath = "src/Music/Water Splash Sound FX 1.wav";
+                                    String audioFilePath = System.getProperty("user.dir") + "/src/Music/Water Splash Sound FX 1.wav";
                                     AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                     MusicPlayer.Soundplay(audioFilePath);
                             }
@@ -303,7 +303,7 @@ public class SpielStartLokal implements Serializable {
                                     if (answer2.equals("answer 0")) {
                                         Runnable j = new Runnable() {
                                             public void run() {
-                                                String audioFilePath = "src/Music/Water Splash Sound FX 1.wav";
+                                                String audioFilePath = System.getProperty("user.dir") + "/src/Music/Water Splash Sound FX 1.wav";
                                                 AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                                 MusicPlayer.Soundplay(audioFilePath);
                                             }
@@ -323,7 +323,7 @@ public class SpielStartLokal implements Serializable {
                                     if (answer2.equals("answer 1")) {
                                         Runnable j = new Runnable() {
                                             public void run() {
-                                                String audioFilePath = "src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                                String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
                                                 AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                                 MusicPlayer.Soundplay(audioFilePath);
                                             }
@@ -337,7 +337,7 @@ public class SpielStartLokal implements Serializable {
                                     if (answer2.equals("answer 2")) {
                                         Runnable j = new Runnable() {
                                             public void run() {
-                                                String audioFilePath = "src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                                String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
                                                 AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                                 MusicPlayer.Soundplay(audioFilePath);
                                             }
@@ -361,7 +361,7 @@ public class SpielStartLokal implements Serializable {
                         else if(answer.equals("answer 1")){
                             Runnable k = new Runnable() {
                                 public void run() {
-                                    String audioFilePath = "src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                    String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
                                     AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                     MusicPlayer.Soundplay(audioFilePath);
                                 }
@@ -374,7 +374,7 @@ public class SpielStartLokal implements Serializable {
                         else if(answer.equals("answer 2")){
                             Runnable k = new Runnable() {
                                 public void run() {
-                                    String audioFilePath = "src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                    String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
                                     AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                     MusicPlayer.Soundplay(audioFilePath);
                                 }
@@ -389,7 +389,7 @@ public class SpielStartLokal implements Serializable {
                             if(Spieler2.hp == 0){
                                 Runnable w = new Runnable() {
                                     public void run() {
-                                        String audioFilePath = "src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
+                                        String audioFilePath = System.getProperty("user.dir") + "/src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
                                         AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                         MusicPlayer.Soundplay(audioFilePath);
                                     }
@@ -580,7 +580,7 @@ public class SpielStartLokal implements Serializable {
                         if(answer.equals("answer 0")){
                             Runnable k = new Runnable() {
                                 public void run() {
-                                    String audioFilePath = "src/Music/Water Splash Sound FX 1.wav";
+                                    String audioFilePath = System.getProperty("user.dir") + "/src/Music/Water Splash Sound FX 1.wav";
                                     AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                     MusicPlayer.Soundplay(audioFilePath);
                                 }
@@ -599,7 +599,7 @@ public class SpielStartLokal implements Serializable {
                         if(answer.equals("answer 1")){
                             Runnable k = new Runnable() {
                                 public void run() {
-                                    String audioFilePath = "src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                    String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
                                     AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                     MusicPlayer.Soundplay(audioFilePath);
                                 }
@@ -612,11 +612,12 @@ public class SpielStartLokal implements Serializable {
                         if(answer.equals("answer 2")){
                             Runnable k = new Runnable() {
                                 public void run() {
-                                    String audioFilePath = "src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                    String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
                                     AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                     MusicPlayer.Soundplay(audioFilePath);
                                 }
                             };
+                            new Thread(k).start();
                             table.setValueAt(new ImageIcon(getClass().getResource("blackcross.png")), selecRow, selecCol);
                             table4.setValueAt(new ImageIcon(getClass().getResource("blackcross.png")), selecRow, selecCol);
                             Spieler1.hp = Spieler1.hp - 1;
@@ -625,7 +626,7 @@ public class SpielStartLokal implements Serializable {
                             if(Spieler1.hp == 0){
                                 Runnable w = new Runnable() {
                                     public void run() {
-                                        String audioFilePath = "src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
+                                        String audioFilePath = System.getProperty("user.dir") + "/src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
                                         AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                         MusicPlayer.Soundplay(audioFilePath);
                                     }

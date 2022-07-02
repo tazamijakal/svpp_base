@@ -262,7 +262,7 @@ public class Server implements Serializable{
                             case "0":
                                 Runnable k = new Runnable() {
                                     public void run() {
-                                        String audioFilePath = "src/Music/Water Splash Sound FX 1.wav";
+                                        String audioFilePath = System.getProperty("user.dir") + "/src/Music/Water Splash Sound FX 1.wav";
                                         AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                         MusicPlayer.Soundplay(audioFilePath);
                                     }
@@ -278,7 +278,7 @@ public class Server implements Serializable{
                             case "1":
                                 Runnable l = new Runnable() {
                                     public void run() {
-                                        String audioFilePath = "src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                        String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
                                         AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                         MusicPlayer.Soundplay(audioFilePath);
                                     }
@@ -296,7 +296,7 @@ public class Server implements Serializable{
                             case "2":
                                 Runnable j = new Runnable() {
                                     public void run() {
-                                        String audioFilePath = "src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                        String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
                                         AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                         MusicPlayer.Soundplay(audioFilePath);
                                     }
@@ -313,7 +313,7 @@ public class Server implements Serializable{
                                     JOptionPane.showMessageDialog(menu, "SPIEL GEWONNEN :D" );
                                     Runnable w = new Runnable() {
                                         public void run() {
-                                            String audioFilePath = "src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
+                                            String audioFilePath = System.getProperty("user.dir") + "/src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
                                             AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                                             MusicPlayer.Soundplay(audioFilePath);
                                         }
@@ -530,11 +530,4 @@ public class Server implements Serializable{
     public void setAllWeNeed(AllWeNeed data){
         this.toloadthegame = data;
     }
-
-    /*public static void main(String[] args) {
-        int[] a = {0,0,1,2,3,4,2};
-        Server s1 = new Server(50000,0, new Spieler("server", 21, 7, a));        //port + ID
-        s1.connect();
-    }*/
-
 }

@@ -61,7 +61,7 @@ public final class Startbildschirm{
         SpielStart GAME = new SpielStart();
         Runnable r = new Runnable() {
             public void run() {
-                String audioFilePath = "src/Music/Gangplank, the Saltwater Scourge  Login Screen - League of Legends.wav";
+                String audioFilePath = System.getProperty("user.dir") + "/src/Music/Gangplank, the Saltwater Scourge  Login Screen - League of Legends.wav";
                 AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
                 MusicPlayer.play(audioFilePath);
             }
