@@ -447,6 +447,7 @@ public final class Startbildschirm{
                                 Spieler player = new Spieler("Server", GAME.spielfeldgr, hp, ships, GAME);
                                 Server server = new Server(50000, 0 + "", player, GAME, startbildschirm);
                                 player.serverSetter(server);
+                                displayoutput.setText("Waiting for Client...");
                                 SwingUtilities.invokeLater(() -> {
                                     server.connect();
                                 });

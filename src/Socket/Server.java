@@ -83,21 +83,22 @@ public class Server implements Serializable{
             // damit der Benutzer sie dem Benutzer des Clients mitteilen kann.
             System.out.println("My IP address(es):");
             Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
-            String adress = " ";
+            String adress = "";
             while (nis.hasMoreElements()) {
                 NetworkInterface ni = nis.nextElement();
                 Enumeration<InetAddress> ias = ni.getInetAddresses();
                 while (ias.hasMoreElements()) {
                     InetAddress ia = ias.nextElement();
                     if (!ia.isLoopbackAddress()) {
-                        System.out.print(" " + ia.getHostAddress());
-                        adress = adress + ia.getHostAddress() + "  |  ";
+                        System.out.print("" + ia.getHostAddress());
+                        adress = adress + ia.getHostAddress() + "\n";
                         //JOptionPane.showMessageDialog(menu, "Server ip: " + ia.getHostAddress());
                     }
                 }
             }
             String finalAdress = adress;
-            JOptionPane.showMessageDialog(menu, "Server ip Adressen: " + finalAdress);
+            JOptionPane.showMessageDialog(menu, "Server ip Adressen: \n" + finalAdress);
+            //ip.setText("Server ip Adressen: " + finalAdress);
             System.out.println("");
         }
         catch(Exception e){
@@ -111,6 +112,8 @@ public class Server implements Serializable{
             System.out.println("Waiting for client connection ...");
             s = ss.accept();
             System.out.println("Connection established.");
+            //menu.setVisible(false);
+            //wait.setVisible(false);
         }
         catch(Exception e){
             status = -2;              //Client-Verbindung hat nicht funktioniert
