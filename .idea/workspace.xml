@@ -6,13 +6,33 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="Fix">
+    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="ki fix">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/svpp_base_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/svpp_base_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_05_2022_13_21_[Changes]/shelved.patch" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_19_05_2022_13_21_[Changes]/shelved.patch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/SpielStartLokal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SpielStartLokal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav" beforeDir="false" afterPath="$PROJECT_DIR$/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Music/Water Splash Sound FX 1.wav" beforeDir="false" afterPath="$PROJECT_DIR$/src/Music/Water Splash Sound FX 1.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/ImageViewer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/ImageViewer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/MyImageCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/MyImageCellRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/Startbildschirm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Startbildschirm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/KI/Hilffunktion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/Hilffunktion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/KI/KI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/KI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/KI/leichte_KI_zufall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/leichte_KI_zufall.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/KI/mittlere_KI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/mittlere_KI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logik/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logik/Game2KI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Game2KI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logik/Ship.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Ship.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logik/Spieler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Spieler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Music/AudioPlayerExample2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Music/AudioPlayerExample2.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Socket/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Socket/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/AllWeNeed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/AllWeNeed.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/Laden.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/Laden.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/Speichern.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/Speichern.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/svpp_base.iml" beforeDir="false" afterPath="$PROJECT_DIR$/svpp_base.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +69,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "last_opened_file_path": "C:/Users/Jeek/IdeaProjects/ProgPraktikum"
+  }
+}]]></component>
   <component name="RunManager" selected="Application.Main (1)">
     <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Socket.Client" />
@@ -375,7 +400,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Projekt Struktur angepasst" />
