@@ -3,7 +3,6 @@ package GUI;
 import KI.*;
 import Logik.Ship;
 import Logik.Spieler;
-import Music.AudioPlayerExample2;
 import ladenspeichern.AllWeNeed;
 import ladenspeichern.Speichern;
 
@@ -272,9 +271,8 @@ public class SpielStartLokal implements Serializable {
                         if (answer.equals("answer 0")) {
                             Runnable k = new Runnable() {
                                 public void run() {
-                                    String audioFilePath = System.getProperty("user.dir") + "/src/Music/Water Splash Sound FX 1.wav";
-                                    AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                    MusicPlayer.Soundplay(audioFilePath);
+                                    AudioPlayer MusicPlayer = new AudioPlayer();
+                                    MusicPlayer.Soundplay(getClass().getResource("Music/water.wav"));
                             }
                         };
 
@@ -303,9 +301,8 @@ public class SpielStartLokal implements Serializable {
                                     if (answer2.equals("answer 0")) {
                                         Runnable j = new Runnable() {
                                             public void run() {
-                                                String audioFilePath = System.getProperty("user.dir") + "/src/Music/Water Splash Sound FX 1.wav";
-                                                AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                                MusicPlayer.Soundplay(audioFilePath);
+                                                AudioPlayer MusicPlayer = new AudioPlayer();
+                                                MusicPlayer.Soundplay(getClass().getResource("Music/water.wav"));
                                             }
                                         };
 
@@ -323,9 +320,8 @@ public class SpielStartLokal implements Serializable {
                                     if (answer2.equals("answer 1")) {
                                         Runnable j = new Runnable() {
                                             public void run() {
-                                                String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
-                                                AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                                MusicPlayer.Soundplay(audioFilePath);
+                                                AudioPlayer MusicPlayer = new AudioPlayer();
+                                                MusicPlayer.Soundplay(getClass().getResource("Music/explode.wav"));
                                             }
                                         };
 
@@ -337,9 +333,8 @@ public class SpielStartLokal implements Serializable {
                                     if (answer2.equals("answer 2")) {
                                         Runnable j = new Runnable() {
                                             public void run() {
-                                                String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
-                                                AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                                MusicPlayer.Soundplay(audioFilePath);
+                                                AudioPlayer MusicPlayer = new AudioPlayer();
+                                                MusicPlayer.Soundplay(getClass().getResource("Music/explode.wav"));
                                             }
                                         };
 
@@ -361,9 +356,8 @@ public class SpielStartLokal implements Serializable {
                         else if(answer.equals("answer 1")){
                             Runnable k = new Runnable() {
                                 public void run() {
-                                    String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
-                                    AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                    MusicPlayer.Soundplay(audioFilePath);
+                                    AudioPlayer MusicPlayer = new AudioPlayer();
+                                    MusicPlayer.Soundplay(getClass().getResource("Music/explode.wav"));
                                 }
                             };
 
@@ -374,9 +368,8 @@ public class SpielStartLokal implements Serializable {
                         else if(answer.equals("answer 2")){
                             Runnable k = new Runnable() {
                                 public void run() {
-                                    String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
-                                    AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                    MusicPlayer.Soundplay(audioFilePath);
+                                    AudioPlayer MusicPlayer = new AudioPlayer();
+                                    MusicPlayer.Soundplay(getClass().getResource("Music/explode.wav"));
                                 }
                             };
 
@@ -389,9 +382,8 @@ public class SpielStartLokal implements Serializable {
                             if(Spieler2.hp == 0){
                                 Runnable w = new Runnable() {
                                     public void run() {
-                                        String audioFilePath = System.getProperty("user.dir") + "/src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
-                                        AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                        MusicPlayer.Soundplay(audioFilePath);
+                                        AudioPlayer MusicPlayer = new AudioPlayer();
+                                        MusicPlayer.Soundplay(getClass().getResource("Music/csgo.wav"));
                                     }
                                 };
                                 new Thread(w).start();
@@ -580,9 +572,8 @@ public class SpielStartLokal implements Serializable {
                         if(answer.equals("answer 0")){
                             Runnable k = new Runnable() {
                                 public void run() {
-                                    String audioFilePath = System.getProperty("user.dir") + "/src/Music/Water Splash Sound FX 1.wav";
-                                    AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                    MusicPlayer.Soundplay(audioFilePath);
+                                    AudioPlayer MusicPlayer = new AudioPlayer();
+                                    MusicPlayer.Soundplay(getClass().getResource("Music/water.wav"));
                                 }
                             };
 
@@ -599,9 +590,8 @@ public class SpielStartLokal implements Serializable {
                         if(answer.equals("answer 1")){
                             Runnable k = new Runnable() {
                                 public void run() {
-                                    String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
-                                    AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                    MusicPlayer.Soundplay(audioFilePath);
+                                    AudioPlayer MusicPlayer = new AudioPlayer();
+                                    MusicPlayer.Soundplay(getClass().getResource("Music/explode.wav"));
                                 }
                             };
 
@@ -612,9 +602,8 @@ public class SpielStartLokal implements Serializable {
                         if(answer.equals("answer 2")){
                             Runnable k = new Runnable() {
                                 public void run() {
-                                    String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
-                                    AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                    MusicPlayer.Soundplay(audioFilePath);
+                                    AudioPlayer MusicPlayer = new AudioPlayer();
+                                    MusicPlayer.Soundplay(getClass().getResource("Music/explode"));
                                 }
                             };
                             new Thread(k).start();
@@ -626,9 +615,8 @@ public class SpielStartLokal implements Serializable {
                             if(Spieler1.hp == 0){
                                 Runnable w = new Runnable() {
                                     public void run() {
-                                        String audioFilePath = System.getProperty("user.dir") + "/src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
-                                        AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                        MusicPlayer.Soundplay(audioFilePath);
+                                        AudioPlayer MusicPlayer = new AudioPlayer();
+                                        MusicPlayer.Soundplay(getClass().getResource("Music/csgo.wav"));
                                     }
                                 };
                                 new Thread(w).start();

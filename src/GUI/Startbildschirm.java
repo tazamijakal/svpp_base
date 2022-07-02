@@ -3,7 +3,6 @@ package GUI;
 import KI.*;
 import Logik.Spieler;
 
-import Music.AudioPlayerExample2;
 import Socket.Client;
 import Socket.Server;
 import ladenspeichern.AllWeNeed;
@@ -61,9 +60,9 @@ public final class Startbildschirm{
         SpielStart GAME = new SpielStart();
         Runnable r = new Runnable() {
             public void run() {
-                String audioFilePath = System.getProperty("user.dir") + "/src/Music/Gangplank, the Saltwater Scourge  Login Screen - League of Legends.wav";
-                AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                MusicPlayer.play(audioFilePath);
+                //String audioFilePath = System.getProperty("user.dir") + "/src/Music/Gangplank, the Saltwater Scourge  Login Screen - League of Legends.wav";
+                AudioPlayer MusicPlayer = new AudioPlayer();
+                MusicPlayer.play(getClass().getResource("Music/title.wav"));
             }
         };
 

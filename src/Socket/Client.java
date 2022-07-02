@@ -1,17 +1,19 @@
 package Socket;
 
+import GUI.AudioPlayer;
 import GUI.SpielStart;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.net.*;
 import java.io.*;
 import static java.lang.Integer.parseInt;
 
+import GUI.Startbildschirm;
 import KI.leichte_KI_zufall;
 import KI.mittlere_KI;
 import Logik.*;
-import Music.AudioPlayerExample2;
 import ladenspeichern.AllWeNeed;
 import ladenspeichern.Laden;
 import ladenspeichern.Speichern;
@@ -265,9 +267,10 @@ public class Client implements Serializable{
                             case "0":
                                 Runnable k = new Runnable() {
                                     public void run() {
-                                        String audioFilePath = System.getProperty("user.dir") + "/src/Music/Water Splash Sound FX 1.wav";
-                                        AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                        MusicPlayer.Soundplay(audioFilePath);
+                                        //String audioFilePath = System.getProperty("user.dir") + "/src/Music/Water Splash Sound FX 1.wav";
+                                        AudioPlayer MusicPlayer = new AudioPlayer();
+                                        //System.out.println(getClass().getResource("Music/water.wav"));
+                                        MusicPlayer.Soundplay(getClass().getResource("Music/water.wav"));
                                     }
                                 };
 
@@ -277,14 +280,15 @@ public class Client implements Serializable{
                                 player.attackToken = false;
                                 GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
                                 TextServer("pass");    //Nicht getroffen Gegner wieder am Zug
+                                GAME.spielerzugdisplay.setBackground(Color.RED);
                                 System.out.println("pass to Opponent");
                                 break;
                             case "1":
                                 Runnable l = new Runnable() {
                                     public void run() {
-                                        String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
-                                        AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                        MusicPlayer.Soundplay(audioFilePath);
+                                        //String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                        AudioPlayer MusicPlayer = new AudioPlayer();
+                                        MusicPlayer.Soundplay(getClass().getResource("Music/explode.wav"));
                                     }
                                 };
 
@@ -298,9 +302,9 @@ public class Client implements Serializable{
                             case "2":
                                 Runnable j = new Runnable() {
                                     public void run() {
-                                        String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
-                                        AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                        MusicPlayer.Soundplay(audioFilePath);
+                                        //String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                        AudioPlayer MusicPlayer = new AudioPlayer();
+                                        MusicPlayer.Soundplay(getClass().getResource("Music/explode.wav"));
                                     }
                                 };
 
@@ -312,14 +316,19 @@ public class Client implements Serializable{
                                 GAME.setTable2BlackCross(player.lastShotX, player.lastShotY);
                                 if (player.hp2 == 0) {
                                     JOptionPane.showMessageDialog(menu, "SPIEL GEWONNEN :D" );
-                                    Runnable w = new Runnable() {
+                                    SwingUtilities.invokeLater(() -> {
+                                        AudioPlayer MusicPlayer = new AudioPlayer();
+                                        MusicPlayer.Soundplay(getClass().getResource("Music/csgo.wav"));
+                                    });
+
+                                    /*Runnable w = new Runnable() {
                                         public void run() {
-                                            String audioFilePath = System.getProperty("user.dir") + "/src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
-                                            AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                            MusicPlayer.Soundplay(audioFilePath);
+                                            //String audioFilePath = System.getProperty("user.dir") + "/src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
+                                            AudioPlayer MusicPlayer = new AudioPlayer();
+                                            MusicPlayer.play(getClass().getResource("csgo.wav"));
                                         }
                                     };
-                                    new Thread(w).start();
+                                    new Thread(w).start();*/
                                     System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
                                     menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
                                 }
@@ -328,6 +337,7 @@ public class Client implements Serializable{
                         break;
                     case "pass":    //Client wieder am Zug nachdem Server Wasser getroffen hat
                         player.attackToken = true;
+                        GAME.spielerzugdisplay.setBackground(Color.GREEN);
                         break;
                     case "shot":  //Opponent hat aufs eigene Spielfeld geschossen
                         //Ueberpruefen ob Opponent getroffen hat und dann richtiges "answer" zurueckschicken

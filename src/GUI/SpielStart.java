@@ -32,7 +32,7 @@ public final class SpielStart extends JFrame{
     protected boolean cb5Selec = false;
     protected boolean cb6Selec = false;
     protected boolean placeship = true;
-
+    public JButton spielerzugdisplay;
 
     //Index von Kaestchen in Spielfeld von Gegner Schiffen
     public static int index_zeile;
@@ -256,7 +256,7 @@ public final class SpielStart extends JFrame{
         JScrollPane scrollPane = new JScrollPane(table);
         JScrollPane scrollPane2 = new JScrollPane(table2);
 
-        JButton spielerzugdisplay = new JButton("AM ZUG");
+        spielerzugdisplay = new JButton("AM ZUG");
         JLabel amzug = new JLabel("");
 
         if(player.attackToken == true){

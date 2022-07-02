@@ -1,16 +1,17 @@
 package Socket;
 
+import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.net.*;
 import java.io.*;
 import java.util.Enumeration;
 
+import GUI.AudioPlayer;
 import GUI.SpielStart;
 import GUI.Startbildschirm;
 import KI.leichte_KI_zufall;
 import KI.mittlere_KI;
 import Logik.*;
-import Music.AudioPlayerExample2;
 import ladenspeichern.AllWeNeed;
 import ladenspeichern.Speichern;
 import org.w3c.dom.Text;
@@ -262,9 +263,9 @@ public class Server implements Serializable{
                             case "0":
                                 Runnable k = new Runnable() {
                                     public void run() {
-                                        String audioFilePath = System.getProperty("user.dir") + "/src/Music/Water Splash Sound FX 1.wav";
-                                        AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                        MusicPlayer.Soundplay(audioFilePath);
+                                        //String audioFilePath = System.getProperty("user.dir") + "/src/Music/Water Splash Sound FX 1.wav";
+                                        AudioPlayer MusicPlayer = new AudioPlayer();
+                                        MusicPlayer.Soundplay(getClass().getResource("Music/water.wav"));
                                     }
                                 };
 
@@ -273,14 +274,15 @@ public class Server implements Serializable{
                                 player.attackToken = false;
                                 GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
                                 TextClient("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
+                                GAME.spielerzugdisplay.setBackground(Color.RED);
                                 System.out.println("pass to Opponent");
                                 break;
                             case "1":
                                 Runnable l = new Runnable() {
                                     public void run() {
-                                        String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
-                                        AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                        MusicPlayer.Soundplay(audioFilePath);
+                                        //String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
+                                        AudioPlayer MusicPlayer = new AudioPlayer();
+                                        MusicPlayer.Soundplay(getClass().getResource("Music/explode.wav"));
                                     }
                                 };
 
@@ -297,8 +299,8 @@ public class Server implements Serializable{
                                 Runnable j = new Runnable() {
                                     public void run() {
                                         String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
-                                        AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                        MusicPlayer.Soundplay(audioFilePath);
+                                        AudioPlayer MusicPlayer = new AudioPlayer();
+                                        MusicPlayer.Soundplay(getClass().getResource("Music/explode.wav"));
                                     }
                                 };
 
@@ -313,9 +315,9 @@ public class Server implements Serializable{
                                     JOptionPane.showMessageDialog(menu, "SPIEL GEWONNEN :D" );
                                     Runnable w = new Runnable() {
                                         public void run() {
-                                            String audioFilePath = System.getProperty("user.dir") + "/src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
-                                            AudioPlayerExample2 MusicPlayer = new AudioPlayerExample2();
-                                            MusicPlayer.Soundplay(audioFilePath);
+                                            //String audioFilePath = System.getProperty("user.dir") + "/src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
+                                            AudioPlayer MusicPlayer = new AudioPlayer();
+                                            MusicPlayer.Soundplay(getClass().getResource("Music/csgo.wav"));
                                         }
                                     };
                                     new Thread(w).start();
@@ -330,6 +332,7 @@ public class Server implements Serializable{
                         //Dummy zum testen
                         //TextClient("pass");
                         player.attackToken = true;
+                        GAME.spielerzugdisplay.setBackground(Color.GREEN);
                         break;
                     case "shot":    //Opponent hat aufs eigene Spielfeld geschossen
                         String answer = "";

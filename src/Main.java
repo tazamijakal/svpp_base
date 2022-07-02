@@ -21,7 +21,7 @@ public class Main {
             try {
                 Startbildschirm.start();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         });
 
