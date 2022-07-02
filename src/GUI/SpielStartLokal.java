@@ -400,6 +400,7 @@ public class SpielStartLokal implements Serializable {
                             }
                         }
                     }
+
                     else if(Spieler1.attackToken == false){
                         SwingWorker<Void, Void> sw33 = new SwingWorker<Void, Void>(){
                             @Override

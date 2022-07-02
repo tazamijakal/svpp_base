@@ -317,6 +317,7 @@ public final class SpielStart extends JFrame{
                 }
                 catch(Exception exc){}
                 System.out.println("Tabelle2 " + selecRow + "," + selecCol);
+
             }
         });
 

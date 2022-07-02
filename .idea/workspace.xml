@@ -6,10 +6,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="add back images">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Socket/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Socket/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Server.java" afterDir="false" />
+    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="client + server fix + JLabel waiting on Opponent">
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,14 +44,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Jeek/IdeaProjects/svpp_base"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Jeek/IdeaProjects/svpp_base&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.Main (1)">
     <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Socket.Client" />
@@ -434,7 +432,8 @@
     <MESSAGE value="remove images" />
     <MESSAGE value="add back images" />
     <MESSAGE value="client + server fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="client + server fix" />
+    <MESSAGE value="client + server fix + JLabel waiting on Opponent" />
+    <option name="LAST_COMMIT_MESSAGE" value="client + server fix + JLabel waiting on Opponent" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
