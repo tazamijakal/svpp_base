@@ -221,7 +221,7 @@ public class Client implements Serializable{
                     }
                     System.out.println("Opponent: " + third);
                     //Warten bis Client auch "ready"
-                    TextServer("ready");
+                    //TextServer("ready");
 
 
                     System.out.println("Client Starting the GAME: ");

@@ -158,6 +158,7 @@ public class Server implements Serializable{
                 //TextClient("ready");
                 if(player.name.equals("Server")) {
                     System.out.println("Server wird gesetzt");
+                    player.attackToken = false;
                     SwingUtilities.invokeLater(() -> {
                         GAME.Setzen(player, null);
                     });
@@ -174,33 +175,41 @@ public class Server implements Serializable{
                         TextClient("ready");
                     }
                 }
-                //"ready" check von Server wird intern geschickt sobald alle Schiffe plaziert sind
-                //und "ready" on Client kommt erst nach "ready" von Server
-                String ready = in.readLine();
-                if(ready.equals("ready")){
-                    status = 1;
-                    System.out.println("Opponent: " + ready);
-                    if(player.name.equals("KI_Server_leicht")){
-                        if(player instanceof leichte_KI_zufall){
-                            String newshot = ((leichte_KI_zufall) player).KIshoot();
-                            System.out.println(newshot);
-                            player.server.TextClient(newshot);
-                        }
-                    }
-                    else if(player.name.equals("KI_Server_mittel")){
-                        if(player instanceof mittlere_KI){
-                            try{
-                                String newshot = ((mittlere_KI) player).KIshoot();
-                                System.out.println(newshot);
-                                player.server.TextClient(newshot);
-                            }
-                            catch(Exception ex){
-                                ex.printStackTrace();
-                            }
-                        }
-                    }
-                }
 
+                SwingWorker<Void, Void> sw33 = new SwingWorker<Void, Void>(){
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        //"ready" check von Server wird intern geschickt sobald alle Schiffe plaziert sind
+                        //und "ready" on Client kommt erst nach "ready" von Server
+                        String ready = in.readLine();
+                        if(ready.equals("ready")){
+                            status = 1;
+                            player.attackToken = true;
+                            System.out.println("Opponent: " + ready);
+                            if(player.name.equals("KI_Server_leicht")){
+                                if(player instanceof leichte_KI_zufall){
+                                    String newshot = ((leichte_KI_zufall) player).KIshoot();
+                                    System.out.println(newshot);
+                                    player.server.TextClient(newshot);
+                                }
+                            }
+                            else if(player.name.equals("KI_Server_mittel")){
+                                if(player instanceof mittlere_KI){
+                                    try{
+                                        String newshot = ((mittlere_KI) player).KIshoot();
+                                        System.out.println(newshot);
+                                        player.server.TextClient(newshot);
+                                    }
+                                    catch(Exception ex){
+                                        ex.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+                        return null;
+                    }
+                };
+                sw33.execute();
             }
         }
         catch(Exception e){
@@ -224,23 +233,6 @@ public class Server implements Serializable{
             }
         };
         sw3.execute();
-        /*if(player.name.equals("KI_Server_leicht")){
-            if(player instanceof leichte_KI_zufall){
-                String newshot = ((leichte_KI_zufall) player).KIshoot();
-                TextClient(newshot);
-            }
-        }
-        else if(player.name.equals("KI_Server_mittel")){
-            if(player instanceof mittlere_KI){
-                try{
-                    String newshot = ((mittlere_KI) player).KIshoot();
-                    TextClient(newshot);
-                }
-                catch(Exception e){
-                    e.printStackTrace();
-                }
-            }
-        }*/
     }
 
     /**
@@ -249,6 +241,7 @@ public class Server implements Serializable{
      *
      */
     public void runGame(){                              //Eigene Methode fuer SwingWorker
+        System.out.println(player.attackToken);
         System.out.println(player.hp + "   " + player.hp2);
         //Server ist immer als erstes am Zug aber falls geladen wird und man war nicht am Zug sende pass zum Client
         if(loadtoken == false && toloadthegame != null){

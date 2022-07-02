@@ -6,8 +6,10 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="update">
-      <change beforePath="$PROJECT_DIR$/src/GUI/ShipHstart.png" beforeDir="false" />
+    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="add back images">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Socket/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Socket/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -368,7 +370,21 @@
       <option name="project" value="LOCAL" />
       <updated>1656769896638</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="remove images">
+      <created>1656770157270</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1656770157270</updated>
+    </task>
+    <task id="LOCAL-00034" summary="add back images">
+      <created>1656770237544</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1656770237544</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -406,7 +422,9 @@
     <MESSAGE value="Backround music und sfx" />
     <MESSAGE value="Fix" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="remove images" />
+    <MESSAGE value="add back images" />
+    <option name="LAST_COMMIT_MESSAGE" value="add back images" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
