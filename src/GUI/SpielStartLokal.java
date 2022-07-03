@@ -606,9 +606,10 @@ public class SpielStartLokal implements Serializable {
                             Runnable k = new Runnable() {
                                 public void run() {
                                     AudioPlayer MusicPlayer = new AudioPlayer();
-                                    MusicPlayer.Soundplay(getClass().getResource("Music/explode"));
+                                    MusicPlayer.Soundplay(getClass().getResource("Music/explode.wav"));
                                 }
                             };
+
                             new Thread(k).start();
                             table.setValueAt(new ImageIcon(getClass().getResource("blackcross.png")), selecRow, selecCol);
                             table4.setValueAt(new ImageIcon(getClass().getResource("blackcross.png")), selecRow, selecCol);
