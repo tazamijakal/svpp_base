@@ -258,6 +258,7 @@ public class Client implements Serializable{
                                         MusicPlayer.Soundplay(getClass().getResource("Music/water.wav"));
                                     }
                                 };
+
                                 new Thread(k).start();
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 0");
 
@@ -398,6 +399,7 @@ public class Client implements Serializable{
                             case "1":
                                 //Getroffen (nicht versenkt) "Client" ist wieder am Zug
                                 player.visibleBoard[player.lastShotX][player.lastShotY] = new Spieler.TrefferObject();
+                                //GAME.setTable2RedCross(player.lastShotX, player.lastShotY);
                                 player.attackToken = true;
                                 if(player instanceof leichte_KI_zufall){
                                     String newshot = ((leichte_KI_zufall) player).KIshoot();

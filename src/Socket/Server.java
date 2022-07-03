@@ -186,17 +186,19 @@ public class Server implements Serializable{
                             System.out.println("Opponent: " + ready);
                             if(player.name.equals("KI_Server_leicht")){
                                 if(player instanceof leichte_KI_zufall){
+                                    Thread.sleep(2000);
                                     String newshot = ((leichte_KI_zufall) player).KIshoot();
                                     System.out.println(newshot);
-                                    player.server.TextClient(newshot);
+                                    TextClient(newshot);
                                 }
                             }
                             else if(player.name.equals("KI_Server_mittel")){
                                 if(player instanceof mittlere_KI){
                                     try{
+                                        Thread.sleep(2000);
                                         String newshot = ((mittlere_KI) player).KIshoot();
                                         System.out.println(newshot);
-                                        player.server.TextClient(newshot);
+                                        TextClient(newshot);
                                     }
                                     catch(Exception ex){
                                         ex.printStackTrace();
@@ -454,7 +456,8 @@ public class Server implements Serializable{
                         int x = 0, y = 0;
                         try {
                             x = parseInt(Osplit[1]);
-                            y = parseInt(Osplit[2]);}
+                            y = parseInt(Osplit[2]);
+                        }
                         catch (Exception e) {
                             System.out.println("Array out of bounds");
                         }

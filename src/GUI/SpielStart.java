@@ -947,7 +947,7 @@ public final class SpielStart extends JFrame{
                             if (player.server != null) {
                                 player.server.TextClient("ready");
                             }
-                            if (player.client != null) {
+                            else if (player.client != null) {
                                 player.client.TextServer("ready");
                             }
                             if (radioButton_l && Startbildschirm.p1) {
