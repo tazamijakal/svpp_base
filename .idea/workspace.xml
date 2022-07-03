@@ -6,25 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="Kommentare Update">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/AudioPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/AudioPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/ImageViewer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/ImageViewer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/SpielStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SpielStart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/SpielStartLokal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SpielStartLokal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/Startbildschirm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/Startbildschirm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/KI/KI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/KI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/KI/leichte_KI_zufall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/leichte_KI_zufall.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/KI/mittlere_KI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/KI/mittlere_KI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Logik/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Logik/Game2KI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Game2KI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Logik/Ship.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Ship.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Logik/Spieler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Spieler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Socket/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/AllWeNeed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/AllWeNeed.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/Speichern.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/Speichern.java" afterDir="false" />
-    </list>
+    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="Kommentare Update" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -434,7 +416,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656860394634</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Kommentare Update">
+      <created>1656866176467</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1656866176467</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

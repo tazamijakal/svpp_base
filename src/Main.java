@@ -22,7 +22,7 @@ public class Main {
         SwingUtilities.invokeLater(() -> {
             try {
                 Startbildschirm.start();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         });
