@@ -8,15 +8,13 @@ import Socket.Server;
 import ladenspeichern.AllWeNeed;
 import ladenspeichern.Laden;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
+
 import java.io.IOException;
 
 /**
@@ -27,8 +25,10 @@ import java.io.IOException;
 
 public final class Startbildschirm{
 
+    //Rolle, die Spieler annimmt
     public static String role;
 
+    //Anzahl der Schiffe bei verschiedenen Schiffstypen
     public static int anzahl2 = 0;
     public static int anzahl3 = 0;
     public static int anzahl4 = 0;
@@ -37,15 +37,13 @@ public final class Startbildschirm{
 
     public static String ClientIP;
 
-    public static boolean lok_Spsp = false;
-
     public static boolean p1 = false;
-    public static boolean p2 = false;
 
+    //besetzte Spielfelder
     public static int selectedSpace = 0;
+
+    //maximale Anzahl an Feldern, die besetzt werden duerfen
     public static int maxSpace = 0;
-    public static Spieler sp1;
-    public static Spieler sp2;
 
 
 
@@ -61,7 +59,6 @@ public final class Startbildschirm{
         SpielStart GAME = new SpielStart();
         Runnable r = new Runnable() {
             public void run() {
-                //String audioFilePath = System.getProperty("user.dir") + "/src/Music/Gangplank, the Saltwater Scourge  Login Screen - League of Legends.wav";
                 AudioPlayer MusicPlayer = new AudioPlayer();
                 MusicPlayer.play(getClass().getResource("Music/title.wav"));
             }
@@ -69,10 +66,6 @@ public final class Startbildschirm{
 
         new Thread(r).start();
 
-
-        //model und model2 werden als Parameter an Funktion von SpielStart uebergeben
-        //DefaultTableModel model = new DefaultTableModel();
-        //DefaultTableModel model2 = new DefaultTableModel();
 
 
         //Erzeugt Fenster mit Titel Schiffeversenken
@@ -84,21 +77,26 @@ public final class Startbildschirm{
         startbildschirm.setContentPane(Box.createHorizontalBox());
 
 
-        // Zwischenraum der Breite 50 oder mehr.Horizontal
+        // Zwischenraum (horizontal) der Breite 50
         startbildschirm.add(Box.createHorizontalStrut(50));
         startbildschirm.add(Box.createHorizontalGlue());
 
 
-        //Panel für Spielfeldgroesse Slider und starten von Spiel machen:
+        //Panel spiel_Start
+        // fuer Spielfeldgroesse Slider
+        // fuer starten von Spiel machen (play-Button)
+        // fuer laden von Spiel
         JPanel spiel_Start = new JPanel();
+
         //Komponenten werden vertikal angeordnet
         spiel_Start.setLayout(new BoxLayout(spiel_Start, BoxLayout.PAGE_AXIS));
 
         JLabel Spielfeldgr = new JLabel("Spielfeld (Wert zuerst setzen):");
 
         //Setzen von Spielfeldgroesse wie vorgegeben einschraenken:
+        //Spielfeldgroesse von 5x5 bis 30x30
         JSlider slider_gr = new JSlider(5, 30, 10);//Standard: rang: 0-100, initial value: 50
-        //->siehe Info Konstruktor, kann man auch selber noch anpassen
+
 
         slider_gr.setPaintLabels(true); //Anzeige der Zahlen
         slider_gr.setPaintTrack(true); //Balken werden angezeigt
@@ -108,6 +106,7 @@ public final class Startbildschirm{
         JLabel label_slider = new JLabel();
 
         //Anzeige, welche Werte noch nicht gesetzt sind
+        //Hinweis in rot
         JLabel spielfeldgr_fehlt = new JLabel("Spielfeldgroesse fehlt");
         spielfeldgr_fehlt.setForeground(Color.RED);
         spielfeldgr_fehlt.setVisible(false);
@@ -131,8 +130,11 @@ public final class Startbildschirm{
 
 
 
-        //Panel für Schiffe Labels machen:
+        //Panel schiffAuswahl1
+        //fuer Schiffe Labels machen
+        //und Label Selected Space
         JPanel schiffAuswahl1 = new JPanel();
+
         //Komponenten werden vertikal angeordnet
         schiffAuswahl1.setLayout(new BoxLayout(schiffAuswahl1, BoxLayout.PAGE_AXIS));
 
@@ -148,17 +150,6 @@ public final class Startbildschirm{
         displayoutput.setFont(new Font("Calibri", Font.BOLD, 20));
         displayoutput.setForeground(Color.RED);
 
-        //Wie viele Schiffe man von welcher Groesse benutzen darf!
-        //Felder die bei Anzahl bestimmter Schiffsart gebraucht werden
-        //Schiffe haben untereinander 1 Feld breiten Rand!
-        //wird bearbeitet:
-        int ship_2 = anzahl2*2;
-        int ship_3 = anzahl3*3;
-        int ship_4 = anzahl4*4;
-        int ship_5 = anzahl5*5;
-        int ship_6 = anzahl6*6;
-
-        //int grenze_ships = ((GAME.spielfeldgr* GAME.spielfeldgr) );
 
         JSlider slider2 = new JSlider(0, 30);
         JLabel label_slider2 = new JLabel();
@@ -191,8 +182,10 @@ public final class Startbildschirm{
         slider5.setEnabled(false);
         slider6.setEnabled(false);
 
-        //Panel für Schiffe Slider machen:
+        //Panel fuer Schiffe Slider
+        //und Maximum Space
         JPanel schiffSlider = new JPanel();
+
         //Komponenten werden vertikal angeordnet
         schiffSlider.setLayout(new BoxLayout(schiffSlider, BoxLayout.PAGE_AXIS));
 
@@ -203,11 +196,11 @@ public final class Startbildschirm{
             public void stateChanged(ChangeEvent e) {
 
                 schiffe_fehlen.setVisible(false);
-                //int value2 = slider2.getValue();
+                //gibt Wert zurueck, den Slider gerade hat
                 anzahl2 = slider2.getValue();
                 selectedSpace = (anzahl2*2 + anzahl3*3 + anzahl4*4 + anzahl5*5 + anzahl6*6);
                 currentship.setText("Selected Space: " + selectedSpace);
-                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
+
 
                 //Wenn sich slider auf einen anderen Wert bewegt soll dieser
                 //Wert im Label angezeigt werden
@@ -223,11 +216,11 @@ public final class Startbildschirm{
             public void stateChanged(ChangeEvent e) {
 
                 schiffe_fehlen.setVisible(false);
-                //int value3 = slider3.getValue();
+                //gibt Wert zurueck, den Slider gerade hat
                 anzahl3 = slider3.getValue();
                 selectedSpace = (anzahl2*2 + anzahl3*3 + anzahl4*4 + anzahl5*5 + anzahl6*6);
                 currentship.setText("Selected Space: " + selectedSpace);
-                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
+
 
                 //Wenn sich slider auf einen anderen Wert bewegt soll dieser
                 //Wert im Label angezeigt werden
@@ -242,11 +235,11 @@ public final class Startbildschirm{
             public void stateChanged(ChangeEvent e) {
 
                 schiffe_fehlen.setVisible(false);
-                //int value4 = slider4.getValue();
+                //gibt Wert zurueck, den Slider gerade hat
                 anzahl4 = slider4.getValue();
                 selectedSpace = (anzahl2*2 + anzahl3*3 + anzahl4*4 + anzahl5*5 + anzahl6*6);
                 currentship.setText("Selected Space: " + selectedSpace);
-                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
+
 
                 //Wenn sich slider auf einen anderen Wert bewegt soll dieser
                 //Wert im Label angezeigt werden
@@ -262,11 +255,11 @@ public final class Startbildschirm{
             public void stateChanged(ChangeEvent e) {
 
                 schiffe_fehlen.setVisible(false);
-                //int value5 = slider5.getValue();
+                //gibt Wert zurueck, den Slider gerade hat
                 anzahl5 = slider5.getValue();
                 selectedSpace = (anzahl2*2 + anzahl3*3 + anzahl4*4 + anzahl5*5 + anzahl6*6);
                 currentship.setText("Selected Space: " + selectedSpace);
-                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
+
 
                 //Wenn sich slider auf einen anderen Wert bewegt soll dieser
                 //Wert im Label angezeigt werden
@@ -282,11 +275,11 @@ public final class Startbildschirm{
             public void stateChanged(ChangeEvent e) {
 
                 schiffe_fehlen.setVisible(false);
-                //int value6 = slider6.getValue();
+                //gibt Wert zurueck, den Slider gerade hat
                 anzahl6 = slider6.getValue();
                 selectedSpace = (anzahl2*2 + anzahl3*3 + anzahl4*4 + anzahl5*5 + anzahl6*6);
                 currentship.setText("Selected Space: " + selectedSpace);
-                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
+
 
                 //Wenn sich slider auf einen anderen Wert bewegt soll dieser
                 //Wert im Label angezeigt werden
@@ -303,10 +296,11 @@ public final class Startbildschirm{
 
                 spielfeldgr_fehlt.setVisible(false);
 
+                //gibt Wert zurueck, den Slider gerade hat
                 int value = slider_gr.getValue();
                 maxship.setText("Maximum Space: " + (value*value/3));
                 maxSpace = (value*value/3);
-                //gibt Wert zurück, den Slider gerade hat (zwischen 0 und 100)
+
 
                 //Wenn sich slider auf einen anderen Wert bewegt soll dieser
                 //Wert im Label angezeigt werden
@@ -323,7 +317,8 @@ public final class Startbildschirm{
                 GAME.spielfeldgr = value;
 
                 //Ausschalten Schiffsauswahl fuer bestimmte Spielfeldgroesse
-                //ab Spielfeldgroesse 20x20
+                //ab Spielfeldgroesse 20x20:
+                //2er Schiffe deaktiviert, 6er Schiffe aktiviert
 
                 if(GAME.spielfeldgr < 20)
                 {
@@ -379,7 +374,8 @@ public final class Startbildschirm{
         auswahl_lokal.setBackground(Color.lightGray);
 
         //Auswahl Spieler-Typ
-        JLabel spieler = new JLabel("Spieler");
+        //bei Spielmodus online
+        //Erzeugung ComboBox
         String[] list_spieler = {"[choose]", "Client", "Server", "KI_Client_leicht", "KI_Client_mittel", "KI_Server_leicht", "KI_Server_mittel"};
         JComboBox<String> auswahl_spieler = new JComboBox<String>(list_spieler);
         auswahl_spieler.setBackground(Color.lightGray);
@@ -398,6 +394,7 @@ public final class Startbildschirm{
         auswahl_lokal.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //Meldung, dass Eingabe fehlt kann wieder ausgeblendet werden
                 if(rb_lokal.isSelected() && !auswahl_lokal.getSelectedItem().equals("[choose]"))
                 {
                     lok_modus_fehlt.setVisible(false);
@@ -405,10 +402,7 @@ public final class Startbildschirm{
             }
         });
 
-        //Auswahl Spielmodus Online
-        //Erzeugung ComboBox
-        //String[] list_online = {"[choose]", "Spieler vs Spieler", "Spieler vs KI", "KI vs KI"};
-        //JComboBox<String> auswahl_online = new JComboBox<String>(list_online);
+
 
         play.addActionListener(new ActionListener() {
             @Override
@@ -441,13 +435,10 @@ public final class Startbildschirm{
                         System.out.println("Do nothing");
                     } else if (role != null && (GAME.radioButton_l || GAME.radioButton_o) && selectedSpace <= maxSpace) {
                         startbildschirm.setVisible(false);
-                        //int hp = (GAME.spielfeldgr * GAME.spielfeldgr) / 3;
                         if (GAME.radioButton_o) {
                             int[] ships = {0, 0, anzahl2, anzahl3, anzahl4, anzahl5, anzahl6};
                             int hp = anzahl2 + anzahl3 + anzahl4 + anzahl5 + anzahl6;
                             if (role.equals("Server")) {
-                                //Anzahl Schiffe
-                                //int[] ships = {0, 0, 2, 2, 0, 0};
                                 Spieler player = new Spieler("Server", GAME.spielfeldgr, hp, ships, GAME);
                                 Server server = new Server(50000, 0 + "", player, GAME, startbildschirm);
                                 player.serverSetter(server);
@@ -499,7 +490,7 @@ public final class Startbildschirm{
                         }
 
 
-                    } else if (GAME.radioButton_l /*&& lok_Spsp*/ && selectedSpace <= maxSpace) {
+                    } else if (GAME.radioButton_l && selectedSpace <= maxSpace) {
                         if (auswahl_lokal.getSelectedItem().equals("Spieler vs KI_leicht")) {
                             startbildschirm.setVisible(false);
                             int hp = anzahl2 + anzahl3 + anzahl4 + anzahl5 + anzahl6;
@@ -540,15 +531,10 @@ public final class Startbildschirm{
                 }
                 catch(NullPointerException nullexc)
                 {
-                    //JOptionPane.showMessageDialog(startbildschirm, "Du hast keine Werte gesetzt!!");
                     displayoutput.setVisible(true);
                     displayoutput.setText("Finish all parameters");
                 }
 
-
-                /*SwingUtilities.invokeLater(
-                        () -> { GAME.SpielStarten(player, GAME); }
-                );*/
 
             }
         });
@@ -620,7 +606,7 @@ public final class Startbildschirm{
 
 
 
-        //Hier werden alle Komponenten zum Panel hinzugefuegt
+        //Hier werden alle Komponenten zum Panel spiel_Start hinzugefuegt
         //Mit passendem Zwischenraum
         spiel_Start.add(Box.createVerticalStrut(10));
         spiel_Start.add(Box.createVerticalGlue());
@@ -652,9 +638,10 @@ public final class Startbildschirm{
 
 
 
-        //Panel/Container mit Teil der Komponenten:
-        //Fuer Spielmodus, Spieler-Typ usw.
+        //Panel mit Teil der Komponenten:
+        //Fuer Spielmodus online/lokal, Spieler-Typ usw.
         JPanel spielAuswahl = new JPanel();
+
         //Komponenten werden vertikal angeordnet
         spielAuswahl.setLayout(new BoxLayout(spielAuswahl, BoxLayout.PAGE_AXIS));
 
@@ -695,23 +682,17 @@ public final class Startbildschirm{
                 public void actionPerformed(ActionEvent e) {
                     if (GAME.radioButton_l)
                     {
-                        //auswahl_spieler.setEnabled(false);
-                        //auswahl_spieler.setEnabled(true);
-                        //rb_lokal.getAction();
                         GAME.radioButton_l = false;
                         rb_online.setEnabled(true);
                         auswahl_lokal.setEnabled(false);
-                        //auswahl_online.setEnabled(true);
                         lok_modus_fehlt.setVisible(false);
                     }
                     else
                     {
-                        //auswahl_spieler.setEnabled(true);
                         auswahl_spieler.setEnabled(false);
                         GAME.radioButton_l = true;
                         rb_online.setEnabled(false);
                         auswahl_lokal.setEnabled(true);
-                        //auswahl_online.setEnabled(false);
 
                         lok_on_fehlt.setVisible(false);
                     }
@@ -741,7 +722,6 @@ public final class Startbildschirm{
                         auswahl_spieler.setEnabled(false);
                         GAME.radioButton_o = false;
                         rb_lokal.setEnabled(true);
-                        //auswahl_lokal.setEnabled(true);
 
                         spieler_fehlt.setVisible(false);
                     }
@@ -762,11 +742,10 @@ public final class Startbildschirm{
         else
         {
             rb_online.setEnabled(false);
-            //auswahl_online.setEnabled(false);
         }
 
 
-        //Hier werden alle Komponenten zum Panel hinzugefuegt
+        //Hier werden alle Komponenten zum Panel spielAuswahl hinzugefuegt
         //Mit passendem Zwischenraum
         spielAuswahl.add(Box.createVerticalStrut(10));
         spielAuswahl.add(Box.createVerticalGlue());
@@ -774,10 +753,6 @@ public final class Startbildschirm{
         spielAuswahl.add(rb_online);
         spielAuswahl.add(auswahl_spieler);
         spielAuswahl.add(spieler_fehlt);
-        //spielAuswahl.add(auswahl_online);
-
-        //spielAuswahl.add(spieler);
-
 
         spielAuswahl.add(Box.createVerticalStrut(10));
         spielAuswahl.add(Box.createVerticalGlue());
@@ -798,7 +773,7 @@ public final class Startbildschirm{
 
 
 
-        //Hier werden alle Komponenten zum Panel hinzugefuegt
+        //Hier werden alle Komponenten zum Panel schiffAuswahl1 hinzugefuegt
         //Mit passendem Zwischenraum
         schiffAuswahl1.add(Box.createHorizontalStrut(5));
         schiffAuswahl1.add(Box.createHorizontalGlue());
@@ -840,10 +815,8 @@ public final class Startbildschirm{
 
 
 
-        //Hier werden alle Komponenten zum Panel hinzugefuegt
+        //Hier werden alle Komponenten zum Panel schiffSlider hinzugefuegt
         //Mit passendem Zwischenraum
-        //schiffAuswahl1.add(Box.createVerticalStrut(5));
-        //schiffAuswahl1.add(Box.createVerticalGlue());
         schiffSlider.add(Box.createVerticalStrut(20));
         schiffSlider.add(Box.createVerticalGlue());
 

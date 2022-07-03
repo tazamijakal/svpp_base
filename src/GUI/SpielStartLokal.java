@@ -21,12 +21,14 @@ public class SpielStartLokal implements Serializable {
     protected int x = 0;
     protected int y = 0;
     public JTable table;
-    int[] remainingships;
+
     public JTable table2;
     public JTable table3;
     public JTable table4;
+
     public Spieler Spieler1;
     public Spieler Spieler2;
+
     public int mapSize;
 
 
@@ -110,8 +112,6 @@ public class SpielStartLokal implements Serializable {
                 columns[i] = "" + (i + 1);
             }
 
-            //Fuer Schiffe setzen:
-            //String[][] feldSetzen = new String[model.getSpielfeld()][model.getSpielfeld()];
             Object[][] data = new Object[mapSize][mapSize];
             for (int i = 0; i < mapSize; i++) {
                 for (int k = 0; k < mapSize; k++) {
@@ -216,28 +216,34 @@ public class SpielStartLokal implements Serializable {
         table2.getTableHeader().setReorderingAllowed(false);
         table3.getTableHeader().setReorderingAllowed(false);
         table4.getTableHeader().setReorderingAllowed(false);
+
+        //Fenster mit Titel Schiffeversenken
         JFrame frame = new JFrame("Schiffeversenken " + Spieler1.name);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // Zwischenraum der Breite 50 oder mehr.
+
+
         JFrame frame2 = new JFrame("Schiffeversenken " + Spieler2.name);
 
         frame.setIconImage(new ImageIcon(getClass().getResource("PirateBay.png")).getImage());
         frame2.setIconImage(new ImageIcon(getClass().getResource("PirateBay.png")).getImage());
 
+        //setzt Layout auf horizontale Box
         frame.setContentPane(Box.createHorizontalBox());
 
-        // Zwischenraum der Breite 50 oder mehr.
+        // Zwischenraum der Breite 20
         frame.add(Box.createHorizontalStrut(20));
         frame.add(Box.createHorizontalGlue());
 
         JScrollPane scrollPane = new JScrollPane(table);
         JScrollPane scrollPane2 = new JScrollPane(table2);
 
+        //im Spiel fuer Anzeige, ob man am Zug ist
         JButton spieler1_frame = new JButton("AM ZUG");
         JButton spieler2_frame = new JButton("AM ZUG");
         JLabel amzug1 = new JLabel("");
         JLabel amzug2 = new JLabel("");
 
+        //Ampelsystem, ob am Zug
         spieler1_frame.setBackground(Color.GREEN);
         spieler2_frame.setBackground(Color.RED);
 
@@ -247,8 +253,7 @@ public class SpielStartLokal implements Serializable {
             public void mouseClicked(MouseEvent e) {
                 int selecRow = table2.getSelectedRow();
                 int selecCol = table2.getSelectedColumn();
-                //feldSetzen[selecRow][selecRow] = "ship";
-                //table2.setValueAt(new ImageIcon("src\\blue.png"), selecRow, selecCol);
+
                 String a, b;
                 try {
                     a = table2.getValueAt(selecRow, selecCol).toString();
@@ -414,6 +419,7 @@ public class SpielStartLokal implements Serializable {
 
         Box vbox_1 = Box.createVerticalBox();
         {
+            //vertikale Box fuer das eigene Spielfeld
             JLabel label_gegner = new JLabel("Eigene Schiffe");
             vbox_1.add(label_gegner);
 
@@ -426,12 +432,14 @@ public class SpielStartLokal implements Serializable {
         frame.add(vbox_1);
 
 
+        // Zwischenraum der Breite 20
         frame.add(Box.createHorizontalStrut(20));
         frame.add(Box.createHorizontalGlue());
 
 
         Box vbox_2 = Box.createVerticalBox();
         {
+            //vertikale Box fuer das gegnerische Spielfeld
             JLabel label_eigene = new JLabel("Gegner Schiffe");
             vbox_2.add(label_eigene);
 
@@ -444,6 +452,7 @@ public class SpielStartLokal implements Serializable {
 
         frame.add(vbox_2);
 
+        // Zwischenraum (horizontal) der Breite 10
         frame.add(Box.createHorizontalStrut(10));
         frame.add(Box.createHorizontalGlue());
 
@@ -451,6 +460,7 @@ public class SpielStartLokal implements Serializable {
 
         Box vbox_3 = Box.createVerticalBox();
         {
+            //vertikale Box fuer Speicher-Button und Ampel, ob am Zug
             speichern.setBackground(Color.CYAN);
 
             vbox_3.add(spieler1_frame);
@@ -481,13 +491,12 @@ public class SpielStartLokal implements Serializable {
             }
         });
 
+        // Zwischenraum (horizontal) der Breite 10
         frame.add(Box.createHorizontalStrut(10));
         frame.add(Box.createHorizontalGlue());
 
 
-        // Menüzeile (JMenuBar) erzeugen und einzelne Menüs (JMenu)
-        // mit Menüpunkten (JMenuItem) hinzufügen.
-        //ist jetzt bei startbildschirm (siehe startbildschirm)
+        // Menüzeile (JMenuBar) um Programm auch hier zu beenden
         JMenuBar bar = new JMenuBar();
         {
             JMenu menu = new JMenu("Programm");
@@ -502,19 +511,7 @@ public class SpielStartLokal implements Serializable {
             }
             bar.add(menu);
         }
-        {
-            JMenu menu = new JMenu("Tabelle");
-            {
-                JMenuItem item = new JMenuItem("Ausgeben");
-                item.addActionListener(
-                        (e) -> {
-                            //model.dump();
-                        }
-                );
-                menu.add(item);
-            }
-            bar.add(menu);
-        }
+
 
         // Menüzeile zum Fenster hinzufügen.
         frame.setJMenuBar(bar);
@@ -528,15 +525,14 @@ public class SpielStartLokal implements Serializable {
         frame.setVisible(true);
 
 
-        //JFrame frame2 = new JFrame("Schiffeversenken " + player2.player.name);
 
         frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // Zwischenraum der Breite 50 oder mehr.
 
 
+        //setzt Layout auf horizontale Box
         frame2.setContentPane(Box.createHorizontalBox());
 
-        // Zwischenraum der Breite 50 oder mehr.
+        // Zwischenraum der Breite 20
         frame2.add(Box.createHorizontalStrut(20));
         frame2.add(Box.createHorizontalGlue());
 
@@ -549,8 +545,7 @@ public class SpielStartLokal implements Serializable {
             public void mouseClicked(MouseEvent e) {
                 int selecRow = table4.getSelectedRow();
                 int selecCol = table4.getSelectedColumn();
-                //feldSetzen[selecRow][selecRow] = "ship";
-                //table2.setValueAt(new ImageIcon("src\\blue.png"), selecRow, selecCol);
+
                 String a, b;
                 try{
                     a = table4.getValueAt(selecRow,selecCol).toString();
@@ -649,6 +644,7 @@ public class SpielStartLokal implements Serializable {
 
         Box vbox_10 = Box.createVerticalBox();
         {
+            //vertikale Box fuer eigenes Spielfeld
             JLabel label_gegner = new JLabel("Eigene Schiffe");
             vbox_10.add(label_gegner);
 
@@ -661,12 +657,14 @@ public class SpielStartLokal implements Serializable {
         frame2.add(vbox_10);
 
 
+        // Zwischenraum der Breite 20
         frame2.add(Box.createHorizontalStrut(20));
         frame2.add(Box.createHorizontalGlue());
 
 
         Box vbox_20 = Box.createVerticalBox();
         {
+            //vertikale Box fuer gegnerisches Spielfeld
             JLabel label_eigene = new JLabel("Gegner Schiffe");
             vbox_20.add(label_eigene);
 
@@ -679,6 +677,7 @@ public class SpielStartLokal implements Serializable {
 
         frame2.add(vbox_20);
 
+        // Zwischenraum der Breite 10
         frame2.add(Box.createHorizontalStrut(10));
         frame2.add(Box.createHorizontalGlue());
 
@@ -686,7 +685,7 @@ public class SpielStartLokal implements Serializable {
 
         Box vbox_30 = Box.createVerticalBox();
         {
-
+            //vertikale Box fuer Speicher-Button und Ampel, ob am Zug
             vbox_30.add(spieler2_frame);
             speichernn.setBackground(Color.CYAN);
             vbox_30.add(speichernn);
@@ -712,13 +711,12 @@ public class SpielStartLokal implements Serializable {
             }
         });
 
+        // Zwischenraum der Breite 10
         frame2.add(Box.createHorizontalStrut(10));
         frame2.add(Box.createHorizontalGlue());
 
 
-        // Menüzeile (JMenuBar) erzeugen und einzelne Menüs (JMenu)
-        // mit Menüpunkten (JMenuItem) hinzufügen.
-        //ist jetzt bei startbildschirm (siehe startbildschirm)
+        // Menüzeile (JMenuBar) um Programm auch hier zu beenden
         JMenuBar barr = new JMenuBar();
         {
             JMenu menu = new JMenu("Programm");
@@ -733,19 +731,7 @@ public class SpielStartLokal implements Serializable {
             }
             barr.add(menu);
         }
-        {
-            JMenu menu = new JMenu("Tabelle");
-            {
-                JMenuItem item = new JMenuItem("Ausgeben");
-                item.addActionListener(
-                        (e) -> {
-                            //model.dump();
-                        }
-                );
-                menu.add(item);
-            }
-            barr.add(menu);
-        }
+
 
         // Menüzeile zum Fenster hinzufügen.
         frame2.setJMenuBar(barr);
