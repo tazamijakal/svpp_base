@@ -174,7 +174,6 @@ public class Server implements Serializable{
                         TextClient("ready");
                     }
                 }
-
                 SwingWorker<Void, Void> sw33 = new SwingWorker<Void, Void>(){
                     @Override
                     protected Void doInBackground() throws Exception {

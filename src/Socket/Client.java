@@ -258,7 +258,6 @@ public class Client implements Serializable{
                                         MusicPlayer.Soundplay(getClass().getResource("Music/water.wav"));
                                     }
                                 };
-
                                 new Thread(k).start();
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 0");
 
