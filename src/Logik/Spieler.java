@@ -3,18 +3,11 @@ package Logik;
 
 import GUI.SpielStart;
 import Socket.*;
-import ladenspeichern.AllWeNeed;
-
-import javax.swing.*;
-import java.awt.event.WindowEvent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.Random;
-
-import static KI.KI.randInt;
 
 /**
  *
@@ -106,65 +99,6 @@ public class Spieler implements Serializable {
     public void sethps(int newhp){
         hp = newhp;
         hp2 = newhp;
-    }
-
-    public static void startWarlokal(Spieler player1, Spieler player2) {
-        boolean winloss = true;
-        AllWeNeed Sp1 = new AllWeNeed(true, player1, null, player1.GAME.getTable(), player1.GAME.getTable2(), null, null, null);
-        AllWeNeed Sp2 = new AllWeNeed(false, player2, null, player2.GAME.getTable(), player2.GAME.getTable2(), null, null, null);
-
-        /*SwingUtilities.invokeLater(() -> {
-            player1.GAME.Setzen(player1, player2);
-        });*/
-        SwingWorker<Void, Void> sw3 = new SwingWorker<Void, Void>(){
-            @Override
-            protected Void doInBackground() throws Exception {
-                while(true){
-                    System.out.println("winloss while");
-                    int k = 0;
-                    while(player1.lokaltoken == true && player2.hp > 0 && player2.hp2 > 0){
-                        if(k == 0){
-                            try{
-                                player2.GAME.startframe.dispatchEvent(new WindowEvent(player2.GAME.startframe, WindowEvent.WINDOW_CLOSING));
-                            }
-                            catch(Exception notclosed1){}
-                            player1.GAME.SpielStarten(player1, Sp2);
-                            k = 1;
-                        }
-                    }
-                    while(player2.lokaltoken == true && player1.hp > 0 && player1.hp2 > 0){
-                        if(k == 1){
-                            try{
-                                player1.GAME.startframe.dispatchEvent(new WindowEvent(player1.GAME.startframe, WindowEvent.WINDOW_CLOSING));
-                            }
-                            catch(Exception notclosed2){}
-                            player2.GAME.SpielStarten(player2, Sp1);
-                            k = 2;
-                        }
-                    }
-                    if(player1.hp == 0){
-                        System.out.println("Spieler 2 hat gewonnen!!!");
-                        try{
-                            player1.GAME.startframe.dispatchEvent(new WindowEvent(player1.GAME.startframe, WindowEvent.WINDOW_CLOSING));
-                            player2.GAME.startframe.dispatchEvent(new WindowEvent(player2.GAME.startframe, WindowEvent.WINDOW_CLOSING));
-                            break;
-                        }
-                        catch(Exception e){}
-                    }
-                    else if(player2.hp == 0){
-                        System.out.println("Spieler 1 hat gewonnen!!!");
-                        try{
-                            player1.GAME.startframe.dispatchEvent(new WindowEvent(player1.GAME.startframe, WindowEvent.WINDOW_CLOSING));
-                            player2.GAME.startframe.dispatchEvent(new WindowEvent(player2.GAME.startframe, WindowEvent.WINDOW_CLOSING));
-                            break;
-                        }
-                        catch(Exception e){}
-                    }
-                }
-                return null;
-            }
-        };
-        sw3.execute();
     }
 
 //----------------------PLACE-METHODEN--------------------------------------------------------------------------------------
@@ -539,8 +473,6 @@ public class Spieler implements Serializable {
 
                 stringBuilder.append(dummy.playerNumber);
                 System.out.print("     ");
-//                printCollisionRow(dummy, y);
-//                System.out.print("     ");
                 printVisibleRow(dummy, y);
                 System.out.print("   |     ");
                 if(dummy.playerNumber==1){
@@ -586,13 +518,6 @@ public class Spieler implements Serializable {
      */
     public void printRow(Spieler player, int row) {
         for (int x = 0; x < mapSize; x++) {
-//            if(x==3 && row==3){
-//                System.out.println("Should "+ this.radarMap[x][row] +" now create "+x+" "+row+" radar map");
-//            }
-//            if (radarMap[x][row] > 0) {
-//                System.err.println(radarMap[x][row]);
-//                System.out.print(radarMap[x][row] + "    ");
-//            } else {
                 if (player.board[x][row] instanceof Ship) {
                     System.out.print("@" + "    ");
                 }
@@ -698,69 +623,7 @@ public class Spieler implements Serializable {
             }
         }
     }
-
-
 }
 
-
-//------------------trash---------------------------
-
-//    /**
-//     * Printet zusätzlich die collision maps, ansonsten gleich wie printBoth()
-//     *
-//     * @param one Spieler 1
-//     * @param two Spieler 2
-//     */
-//    public void cPrintBoth(Spieler one, Spieler two) {
-//        System.out.println();
-//        Spieler temp;
-//        if(one.playerNumber > two.playerNumber){
-//            temp = one;
-//            one = two;
-//            two = temp;
-//        }
-//        for (int y = 0; y < mapSize; y++) {
-//            one.printRow(y);
-//            System.out.print("     ");
-//            one.printCollisionRow(y);
-//            System.out.print("     ");
-//            two.printRow(y);
-//            System.out.print("     ");
-//            two.printCollisionRow(y);
-//            System.out.println("\n");
-//        }
-//    }
-
-//    public void radarRequest(Spieler attacker, Spieler defender){
-//        while(true){
-//            System.out.println("Wo soll Radar sein?");
-//            System.out.println("X-Koordinate eingeben..");
-//            int x = userinput.nextInt()-1;
-//            System.out.println("Y-Koordinate eingeben..");
-//            int y = userinput.nextInt()-1;
-//            if(x>0 && x<mapSize-1 && y>0 && y<mapSize-1){
-//                attacker.radar(x,y, attacker, defender);
-//                break;
-//            } else {
-//                System.out.println("mapsize: "+mapSize);
-//                System.err.println("Out of bounds!");
-//            }
-//        }
-//    }
-
-//    public void radar(int x, int y, Spieler attacker, Spieler defender) {
-//        int enemies = 0;
-//        for(int i=x-1; i<x+1; i++){
-//            for(int c=y-1; c<y+1; c++){
-//                System.out.println(x+" "+y);
-//                if(defender.board[x][y] instanceof Ship){
-//                    enemies++;
-//                }
-//            }
-//        }
-//        System.out.println("Detected "+enemies+" enemies at ["+x+"]["+y+"]");
-//        attacker.radarMap[x][y]=enemies;
-//        System.out.println(attacker.radarMap[x][y]);
-//    }
 
 

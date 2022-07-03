@@ -2,23 +2,17 @@ package Socket;
 
 import GUI.AudioPlayer;
 import GUI.SpielStart;
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.net.*;
 import java.io.*;
 import static java.lang.Integer.parseInt;
-
-import GUI.Startbildschirm;
 import KI.leichte_KI_zufall;
 import KI.mittlere_KI;
 import Logik.*;
 import ladenspeichern.AllWeNeed;
 import ladenspeichern.Laden;
 import ladenspeichern.Speichern;
-import org.w3c.dom.Text;
-
 import javax.swing.*;
 
 
@@ -31,8 +25,7 @@ public class Client implements Serializable{
     public static Writer out;
     public int size;
     boolean load = false;
-    public Spieler player;      // <= me
-    //public Spieler player2;     //Opponent
+    public Spieler player;
     public JFrame menu;
     public SpielStart GAME;
 
@@ -53,7 +46,6 @@ public class Client implements Serializable{
         this.player = player;
         this.GAME = GAME;
         this.menu = menu;
-        //this.player2 = b;
     }
 
     /**
@@ -82,10 +74,6 @@ public class Client implements Serializable{
 
             //Kommunikationsprotokoll
 
-            //Test
-            //TextServer("hey :)"); //=================================================================================================
-            //Test
-
             //size oder load von Server   => first message
             String first = in.readLine();
             String[] fsplit = first.split(" ");
@@ -100,7 +88,7 @@ public class Client implements Serializable{
                     ex.printStackTrace();
                 }
                 try{
-                    //Wenn geladen wird aber Spieler vorher Server war wird er jetzt zum Client
+                    //Wenn geladen wird, aber Spieler vorher Server war wird er jetzt zum Client
                     if(loadfile.player.name.equals("Client") || loadfile.player.name.equals("Server")){
                         System.out.println(loadfile.ID);
                         System.out.println(fsplit[1]);
@@ -130,7 +118,6 @@ public class Client implements Serializable{
                             this.size = player.mapSize;
                             this.load = true;
                             System.out.println("Spiel wird geladen");
-                            //GAME.SpielStarten(player, loadfile);
                         }
                         else{
                             //Falsche ID Game wird geschlossen
@@ -148,7 +135,6 @@ public class Client implements Serializable{
                             this.size = player.mapSize;
                             this.load = true;
                             System.out.println("Spiel wird geladen");
-                            //GAME.SpielStarten(player, loadfile);
                         }
                         else{
                             //Falsche ID Game wird geschlossen
@@ -160,7 +146,6 @@ public class Client implements Serializable{
                 catch(Exception exc){
                     exc.printStackTrace();
                 }
-                //Spiel laden mit fsplit[1] als ID <= muss noch nachgetragen werden ============================================================================
             }
             else{   //Wir nehmen an Server sendet korrekte Strings
 
@@ -181,7 +166,7 @@ public class Client implements Serializable{
                 String second = in.readLine();
                 System.out.println("Opponent: " + second);
                 String[] ssplit = second.split(" ");    //Schiffe beginnen ab ssplit[1]
-                int[] sc = new int[7];    //entweder 3,4,5,6 oder 2,3,4,5 also ein Feld bleibt 0
+                int[] sc = new int[7];    //{0,1,2,3,4,5,6} < Schiffsgroessenanzahl
 
                 for(int i=1;i<ssplit.length;i++){
                     sc[parseInt(ssplit[i])]++;   //Index von 0-6  Index0: Anzahl 0er Schiffe etc
@@ -212,7 +197,6 @@ public class Client implements Serializable{
                     TextServer("ready");
                 }
             }
-            // Wenn boolean load == false => neues Spiel erstellen
 
             SwingWorker<Void, Void> sw1 = new SwingWorker<Void, Void>() {
                 @Override
@@ -223,8 +207,6 @@ public class Client implements Serializable{
                     }
                     System.out.println("Opponent: " + third);
                     //Warten bis Client auch "ready"
-                    //TextServer("ready");
-
 
                     System.out.println("Client Starting the GAME: ");
                     if(player.name.equals("Client")){
@@ -302,7 +284,6 @@ public class Client implements Serializable{
                             case "2":
                                 Runnable j = new Runnable() {
                                     public void run() {
-                                        //String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
                                         AudioPlayer MusicPlayer = new AudioPlayer();
                                         MusicPlayer.Soundplay(getClass().getResource("Music/explode.wav"));
                                     }
@@ -317,7 +298,6 @@ public class Client implements Serializable{
                                 if (player.hp2 == 0) {
                                     Runnable w = new Runnable() {
                                         public void run() {
-                                            //String audioFilePath = System.getProperty("user.dir") + "/src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
                                             AudioPlayer MusicPlayer = new AudioPlayer();
                                             MusicPlayer.Soundplay(getClass().getResource("Music/csgo.wav"));
                                         }
@@ -328,15 +308,6 @@ public class Client implements Serializable{
                                         AudioPlayer MusicPlayer = new AudioPlayer();
                                         MusicPlayer.Soundplay(getClass().getResource("Music/csgo.wav"));
                                     });
-
-                                    /*Runnable w = new Runnable() {
-                                        public void run() {
-                                            //String audioFilePath = System.getProperty("user.dir") + "/src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
-                                            AudioPlayer MusicPlayer = new AudioPlayer();
-                                            MusicPlayer.play(getClass().getResource("csgo.wav"));
-                                        }
-                                    };
-                                    new Thread(w).start();*/
                                     System.out.println("SPIEL GEWONNEN!!!!!!!!!!!!!!!!!!!!!!");
                                     menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
                                 }
@@ -416,17 +387,14 @@ public class Client implements Serializable{
                     case "answer":  //Antwort fuer Schuss aufs Gegnerische Feld
                         switch (Osplit[1]) {
                             case "0":
-                                //player.answerReader(player.lastShotX, player.lastShotY, "answer 0");
                                 player.visibleBoard[player.lastShotX][player.lastShotY] = new Spieler.MisfireObject();
                                 player.attackToken = false;
                                 //GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
-                                TextServer("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
+                                TextServer("pass");    //Nicht getroffen Gegner wieder am Zug
                                 System.out.println("pass to Opponent");
                                 break;
                             case "1":
-                                //Getroffen (nicht versenkt) Client ist wieder am Zug =================================================================
-                                //GUI wieder freischalten oder boolean in Spieler Objekt??!
-                                //player.answerReader(player.lastShotX, player.lastShotY, "answer 1");
+                                //Getroffen (nicht versenkt) "Client" ist wieder am Zug
                                 player.visibleBoard[player.lastShotX][player.lastShotY] = new Spieler.TrefferObject();
                                 //GAME.setTable2RedCross(player.lastShotX, player.lastShotY);
                                 player.attackToken = true;
@@ -441,8 +409,7 @@ public class Client implements Serializable{
 
                                 break;
                             case "2":
-                                //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
-                                //player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
+                                //Getroffen/versenkt    ?Spiel gewonnen?
                                 player.visibleBoard[player.lastShotX][player.lastShotY] = new Spieler.TrefferObject();
                                 player.hp2 = player.hp2 - 1;
                                 //GAME.setTable2BlackCross(player.lastShotX, player.lastShotY);

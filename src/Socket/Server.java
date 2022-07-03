@@ -5,19 +5,14 @@ import java.awt.event.WindowEvent;
 import java.net.*;
 import java.io.*;
 import java.util.Enumeration;
-
 import GUI.AudioPlayer;
 import GUI.SpielStart;
-import GUI.Startbildschirm;
 import KI.leichte_KI_zufall;
 import KI.mittlere_KI;
 import Logik.*;
 import ladenspeichern.AllWeNeed;
 import ladenspeichern.Speichern;
-import org.w3c.dom.Text;
-
 import javax.swing.*;
-
 import static java.lang.Integer.parseInt;
 
 
@@ -30,7 +25,6 @@ public class Server implements Serializable{
     public transient BufferedReader in;
     static Writer out;
     public Spieler player;  //This is me
-    //public Spieler player2; //Opponent oder schon in player?
 
     public JFrame menu;
     public SpielStart GAME;
@@ -155,8 +149,6 @@ public class Server implements Serializable{
                 String okay = in.readLine();
                 System.out.println("Opponent: " + okay);
 
-                //Dummy "ready"      ============================================
-                //TextClient("ready");
                 if(player.name.equals("Server")) {
                     System.out.println("Server wird gesetzt");
                     player.attackToken = false;
@@ -263,7 +255,6 @@ public class Server implements Serializable{
                             case "0":
                                 Runnable k = new Runnable() {
                                     public void run() {
-                                        //String audioFilePath = System.getProperty("user.dir") + "/src/Music/Water Splash Sound FX 1.wav";
                                         AudioPlayer MusicPlayer = new AudioPlayer();
                                         MusicPlayer.Soundplay(getClass().getResource("Music/water.wav"));
                                     }
@@ -280,16 +271,14 @@ public class Server implements Serializable{
                             case "1":
                                 Runnable l = new Runnable() {
                                     public void run() {
-                                        //String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
                                         AudioPlayer MusicPlayer = new AudioPlayer();
                                         MusicPlayer.Soundplay(getClass().getResource("Music/explode.wav"));
                                     }
                                 };
 
                                 new Thread(l).start();
-                                //Getroffen (nicht versenkt) Server ist wieder am Zug =================================================================
-                                //GUI wieder freischalten oder boolean in Spieler Objekt??!
-                                //player.hp2 = player.hp2 - 1;
+                                //Getroffen (nicht versenkt) Server ist wieder am Zug
+                                //GUI wieder freischalten
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 1");
                                 player.attackToken = true;
                                 GAME.setTable2RedCross(player.lastShotX, player.lastShotY);
@@ -298,14 +287,13 @@ public class Server implements Serializable{
                             case "2":
                                 Runnable j = new Runnable() {
                                     public void run() {
-                                        String audioFilePath = System.getProperty("user.dir") + "/src/Music/Explosion vol.4 Artillery explosion Sound effects.wav";
                                         AudioPlayer MusicPlayer = new AudioPlayer();
                                         MusicPlayer.Soundplay(getClass().getResource("Music/explode.wav"));
                                     }
                                 };
 
                                 new Thread(j).start();
-                                //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
+                                //Getroffen/versenkt    ?Spiel gewonnen?
                                 player.hp2 = player.hp2 - 1;
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
                                 player.attackToken = true;
@@ -314,7 +302,6 @@ public class Server implements Serializable{
                                 if (player.hp2 == 0) {
                                     Runnable w = new Runnable() {
                                         public void run() {
-                                            //String audioFilePath = System.getProperty("user.dir") + "/src/Music/Various Artists - Hotline Miami  CSGO MVP Music.wav";
                                             AudioPlayer MusicPlayer = new AudioPlayer();
                                             MusicPlayer.Soundplay(getClass().getResource("Music/csgo.wav"));
                                         }
@@ -328,9 +315,7 @@ public class Server implements Serializable{
                         }
                         break;
                     case "pass":    //Server wieder am Zug nachdem Client Wasser getroffen hat
-                        //Server/Logik.Spieler ist wieder am Zug <= muss noch nachgetragen werden =======================================================================
-                        //Dummy zum testen
-                        //TextClient("pass");
+                        //Server/Logik.Spieler ist wieder am Zug
                         player.attackToken = true;
                         GAME.spielerzugdisplay.setBackground(Color.GREEN);
                         break;
@@ -373,11 +358,9 @@ public class Server implements Serializable{
                                 throw new RuntimeException(ex);
                             }
                         });
-                        //Spiel speichern mit Osplit[1] => Client war am Zug ==========================================================================
+                        //Spiel speichern mit Osplit[1] => Client war am Zug
                         break;
                 }
-                //TextClient("okay :) Server");
-
             }
             catch (Exception e){}
         }
@@ -392,7 +375,7 @@ public class Server implements Serializable{
         TextClient("pass");
         if(loadtoken == false && toloadthegame != null){
             player.attackToken = false;
-            System.out.println("Spiel wurde geladen aber nicht am Zug!!");      //eigentlich nicht moeglich mit Spiel gegen KI
+            System.out.println("Spiel wurde geladen aber nicht am Zug!!");      //eigentlich momentan nicht moeglich mit Spiel gegen KI
             TextClient("pass");
         }
         //Ping-Pong Prinzip warten auf Befehle
@@ -411,13 +394,11 @@ public class Server implements Serializable{
                                 player.attackToken = false;
                                 //GAME.setTable2CellBLUE(player.lastShotX, player.lastShotY);
                                 System.out.println("no!");
-                                TextClient("pass");    //Nicht getroffen Gegner wieder am Zug =================================================================
+                                TextClient("pass");    //Nicht getroffen Gegner wieder am Zug
                                 System.out.println("pass to Opponent");
                                 break;
                             case "1":
-                                //Getroffen (nicht versenkt) Server ist wieder am Zug =================================================================
-                                //GUI wieder freischalten oder boolean in Spieler Objekt??!
-                                //player.hp2 = player.hp2 - 1;
+                                //Getroffen (nicht versenkt) Server ist wieder am Zug
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 1");
                                 //GAME.setTable2RedCross(player.lastShotX, player.lastShotY);
                                 System.out.println("hp2: " + player.hp2);
@@ -432,7 +413,7 @@ public class Server implements Serializable{
                                 }
                                 break;
                             case "2":
-                                //Getroffen/versenkt    ?Spiel gewonnen? ======================================================================
+                                //Getroffen/versenkt    ?Spiel gewonnen?
                                 player.hp2 = player.hp2 - 1;
                                 player.answerReader(player.lastShotX, player.lastShotY, "answer 2");
                                 //GAME.setTable2BlackCross(player.lastShotX, player.lastShotY);
@@ -455,9 +436,6 @@ public class Server implements Serializable{
                         break;
                     case "pass":    //Server wieder am Zug nachdem Client Wasser getroffen hat
                         //Server/Logik.Spieler ist wieder am Zug <= muss noch nachgetragen werden =======================================================================
-                        //Dummy zum testen
-                        //TextClient("pass");
-                        //player.attackToken = true;
                         if(player instanceof leichte_KI_zufall){
                             String newshot = ((leichte_KI_zufall) player).KIshoot();
                             TextClient(newshot);
@@ -507,8 +485,6 @@ public class Server implements Serializable{
                         });
                         break;
                 }
-                //TextClient("okay :) Server");
-
             }
             catch (Exception e){}
         }
@@ -516,8 +492,8 @@ public class Server implements Serializable{
 
     /**
      *
-     * Methode sendet String Nachrichten zum Verbundenen Client Socket
-     *
+     * Methode "sendet" String Nachrichten zum Verbundenen Client Socket
+     * @param text Nachricht die verschickt werden soll
      */
     public static void TextClient(String text){
         try{
@@ -527,10 +503,5 @@ public class Server implements Serializable{
         catch(Exception e){                     //Exception wieder selber behandeln
             e.printStackTrace();                //Fehler Diagnose ausgeben
         }
-
-    }
-
-    public void setAllWeNeed(AllWeNeed data){
-        this.toloadthegame = data;
     }
 }
