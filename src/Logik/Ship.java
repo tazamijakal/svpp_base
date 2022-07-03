@@ -15,10 +15,10 @@ public class Ship implements Serializable {
      * Schiffsobjekt welches auf dem Spielfeld platziert wird und angeschossen werden kann.
      * Beinhaltet alle Parameter von placeShipRequest da diese im Nachhinein zum entfernen der Schiffe benötigt werden.
      *
-     * @param initialX
-     * @param initialY
-     * @param initialD
-     * @param length
+     * @param initialX Ursprung x
+     * @param initialY Ursprung y
+     * @param initialD Ursprung direction
+     * @param length Ursprung Laenge
      */
     public Ship(int initialX, int initialY, boolean initialD, int length) {
         this.initialX = initialX;

@@ -3,17 +3,20 @@ package KI;
 
 import GUI.SpielStart;
 
+/**
+ * KI als leichte KI Klasse
+ */
 public class leichte_KI_zufall extends KI {
 
     /**
      * Konstruktor erzeugt neue KI und kopiert die Werte vom Spieler.
      *
-     * @param name
-     * @param mapSize
-     * @param hp
-     * @param remainingShips
+     * @param name String name
+     * @param mapSize int mapSize
+     * @param hp int HP
+     * @param remainingShips int Array remaining ships
+     * @param GAME SpielStart Objekt
      */
-
     public leichte_KI_zufall(String name, int mapSize, int hp, int[] remainingShips, SpielStart GAME) {
         super(name, mapSize, hp, remainingShips, GAME);
     }
@@ -22,7 +25,7 @@ public class leichte_KI_zufall extends KI {
      * KI plaziert autamtisch und zufaellig die Schiffe, falls zu viele Versuche gebraucht werden,
      * faengt sie neu an zu plazieren.
      *
-     * @throws Exception
+     * @throws Exception falls es fehlschlaegt
      */
     @Override
     public void KIplazieren() throws Exception {
@@ -54,8 +57,8 @@ public class leichte_KI_zufall extends KI {
     /**
      * KI schiesst zufaellig bis sie etwas trifft und fuehrt dann schootalg2 aus.
      *
-     * @return
-     * @throws Exception
+     * @return answer als String
+     * @throws Exception falls es fehlschlaegt
      */
     @Override
     public String KIshoot() throws Exception {

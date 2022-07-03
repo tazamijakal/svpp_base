@@ -14,6 +14,7 @@ public class Speichern implements Serializable {
      * Methode um AllWeNeed Objekte zu speichern mit id als Name
      * @param data AllWeNeed Objekt
      * @param id id wird an Dateiname angehaengt
+     * @throws IOException falls es fehlschlaegt
      */
     public static void save(AllWeNeed data, String id) throws IOException {
         if(data.player.name.equals("Server") || data.player.name.equals("Client")){

@@ -54,8 +54,9 @@ public final class Startbildschirm{
      *
      * Graphische Oberfläche aufbauen und anzeigen.
      * Fuer Startbildschirm.
+     *
      */
-    public static void start() throws IOException{
+    public static void start(){
 
         SpielStart GAME = new SpielStart();
         Runnable r = new Runnable() {

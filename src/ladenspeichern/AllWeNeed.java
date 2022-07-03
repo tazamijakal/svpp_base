@@ -45,6 +45,7 @@ public class AllWeNeed implements Serializable {
 
     /**
      * Methode um eine neue unique ID zu erstellen
+     * @return Long neue unique ID
      */
     public static Long nextId() {
         return currentTime.accumulateAndGet(System.currentTimeMillis(),

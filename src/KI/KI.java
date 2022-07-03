@@ -4,6 +4,11 @@ import GUI.SpielStart;
 import Logik.Spieler;
 import java.util.Random;
 
+
+
+/**
+ * Abstrakte Klasse KI erweitert Spieler mit Methoden um Spieler als KI darzustellen
+ */
 public abstract class KI extends Spieler {
 
     protected int hitX, hitY;
@@ -11,9 +16,9 @@ public abstract class KI extends Spieler {
     /**
      * hier wird ein random number generator erstellt, welcher spaeter mit dem kleinsten int wert der Karte und
      * dem groessten int wert der Karte ein Schiff plaziert, und auch schiessen wird.
-     * @param min
-     * @param max
-     * @return
+     * @param min Minimum
+     * @param max Maximum
+     * @return random int
      */
     public static int randInt(int min, int max) {
         Random rand = new Random();
@@ -25,9 +30,9 @@ public abstract class KI extends Spieler {
 
     /**
      * Ueberprueft ob die Felder angeschossen werden darf oder nicht.
-     * @param x
-     * @param y
-     * @return
+     * @param x Koordinate x
+     * @param y Koordinate y
+     * @return shot okay = true
      */
     public boolean shoottester(int x, int y) {
         if (x < 0 || y < 0 || x >= mapSize || y >= mapSize) {
@@ -38,7 +43,7 @@ public abstract class KI extends Spieler {
 
     /**
      * Schussverfahren von Mittlerer KI, shiesst zufaellig im Karomuster.
-     * @return
+     * @return fieldposition
      * @throws Exception
      */
     final fieldposition shootalg1 () throws Exception {
@@ -127,8 +132,8 @@ public abstract class KI extends Spieler {
 
     /**
      * Zufaellig schiessen.
-     * @return
-     * @throws Exception
+     * @return fieldposition fuer random shot
+     * @throws Exception falls es fehlschlaegt
      */
     public fieldposition RdmZielpos() throws Exception {
         if (visibleBoard[hitX][hitY] instanceof TrefferObject) {
@@ -146,6 +151,11 @@ public abstract class KI extends Spieler {
             return new fieldposition(x, y);
     }
 
+    /**
+     *
+     * Erzeugt ein random boolean und gibt diesen zurueck
+     * @return random boolean
+     */
     public boolean getRandomBoolean() {
         Random random = new Random();
         return random.nextBoolean();
@@ -158,6 +168,7 @@ public abstract class KI extends Spieler {
      * @param mapSize  Groesse der Map (mapSize*mapSize == x*y)
      * @param hp Legt fest wie hp man noch hat
      * @param remainingShips  legt die anzahl der verbleibenden schiffe fest
+     * @param GAME SpielStart Objekt
      */
     public KI(String name, int mapSize, int hp, int[]remainingShips, SpielStart GAME) {
         super(name, mapSize, hp, remainingShips, GAME);
@@ -165,11 +176,14 @@ public abstract class KI extends Spieler {
 
     /**
      * KI plaziert hiermiet spaeter die Schiffe
+     * @throws Exception falls es fehlschlaegt
      */
     public abstract void KIplazieren() throws Exception;
 
     /**
      * KI schiesst auf ein Feld, entweder zufaellig, oder mit logik.
+     * @throws Exception falls es fehlschlaegt
+     * @return String
      */
     public abstract String KIshoot() throws Exception;
 

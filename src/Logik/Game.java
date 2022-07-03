@@ -65,8 +65,8 @@ public class Game {
      *
      * Lässt beide Spieler abwechselnd aufeinander schießen bis ein Spieler gewinnt oder es zum Unentschieden kommt.
      *
-     * @param player1
-     * @param player2
+     * @param player1 Spieler 1
+     * @param player2 Spieler 2
      */
     public void startWar(Spieler player1, Spieler player2) {
         player1.hp = shipCapacity;              //hier bezeichnet hp die Anzahl an Feldern auf welchen noch Schiffe liegen
@@ -111,6 +111,7 @@ public class Game {
     /**
      *
      * Frägt Spieler nach der gewünschten Spielfeldgröße, berechnet Kapazität, und schließt Schiffslängen aus, welche nicht regelkonform sind.
+     * @return String mapSize
      */
     public String requestMapSize() {
         System.out.println("Spielfeldgröße zwischen 5 und 30 auswählen:");
@@ -235,8 +236,8 @@ public class Game {
      *
      * Fordert Spieler so lange auf Schiffe zu setzen bis Kapazitäten aufgebraucht sind.
      *
-     * @param player1
-     * @param player2
+     * @param player1 Spieler 1
+     * @param player2 Spieler 2
      */
     //TODO removeShip iwie integrieren
     public void startPlacingShips(Spieler player1, Spieler player2) {

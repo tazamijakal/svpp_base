@@ -17,7 +17,7 @@ public class AudioPlayer implements LineListener {
     boolean playCompleted;
 
     /**
-     * Abspielen einer Audio datei
+     * Abspielen einer Audio datei (Background Music)
      *
      * @param audioFilePath Pfad der Audio datei
      */
@@ -68,6 +68,11 @@ public class AudioPlayer implements LineListener {
 
     }
 
+    /**
+     * Abspielen einer kurzen Audio datei (einmalig)
+     *
+     * @param audioFilePath Pfad der Audio datei
+     */
     public void Soundplay(URL audioFilePath) {          //URL fuer jar
         //File audioFile = new File(audioFilePath);
 

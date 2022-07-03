@@ -13,6 +13,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 
+
+/**
+ * Klasse um das Spiel Schiffeversenken Online (im eigenen Netzwerk) zu starten mit JTables fuer eigenes Feld und Gegner Feld mit ActionListeners
+ */
 public final class SpielStart extends JFrame{
 
     //Attribute:
@@ -145,6 +149,8 @@ public final class SpielStart extends JFrame{
      * Graphische Oberfläche aufbauen und anzeigen.
      * Fuer eigentlichen Spielstart.
      * Nachdem Einstellungen in Startbildschirm gemacht wurden.
+     * @param player Spieler um Spiel zu starten
+     * @param datei AllWeNeed datei kann leer sein
      */
     public void SpielStarten(Spieler player, AllWeNeed datei)
     {
@@ -555,6 +561,9 @@ public final class SpielStart extends JFrame{
      * Graphische Oberfläche aufbauen und anzeigen.
      * Um Schiffe zu setzen.
      * Nachdem Einstellungen in Startbildschirm gemacht wurden.
+     * @param player Spieler 1
+     * @param player2 Spieler 2
+     * @return JTable wird zurueckgeben um Spiel zu starten
      */
     public JTable Setzen(Spieler player, Spieler player2)
     {

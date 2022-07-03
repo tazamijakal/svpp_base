@@ -13,41 +13,13 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.io.Serializable;
 
+/**
+ * Klasse um das Spiel Schiffeversenken lokal zu starten mit JTables fuer eigenes Feld und Gegner Feld mit ActionListeners
+ */
 public class SpielStartLokal implements Serializable {
 
-    //Attribute:
-    //Spielfeldgroesse
-    protected int spielfeldgr = 0;
-
-    //fuer Schiffe setzen
-    protected boolean direction = false;
-    protected int length = 0;
     protected int x = 0;
     protected int y = 0;
-
-    //fuer Checkboxen
-    protected boolean cb2Selec = false;
-    protected boolean cb3Selec = false;
-    protected boolean cb4Selec = false;
-    protected boolean cb5Selec = false;
-    protected boolean cb6Selec = false;
-    protected boolean placeship = true;
-
-
-    //Index von Kaestchen in Spielfeld von Gegner Schiffen
-    public static int index_zeile;
-    public static int index_spalte;
-
-    //Index von Kaestchen in Spielfeld von eigenen Schiffen
-    protected int index_zeile_eig;
-    protected int index_spalte_eig;
-
-
-    //Nur einer der beiden RadioButtons kann ausgewaehlt werden
-    //Hilfsvariablen
-    protected boolean radioButton_l = false;
-    protected boolean radioButton_o = false;
-
     public JTable table;
     int[] remainingships;
     public JTable table2;
@@ -58,7 +30,15 @@ public class SpielStartLokal implements Serializable {
     public int mapSize;
 
 
-
+    /**
+     * Hilfsmethode um Images in die richtigen Table Cells zu setzen
+     * @param initialX Ursprung Koordinate x
+     * @param initialY Ursprung Koordinate y
+     * @param length Ursprung Laenge
+     * @param horizontal Ursprung Direction
+     * @param data 2D Object Array fuer TableModel
+     * @return 2D Object Array fuer TableModel
+     */
     public Object[][] drawShip(int initialX, int initialY, int length, boolean horizontal, Object[][] data){
         try{
             if(horizontal == true){
@@ -102,6 +82,13 @@ public class SpielStartLokal implements Serializable {
         return data;
     }
 
+
+
+    /**
+     * Methode um ein lokales Spiel zu starten gegen KI oder anderen Spieler
+     * @param player1 Spieler 1
+     * @param player2 Spieler 2
+     */
     public void SpielStartenLokal(AllWeNeed player1, AllWeNeed player2)
     {
         if(player1 != null && player2 != null){

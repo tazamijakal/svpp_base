@@ -498,7 +498,7 @@ public class Client implements Serializable{
     /**
      *
      * Methode sendet String Nachrichten zum Verbundenen Server Socket
-     *
+     * @param text Nachricht an Server
      */
     public static void TextServer(String text){
         try{

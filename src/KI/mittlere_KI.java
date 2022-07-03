@@ -3,6 +3,9 @@ import GUI.SpielStart;
 import KI.leichte_KI_zufall;
 
 
+/**
+ * KI als mittlere KI Klasse
+ */
 public class mittlere_KI extends KI {
 
 
@@ -13,8 +16,8 @@ public class mittlere_KI extends KI {
      * @param mapSize        Groesse der Map (mapSize*mapSize == x*y)
      * @param hp             Legt fest wie hp man noch hat
      * @param remainingShips legt die anzahl der verbleibenden schiffe fest
+     * @param GAME SpielStart Objekt
      */
-
     public mittlere_KI(String name, int mapSize, int hp, int[] remainingShips, SpielStart GAME) {
         super(name, mapSize, hp, remainingShips, GAME);
     }
@@ -57,8 +60,8 @@ public class mittlere_KI extends KI {
 
     /**
      * KI schiesst zufaellig im Karomusster und braucht dadurch weniger Schuesse als die leichte KI.
-     * @return
-     * @throws Exception
+     * @return String Nachricht fuer Gegner
+     * @throws Exception falls es fehlschlaegt
      */
     @Override
     public String KIshoot() throws Exception {

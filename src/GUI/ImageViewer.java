@@ -16,6 +16,10 @@ public class ImageViewer extends JPanel {
     private int yCoordinate;
     private boolean stretched = true;
 
+    /**
+     * Konstruktor setzt Image Attribut
+     * @param image Image
+     */
     public ImageViewer(Image image) {
         this.image = image;
     }
@@ -41,6 +45,7 @@ public class ImageViewer extends JPanel {
 
     /**
      * Methode liefert zurueck ob isStreched
+     * @return boolean
      */
     public boolean isStretched() {
         return stretched;

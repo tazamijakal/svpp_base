@@ -50,6 +50,7 @@ public class Spieler implements Serializable {
      * @param mapSize   Größe der Map (mapSize*mapSize == länge*breite)
      * @param hp        Legt fest wie viele Felder mit Schiffen belegt werden können und wird gleichzeitig als health points verwendet.
      * @param remainingShips die verbleibenden Schiffe werden angezeigt/gespeichert.
+     * @param GAME SpielStart Objekt
      */
     public Spieler(String name, int mapSize, int hp, int[] remainingShips, SpielStart GAME) {     //
         this.name = name;
@@ -139,6 +140,10 @@ public class Spieler implements Serializable {
      * Platziert oder entfernt Schiff und aktualisiert collision map. Aufruf nur über interne Funktionen damit Platzierung auch valid ist
      *
      * @param placeRemoveToggle true um Schiffe zu platzieren, false um Schiffe zu entfernen
+     * @param x Koordinate x
+     * @param y Koordinate y
+     * @param l Laenge
+     * @param d Direction
      */
     public void placeRemoveShip(boolean placeRemoveToggle, int x, int y, int l, boolean d) {
         if(l == 0){
@@ -195,6 +200,7 @@ public class Spieler implements Serializable {
     /**
      *
      * Frägt den Spieler wo er Schiffe haben will. Ist in einem loop, bis passende Position gefunden wurde.
+     * @return boolean
      */
     public boolean uInputPlaceShipRequest() {
         int x, y, l;
@@ -251,6 +257,7 @@ public class Spieler implements Serializable {
      *
      * @param x x-Achse
      * @param y y-Achse
+     * @return boolean ob okay
      */
     public boolean removeShipRequest(int x, int y){
         if(board[x][y] instanceof Ship){
@@ -270,7 +277,10 @@ public class Spieler implements Serializable {
     /**
      *
      * überprüft  mittels der in placeShip aktualisierten collision map ob an der gewünschten Stelle Platz für das Schiff ist
-     *
+     * @param x Koordinate x
+     * @param y Koordinate y
+     * @param l Laenge
+     * @param d Direction
      * @return false = kein Platz für das Schiff
      */
     public boolean spaceCheck(int x, int y, int l, boolean d){
@@ -315,6 +325,7 @@ public class Spieler implements Serializable {
     /**
      *
      * Frägt den Spieler nach Zielkoordinaten, überprüft ob bereits auf Feld geschossen wurde.
+     * @return String shot
      */
     public String uInputShootRequest() {
         try{
@@ -368,6 +379,12 @@ public class Spieler implements Serializable {
         return "shot "+x+" "+y;
     }
 
+    /**
+     *
+     * Methode liest shot Koordinaten aus String
+     * @param shot Uebergebener String
+     * @return gibt shot Koordinaten zurueck
+     */
     public int[] shotReader(String shot){
         int[] shotCoordinates = new int[2];
         shotCoordinates[0] = Integer.parseInt(shot.substring(5,6));
@@ -378,9 +395,9 @@ public class Spieler implements Serializable {
     /**
      *
      * Schießt auf eigenes Feld und antwortet Gegner....
-     * @param x
-     * @param y
-     * @return
+     * @param x Koordinate x
+     * @param y Koordinate y
+     * @return gibt answer als String zurueck
      */
     public String shootYourself(int x, int y){
         if(board[x][y] instanceof Ship){
@@ -407,9 +424,10 @@ public class Spieler implements Serializable {
     /**
      *
      * Reaktion auf gegnerische Schussantwort (visibleBoard[][] aktualisieren)
-     * @param x
-     * @param y
-     * @param answerString
+     * @param x Koordinate x
+     * @param y Koordinate y
+     * @param answerString Antwort String
+     * @return 0 = false 1,2 = true
      */
     public boolean answerReader(int x, int y, String answerString){
         String[] answer = answerString.split(" ");
@@ -538,7 +556,7 @@ public class Spieler implements Serializable {
     /**
      *
      * printet nur 1 Reihe, wird in printBoth() verwendet
-     *
+     * @param player Spieler Objekt
      * @param row       Zeilenangabe
      */
     public void printRow(Spieler player, int row) {
@@ -586,7 +604,7 @@ public class Spieler implements Serializable {
     /**
      *
      * Gibt jeweils 1 Zeile aus der collision map aus, wird von den printBoth()-Befehlen verwendet.
-     *
+     * @param player Spieler Objekt
      * @param row       Zeilenangabe
      */
     public void printCollisionRow(Spieler player, int row){
@@ -605,7 +623,8 @@ public class Spieler implements Serializable {
         /**
          *
          * fieldposition Konstruktor
-         *
+         * @param x Koordinate x
+         * @param y Koordinate y
          */
         public fieldposition (int x,int y) {
             this.x = x;
@@ -616,19 +635,20 @@ public class Spieler implements Serializable {
     /**
      *
      * Hilfsmethode fuer placerandom() zuefaelliger Int als Rueckgabewert
-     *
+     * @param min Minimum
+     * @param max Maximum
+     * @return random int
      */
     public static int randInt(int min, int max) {
         Random rand = new Random();
         int randomNum = rand.nextInt((max - min + 1 ) - min);
-
         return randomNum;
     }
 
     /**
      *
      * Hilfsmethode fuer placerandom() zuefaelliger boolean Rueckgabe wert
-     *
+     * @return Random boolean
      */
     public boolean getRandomBoolean() {
         Random random = new Random();
@@ -638,7 +658,8 @@ public class Spieler implements Serializable {
     /**
      *
      * Hilfsmethode fuer placerandom()
-     *
+     * @return fieldposition Objekt
+     * @throws Exception falls es fehlschlaegt
      */
     public fieldposition RdmZielpos() throws Exception {
         Integer x;
