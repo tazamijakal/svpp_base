@@ -29,22 +29,9 @@ public final class SpielStart extends JFrame{
     protected int x = 0;
     protected int y = 0;
 
-    //fuer Checkboxen
-    protected boolean cb2Selec = false;
-    protected boolean cb3Selec = false;
-    protected boolean cb4Selec = false;
-    protected boolean cb5Selec = false;
-    protected boolean cb6Selec = false;
+
     protected boolean placeship = true;
     public JButton spielerzugdisplay;
-
-    //Index von Kaestchen in Spielfeld von Gegner Schiffen
-    public static int index_zeile;
-    public static int index_spalte;
-
-    //Index von Kaestchen in Spielfeld von eigenen Schiffen
-    protected int index_zeile_eig;
-    protected int index_spalte_eig;
 
 
     //Nur einer der beiden RadioButtons kann ausgewaehlt werden
@@ -58,16 +45,10 @@ public final class SpielStart extends JFrame{
 
     public JFrame startframe;
 
-    public Spieler player;
     public SpielStart(){
 
     }
 
-
-    public void sethorizShip(int x, int y)
-    {
-
-    }
 
     public void setTable2CellBLUE(int x, int y){
         table2.setValueAt(new ImageIcon(getClass().getResource("blue.png")), x, y);
@@ -81,9 +62,7 @@ public final class SpielStart extends JFrame{
     public void setTable2BlackCross(int x, int y){
         table2.setValueAt(new ImageIcon(getClass().getResource("blackcross.png")), x, y);
     }
-    public void setTable2YellowCross(int x, int y){
-        table2.setValueAt(new ImageIcon(getClass().getResource("blue.png")), x, y);
-    }
+
     public void setTableRedCross(int x, int y){
         table.setValueAt(new ImageIcon(getClass().getResource("redcross.png")), x, y);
     }
@@ -162,8 +141,7 @@ public final class SpielStart extends JFrame{
         if(datei != null){
             System.out.println("datei != null");
         }
-        //Fuer Schiffe setzen:
-        //String[][] feldSetzen = new String[model.getSpielfeld()][model.getSpielfeld()];
+
         if(datei == null || datei.table == null || datei.table2 == null){
             Object[][] data = new Object[player.mapSize][player.mapSize];
             for(int i = 0; i<player.board.length; i ++){
@@ -230,22 +208,17 @@ public final class SpielStart extends JFrame{
         table.getTableHeader().setReorderingAllowed(false);
         table2.getTableHeader().setReorderingAllowed(false);
 
+        //Fenster mit Titel Schiffeversenken
         JFrame frame = new JFrame("Schiffeversenken " + player.name);
         this.startframe = frame;
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setIconImage(new ImageIcon(getClass().getResource("PirateBay.png")).getImage());
-        // Zwischenraum der Breite 50 oder mehr.
-        //frame.add(Box.createHorizontalStrut(50));
-        //frame.add(Box.createHorizontalGlue());
-
-        // Menüzeile zum Fenster hinzufügen.
-        //frame.setJMenuBar(bar);
-        //startbildschirm.setJMenuBar(bar);
 
 
+        //setzt Layout auf horizontale Box
         frame.setContentPane(Box.createHorizontalBox());
 
-        // Zwischenraum der Breite 50 oder mehr.
+        // Zwischenraum der Breite 20
         frame.add(Box.createHorizontalStrut(20));
         frame.add(Box.createHorizontalGlue());
 
@@ -265,17 +238,13 @@ public final class SpielStart extends JFrame{
             spielerzugdisplay.setBackground(Color.RED);
         }
 
-        //table.setDropMode(DropMode.USE_SELECTION);
-        //table.getToolTipLocation()
-        //table.isCellEditable()
-        //table.isCellSelected();
+
         table2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int selecRow = table2.getSelectedRow();
                 int selecCol = table2.getSelectedColumn();
-                //feldSetzen[selecRow][selecRow] = "ship";
-                //table2.setValueAt(new ImageIcon("src\\blue.png"), selecRow, selecCol);
+
                 String a, b;
                 try{
                     a = table2.getValueAt(selecRow,selecCol).toString();
@@ -322,9 +291,6 @@ public final class SpielStart extends JFrame{
                 int selecRow = table.getSelectedRow();
                 int selecCol = table.getSelectedColumn();
 
-                //feldSetzen[selecRow][selecRow] = "ship";
-                //table.setValueAt("Ship", selecRow, selecCol);
-                //table.setValueAt(new ImageIcon(getClass().getResource("blue.png")), selecRow, selecCol);
                 System.out.println("Tabelle1 " + selecRow + "," + selecCol);
 
             }
@@ -333,6 +299,7 @@ public final class SpielStart extends JFrame{
 
         Box vbox_1 = Box.createVerticalBox();
         {
+            //vertikale Box fuer eigenes Spielfeld
             JLabel label_gegner = new JLabel("Eigene Schiffe");
             vbox_1.add(label_gegner);
 
@@ -344,13 +311,14 @@ public final class SpielStart extends JFrame{
 
         frame.add(vbox_1);
 
-
+        // Zwischenraum der Breite 20
         frame.add(Box.createHorizontalStrut(20));
         frame.add(Box.createHorizontalGlue());
 
 
         Box vbox_2 = Box.createVerticalBox();
         {
+            //vertikale Box fuer gegnerisches Spielfeld
             JLabel label_eigene = new JLabel("Gegner Schiffe");
             vbox_2.add(label_eigene);
 
@@ -363,6 +331,7 @@ public final class SpielStart extends JFrame{
 
         frame.add(vbox_2);
 
+        // Zwischenraum der Breite 10
         frame.add(Box.createHorizontalStrut(10));
         frame.add(Box.createHorizontalGlue());
 
@@ -370,6 +339,7 @@ public final class SpielStart extends JFrame{
 
         Box vbox_3 = Box.createVerticalBox();
         {
+            //vertikale Box fuer Spiel speichern und Ampel, ob am Zug
             speichern.setBackground(Color.CYAN);
 
             vbox_3.add(spielerzugdisplay);
@@ -405,114 +375,13 @@ public final class SpielStart extends JFrame{
             }
         });
 
+        // Zwischenraum der Breite 10
         frame.add(Box.createHorizontalStrut(10));
         frame.add(Box.createHorizontalGlue());
 
 
-        //Buttons werden fuer eigentliches Spiel nicht gebraucht, Schiffe werden davor gesetzt
-        /*Box vbox_4 = Box.createVerticalBox();
-        {
 
-        }
-        vbox_4.add(Box.createVerticalGlue());
-
-        vbox_4.add(Box.createVerticalStrut(20));
-        {
-            // "Eintrag entfernen" entfernt die selektierte Tabellenzeile.
-            JButton delete = new JButton("Schiffe entfernen");
-            delete.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-            delete.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-
-                    int selecRow_remove = table2.getSelectedRow();
-                    int selecCol_remove = table2.getSelectedColumn();
-
-
-                    //feldSetzen[selecRow][selecRow] = "ship";
-                    table2.setValueAt("", selecRow_remove, selecCol_remove);
-
-                    //System.out.println("Tabelle1 " + selecRow_remove + "," + selecCol_remove);
-
-                }
-            });
-
-
-
-            vbox_4.add(delete);
-
-            vbox_4.add(Box.createVerticalStrut(10));
-            vbox_4.add(Box.createVerticalGlue());
-
-
-        }
-
-        vbox_4.add(Box.createVerticalStrut(10));
-        {
-            // "Eintrag entfernen" entfernt die selektierte Tabellenzeile.
-            JButton zufall = new JButton("Schiffe zufaellig");
-            zufall.setAlignmentX(Component.CENTER_ALIGNMENT);
-            vbox_4.add(zufall);
-
-            vbox_4.add(Box.createVerticalStrut(10));
-            vbox_4.add(Box.createVerticalGlue());
-
-        }
-
-
-        vbox_4.add(Box.createVerticalStrut(10));
-        {
-            // "Eintrag entfernen" entfernt die selektierte Tabellenzeile.
-            JButton feld_gegner = new JButton("Feld Platz Gegner");
-            feld_gegner.setAlignmentX(Component.CENTER_ALIGNMENT);
-            vbox_4.add(feld_gegner);
-
-            feld_gegner.addActionListener(new ActionListener() {
-
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    SpielStart.index_spalte = table.getSelectedColumn();
-                    SpielStart.index_zeile = table.getSelectedRow();
-                    System.out.println("Tabelle1 " + SpielStart.index_spalte + "," + SpielStart.index_zeile);
-
-                }
-
-
-            });
-
-            JButton feld_eigene = new JButton("Feld Platz Eigene");
-            feld_eigene.setAlignmentX(Component.CENTER_ALIGNMENT);
-            vbox_4.add(feld_eigene);
-
-            feld_eigene.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-
-                    SpielStart.index_spalte = table2.getSelectedColumn();
-                    SpielStart.index_zeile = table2.getSelectedRow();
-
-                    System.out.println("Tabelle1 " + SpielStart.index_spalte + "," + SpielStart.index_zeile);
-
-                }
-            });
-
-
-            vbox_4.add(Box.createVerticalStrut(10));
-            vbox_4.add(Box.createVerticalGlue());
-
-        }
-
-        frame.add(vbox_4);
-
-        vbox_4.add(Box.createHorizontalStrut(10));
-        vbox_4.add(Box.createHorizontalGlue());*/
-
-
-        // Menüzeile (JMenuBar) erzeugen und einzelne Menüs (JMenu)
-        // mit Menüpunkten (JMenuItem) hinzufügen.
-        //ist jetzt bei startbildschirm (siehe startbildschirm)
+        // Menüzeile (JMenuBar) um Programm auch hier zu beenden
         JMenuBar bar = new JMenuBar();
         {
             JMenu menu = new JMenu("Programm");
@@ -527,19 +396,7 @@ public final class SpielStart extends JFrame{
             }
             bar.add(menu);
         }
-        {
-            JMenu menu = new JMenu("Tabelle");
-            {
-                JMenuItem item = new JMenuItem("Ausgeben");
-                item.addActionListener(
-                        (e) -> {
-                            //model.dump();
-                        }
-                );
-                menu.add(item);
-            }
-            bar.add(menu);
-        }
+
 
         // Menüzeile zum Fenster hinzufügen.
         frame.setJMenuBar(bar);
@@ -568,7 +425,6 @@ public final class SpielStart extends JFrame{
     {
         JTable table;
         remainingships = player.remainingShips.clone();
-        boolean allshipsareplaced = true;
         //Headers for JTable
         String[] columns = new String[player.mapSize];
         for(int i=0; i<player.mapSize; i++){
@@ -603,39 +459,17 @@ public final class SpielStart extends JFrame{
         table.setDefaultRenderer(ImageIcon.class, new MyImageCellRenderer());
         table.getTableHeader().setReorderingAllowed(false);
 
-        /*if(radioButton_l)
-        {
-            if(!Startbildschirm.p1 && !Startbildschirm.p2)
-            {
-                Startbildschirm.p1 = true;
-            }
-            if(Startbildschirm.p1 && !Startbildschirm.p2)
-            {
-                Startbildschirm.p2 = true;
-                SwingUtilities.invokeLater(() -> {Setzen(Startbildschirm.sp2);});
 
-            }
-
-        }*/
-
-
-
-
+        //Fenster mit Titel Schiffeversenken
         JFrame setzen = new JFrame("Schiffeversenken " + player.name);
         setzen.setIconImage(new ImageIcon(getClass().getResource("PirateBay.png")).getImage());
         setzen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // Zwischenraum der Breite 50 oder mehr.
-        //frame.add(Box.createHorizontalStrut(50));
-        //frame.add(Box.createHorizontalGlue());
-
-        // Menüzeile zum Fenster hinzufügen.
-        //frame.setJMenuBar(bar);
-        //startbildschirm.setJMenuBar(bar);
 
 
+        //setzt Layout auf horizontale Box
         setzen.setContentPane(Box.createHorizontalBox());
 
-        // Zwischenraum der Breite 50 oder mehr.
+        // Zwischenraum der Breite 20
         setzen.add(Box.createHorizontalStrut(20));
         setzen.add(Box.createHorizontalGlue());
 
@@ -647,7 +481,7 @@ public final class SpielStart extends JFrame{
 
         Box vbox_1 = Box.createVerticalBox();
         {
-
+            //vertikale Box fuer Spielfeld zum Schiffesetzen
             JLabel label_setzen = new JLabel("Hier werden die Schiffe gesetzt");
             vbox_1.add(label_setzen);
 
@@ -660,13 +494,13 @@ public final class SpielStart extends JFrame{
 
         setzen.add(vbox_1);
 
-
+        // Zwischenraum der Breite 20
         setzen.add(Box.createHorizontalStrut(20));
         setzen.add(Box.createHorizontalGlue());
 
 
 
-
+        //vertikale Box fuer Buttons und Checkboxen beim Schiffesetzen
         Box vbox_4 = Box.createVerticalBox();
         {
 
@@ -694,11 +528,13 @@ public final class SpielStart extends JFrame{
 
             vbox_4.add(add);
 
+            // Zwischenraum der Hoehe 15
             vbox_4.add(Box.createVerticalStrut(15));
             vbox_4.add(Box.createVerticalGlue());
 
             vbox_4.add(delete);
 
+            // Zwischenraum der Hoehe 15
             vbox_4.add(Box.createVerticalStrut(15));
             vbox_4.add(Box.createVerticalGlue());
         }
@@ -710,6 +546,7 @@ public final class SpielStart extends JFrame{
         {
             vbox_4.add(zufall);
 
+            // Zwischenraum der Hoehe 10
             vbox_4.add(Box.createVerticalStrut(10));
             vbox_4.add(Box.createVerticalGlue());
 
@@ -746,7 +583,6 @@ public final class SpielStart extends JFrame{
             }
             cb_6.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-            //Listener fuer Checkboxen
 
             table.addMouseListener(new MouseAdapter() {
                 @Override
@@ -760,7 +596,6 @@ public final class SpielStart extends JFrame{
                                 player.removeShipRequest(((Ship) player.board[x][y]).initialX, ((Ship) player.board[x][y]).initialY);
                             }
                         }
-                        //Code anpassen fuer anklicken Schiffe platzieren
                         else if (player.spaceCheck(x, y, length, direction)) {
                             player.placeRemoveShip(placeship, x, y, length, direction);
                         }
@@ -818,9 +653,6 @@ public final class SpielStart extends JFrame{
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     player.resetplayer(remainingships);
-                    //SwingWorker<Void, Void> sw10 = new SwingWorker<Void, Void>(){
-                      //  @Override
-                        //protected Void doInBackground() throws Exception {
                             zufall.setEnabled(false);
                             player.placerandom();
                             Object[][] data = new Object[player.mapSize][player.mapSize];
@@ -870,11 +702,7 @@ public final class SpielStart extends JFrame{
                                 cb_6.setSelected(false);
                                 length = 0;
                             }
-                            //return null;
                         }
-                    //};
-                    //sw10.execute();
-                //}
             });
 
             add.addActionListener(new ActionListener() {
@@ -896,9 +724,6 @@ public final class SpielStart extends JFrame{
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-
-                    //JCheckBox cb2_source = (JCheckBox) e.getSource();//Objekt das verändert wurde
-                    //Cast auf JCheckBox
                     if(cb_2.isSelected())
                     {
                         length = 2;
@@ -918,8 +743,6 @@ public final class SpielStart extends JFrame{
             cb_3.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //JCheckBox cb2_source = (JCheckBox) e.getSource();//Objekt das verändert wurde
-                    //Cast auf JCheckBox
 
                     if(cb_3.isSelected()) {
                         length = 3;
@@ -937,10 +760,6 @@ public final class SpielStart extends JFrame{
             cb_4.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
-
-                    //JCheckBox cb2_source = (JCheckBox) e.getSource();//Objekt das verändert wurde
-                    //Cast auf JCheckBox
 
                        if(cb_4.isSelected())
                        {
@@ -961,10 +780,6 @@ public final class SpielStart extends JFrame{
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-
-                    //JCheckBox cb2_source = (JCheckBox) e.getSource();//Objekt das verändert wurde
-                    //Cast auf JCheckBox
-
                     if(cb_5.isSelected())
                     {
                         length = 5;
@@ -984,10 +799,6 @@ public final class SpielStart extends JFrame{
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-
-                    //JCheckBox cb2_source = (JCheckBox) e.getSource();//Objekt das verändert wurde
-                    //Cast auf JCheckBox
-
                     if(cb_6.isSelected())
                     {
                         length = 6;
@@ -1004,7 +815,6 @@ public final class SpielStart extends JFrame{
             });
 
 
-            //zufall.setAlignmentX(Component.CENTER_ALIGNMENT);
             //Checkboxen zu vertikaler Box hinzufuegen
             vbox_4.add(cb_2);
             vbox_4.add(cb_3);
@@ -1013,7 +823,7 @@ public final class SpielStart extends JFrame{
             vbox_4.add(cb_6);
 
 
-
+            // Zwischenraum der Hoehe 10
             vbox_4.add(Box.createVerticalStrut(10));
             vbox_4.add(Box.createVerticalGlue());
 
@@ -1026,7 +836,6 @@ public final class SpielStart extends JFrame{
 
         vbox_4.add(Box.createVerticalStrut(10));
         {
-            // "Eintrag entfernen" entfernt die selektierte Tabellenzeile.
             horizontal.setAlignmentX(Component.CENTER_ALIGNMENT);
 
             horizontal.addActionListener(new ActionListener() {
@@ -1040,6 +849,7 @@ public final class SpielStart extends JFrame{
             });
             vbox_4.add(horizontal);
 
+            // Zwischenraum der Hoehe 10
             vbox_4.add(Box.createVerticalStrut(10));
             vbox_4.add(Box.createVerticalGlue());
 
@@ -1047,7 +857,6 @@ public final class SpielStart extends JFrame{
 
         vbox_4.add(Box.createVerticalStrut(10));
         {
-            // "Eintrag entfernen" entfernt die selektierte Tabellenzeile.
             vertikal.setAlignmentX(Component.CENTER_ALIGNMENT);
 
             vertikal.addActionListener(new ActionListener() {
@@ -1061,6 +870,7 @@ public final class SpielStart extends JFrame{
             });
             vbox_4.add(vertikal);
 
+            // Zwischenraum der Hoehe 10
             vbox_4.add(Box.createVerticalStrut(10));
             vbox_4.add(Box.createVerticalGlue());
 
@@ -1070,11 +880,8 @@ public final class SpielStart extends JFrame{
 
 
 
-
-
         vbox_4.add(Box.createVerticalStrut(10));
         {
-            // "Eintrag entfernen" entfernt die selektierte Tabellenzeile.
             JButton beginn = new JButton("Spiel beginnen!");
             beginn.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -1095,7 +902,7 @@ public final class SpielStart extends JFrame{
 
                         }
                     }
-                    //if(allshipsareplaced == true){
+                    //Spiel kann nur begonnen werden, wenn alle Schiffe gesetzt
                     if(counter > 0 && player.remainingShips[2] == 0 && player.remainingShips[3] == 0 && player.remainingShips[4] == 0 && player.remainingShips[5] == 0 && player.remainingShips[6] == 0){
                         setzen.setVisible(false);
                         if(player.name.equals("Spieler1")) {
@@ -1161,64 +968,22 @@ public final class SpielStart extends JFrame{
             });
             vbox_4.add(beginn);
 
+            // Zwischenraum der Hoehe 10
             vbox_4.add(Box.createVerticalStrut(10));
             vbox_4.add(Box.createVerticalGlue());
 
         }
 
 
-        vbox_4.add(Box.createVerticalStrut(10));
-        {
-            // "Eintrag entfernen" entfernt die selektierte Tabellenzeile.
-            JButton feld_gegner = new JButton("Feld Platz Gegner");
-            feld_gegner.setAlignmentX(Component.CENTER_ALIGNMENT);
-            vbox_4.add(feld_gegner);
-
-            feld_gegner.addActionListener(new ActionListener() {
-
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    //GUI.SpielStart.index_spalte = table.getSelectedColumn();
-                    //GUI.SpielStart.index_zeile = table.getSelectedRow();
-                    //System.out.println("Tabelle1 " + GUI.SpielStart.index_spalte + "," + GUI.SpielStart.index_zeile);
-
-                }
-
-
-            });
-
-            JButton feld_eigene = new JButton("Feld Platz Eigene");
-            feld_eigene.setAlignmentX(Component.CENTER_ALIGNMENT);
-            vbox_4.add(feld_eigene);
-
-            feld_eigene.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-
-                    //GUI.SpielStart.index_spalte = table2.getSelectedColumn();
-                    //GUI.SpielStart.index_zeile = table2.getSelectedRow();
-
-                    //System.out.println("Tabelle1 " + GUI.SpielStart.index_spalte + "," + GUI.SpielStart.index_zeile);
-
-                }
-            });
-
-
-            vbox_4.add(Box.createVerticalStrut(10));
-            vbox_4.add(Box.createVerticalGlue());
-
-        }
 
         setzen.add(vbox_4);
 
+        // Zwischenraum der Hoehe 10
         vbox_4.add(Box.createHorizontalStrut(10));
         vbox_4.add(Box.createHorizontalGlue());
 
 
-        // Menüzeile (JMenuBar) erzeugen und einzelne Menüs (JMenu)
-        // mit Menüpunkten (JMenuItem) hinzufügen.
-        //ist jetzt bei startbildschirm (siehe startbildschirm)
+        // Menüzeile (JMenuBar) um Programm auch hier zu beenden
         JMenuBar bar = new JMenuBar();
         {
             JMenu menu = new JMenu("Programm");
@@ -1233,19 +998,7 @@ public final class SpielStart extends JFrame{
             }
             bar.add(menu);
         }
-        {
-            JMenu menu = new JMenu("Tabelle");
-            {
-                JMenuItem item = new JMenuItem("Ausgeben");
-                item.addActionListener(
-                        (e) -> {
-                            //model.dump();
-                        }
-                );
-                menu.add(item);
-            }
-            bar.add(menu);
-        }
+
 
         // Menüzeile zum Fenster hinzufügen.
         setzen.setJMenuBar(bar);
