@@ -6,7 +6,11 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="Kommentare Update" />
+    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="fix">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Socket/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Socket/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Server.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -423,7 +427,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656866176467</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="fix">
+      <created>1656866307776</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1656866307776</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -441,7 +452,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="jetzt passt alles" />
     <MESSAGE value="." />
     <MESSAGE value="KI löscht Shiffe falls sie nicht plaziert werden konnten nach ca. 30 versuchen&#10;Ki hatte davor auf board geschossen und dadurch fehlerhaften rückgabe wert erhalten, schießt jetzt auf visible board und kann theoretisch gewinnen.&#10;Ship initialX, initialY public gemacht damit ich darauf zugreifen kann.&#10;Spieler @param remainingShips und beschreibung hinzugefügt.&#10;Else statement hinzugefügt für placeRemoveShips, damit schiffe auch wieder in den Pool gemacht werden.&#10;spaceCheck, y &gt;= mapsize und x &gt;= mapsize, sonst gab es out of bounds error bei y = 5 oder x = 5." />
     <MESSAGE value="GUI UPDATE" />
@@ -466,7 +476,8 @@
     <MESSAGE value="kommentare update" />
     <MESSAGE value="Fix" />
     <MESSAGE value="Kommentare Update" />
-    <option name="LAST_COMMIT_MESSAGE" value="Kommentare Update" />
+    <MESSAGE value="fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

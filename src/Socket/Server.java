@@ -378,7 +378,6 @@ public class Server implements Serializable{
      *
      */
     public void runGameKI(){
-        TextClient("pass");
         if(loadtoken == false && toloadthegame != null){
             player.attackToken = false;
             System.out.println("Spiel wurde geladen aber nicht am Zug!!");      //eigentlich momentan nicht moeglich mit Spiel gegen KI
@@ -452,25 +451,29 @@ public class Server implements Serializable{
                         }
                         break;
                     case "shot":    //Opponent hat aufs eigene Spielfeld geschossen
-                        String answer = "";
+                        String answer;
+                        int x = 0, y = 0;
                         try {
-                            int x = parseInt(Osplit[1]);
-                            int y = parseInt(Osplit[2]);
+                            x = parseInt(Osplit[1]);
+                            y = parseInt(Osplit[2]);}
+                        catch (Exception e) {
+                            System.out.println("Array out of bounds");
+                        }
                             answer = player.shootYourself(x, y);
+                            System.out.println("shotanswer: " + answer);
                             if(answer.equals("answer 0")){
+                                System.out.println("answer 0!");
                                 //GAME.setTableCellBLUE(x, y);
                             }
-                            if(answer.equals("answer 1")){
+                            else if(answer.equals("answer 1")){
                                 //GAME.setTableRedCross(x, y);
                             }
-                            if(answer.equals("answer 2")){
+                            else if(answer.equals("answer 2")){
                                 player.hp = player.hp - 1;
                                 System.out.println("player.hp: " + player.hp);
                                 //GAME.setTableBlackCross(x, y);
                             }
-                        } catch (Exception e) {
-                            System.out.println("Array out of bounds");
-                        }
+
                         TextClient(answer);
                         if (player.hp == 0) {
                             System.exit(0);
