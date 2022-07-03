@@ -16,6 +16,12 @@ import javax.swing.*;
 import static java.lang.Integer.parseInt;
 
 
+/**
+ *
+ * Die Klasse Server enthaelt Methoden zum starten eines Server Socket und verbinden mit einem Client Socket, sowohl um Nachrichten an den Client
+ * zu senden und Nachrichten die vom Client kommen fuer normale Spieler und KI abzuarbeiten.
+ */
+
 public class Server implements Serializable{
     // Verwendete Portnummer
     public final int port;

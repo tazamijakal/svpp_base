@@ -4,6 +4,12 @@ import GUI.SpielStart;
 
 import java.util.Scanner;
 
+/**
+ *
+ * Hilfsklasse um Methoden in der Konsole zu testen
+ * Fuer EndProgramm nicht wichtig!
+ *
+ */
 public class Game {
 
     public int mapSize; /** test */

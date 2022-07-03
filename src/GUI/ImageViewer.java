@@ -3,20 +3,28 @@ package GUI;
 import java.awt.*;
 import javax.swing.*;
 
+
+/**
+ *
+ * Hilfsklasse zum dynamischen resizing von images.
+ *
+ */
 public class ImageViewer extends JPanel {
 
     private java.awt.Image image;
     private int xCoordinate;
-    private boolean stretched = true;
     private int yCoordinate;
-
-    public ImageViewer() {
-    }
+    private boolean stretched = true;
 
     public ImageViewer(Image image) {
         this.image = image;
     }
 
+
+    /**
+     * Methode zeichnet image to width und height von panel damit es spaeter automatisch Groesse aendert.
+     * @param g Graphics Component
+     */
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -30,19 +38,22 @@ public class ImageViewer extends JPanel {
         }
     }
 
-    public java.awt.Image getImage() {
-        return image;
-    }
 
-    public void setImage(java.awt.Image image) {
-        this.image = image;
-        repaint();
-    }
-
+    /**
+     * Methode liefert zurueck ob isStreched
+     */
     public boolean isStretched() {
         return stretched;
     }
 
+
+    /*public java.awt.Image getImage() {
+        return image;
+    }
+    public void setImage(java.awt.Image image) {
+        this.image = image;
+        repaint();
+    }
     public void setStretched(boolean stretched) {
         this.stretched = stretched;
         repaint();
@@ -64,5 +75,5 @@ public class ImageViewer extends JPanel {
     public void setYCoordinate(int yCoordinate) {
         this.yCoordinate = yCoordinate;
         repaint();
-    }
+    }*/
 }

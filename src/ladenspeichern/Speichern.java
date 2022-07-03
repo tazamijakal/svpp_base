@@ -4,10 +4,17 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 import java.io.Serializable;
 
+/**
+ *
+ * Klasse um Spielstand zu speichern in txt File
+ *
+ */
 public class Speichern implements Serializable {
-
-    AllWeNeed savefile;
-
+    /**
+     * Methode um AllWeNeed Objekte zu speichern mit id als Name
+     * @param data AllWeNeed Objekt
+     * @param id id wird an Dateiname angehaengt
+     */
     public static void save(AllWeNeed data, String id) throws IOException {
         if(data.player.name.equals("Server") || data.player.name.equals("Client")){
 
@@ -48,9 +55,4 @@ public class Speichern implements Serializable {
         objectoutput.flush(); //Eventuell nicht noetig
         objectoutput.close();
     }
-
-    /*public static void main(String[] args) {
-        //save();
-    }*/
-
 }

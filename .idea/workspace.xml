@@ -6,10 +6,20 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="Fix">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/svpp_base_jar2.xml" afterDir="false" />
+    <list default="true" id="ddd18336-979f-4f56-80c6-5a3dafc92826" name="Changes" comment="kommentare update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GUI/SpielStartLokal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/SpielStartLokal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/AudioPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/AudioPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/ImageViewer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/ImageViewer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GUI/MyImageCellRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI/MyImageCellRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logik/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logik/Game2KI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Game2KI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logik/Spieler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logik/Spieler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Socket/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Socket/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Socket/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/AllWeNeed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/AllWeNeed.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/Laden.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/Laden.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ladenspeichern/Speichern.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ladenspeichern/Speichern.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -429,7 +439,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Shoot-Methoden nur noch x/y vertauscht und -1" />

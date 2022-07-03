@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 /**
  *
- * Die Klasse Spieler beinhaltet momentan Methoden zur Spieler- und Spielfelderzeugung, Schiffsplatzierung und Kollisionsabfrage.
+ * Die Klasse Spieler beinhaltet Methoden zur Spieler- und Spielfelderzeugung, Schiffsplatzierung und Kollisionsabfrage.
  */
 
 
@@ -34,7 +34,7 @@ public class Spieler implements Serializable {
     public Object[][] visibleBoard;
     public int[][] radarMap;   //TODO für Radar
     public int[][] collisionMap;        //wird überprüft um zu wissen ob Schiff genug Abstand zu den anderen Schiffen hat
-    public int[][] hitMap;                //Zwischenspeicher für die einzelnen Koordinaten aus denen Schiff besteht
+    //public int[][] hitMap;                //Zwischenspeicher für die einzelnen Koordinaten aus denen Schiff besteht
     public int[] remainingShips = {0,0,0,0,0,0,0};
     public ArrayList<Ship> shipList = new ArrayList<>();        //Liste mit all den Schiffen eines Spielers
     transient Scanner userinput = new Scanner(System.in); //wird für Userinput benötigt
@@ -77,14 +77,26 @@ public class Spieler implements Serializable {
         }
     }
 
+    /**
+     * Setter Methode fuer Client Attribut
+     * @param c Client Objekt
+     */
     public void clientSetter(Client c){
         this.client = c;
     }
 
+    /**
+     * Setter Methode fuer Client Attribut
+     * @param s Server Objekt
+     */
     public void serverSetter(Server s) {
         this.server = s;
     }
 
+    /**
+     * Methode um den player zurueckzusetzen, wichtig um zufaellig Schiffe zu platzieren mehrmals hintereinander
+     * @param rms remaining ships vor Platzierung
+     */
     public void resetplayer(int[] rms){
         collisionMap = new int[mapSize][mapSize];
         board = new Object[mapSize][mapSize];       //Spielfeld
@@ -96,6 +108,10 @@ public class Spieler implements Serializable {
         hp = hp2 = remainingShips[2] + remainingShips[3] + remainingShips[4] + remainingShips[5] + remainingShips[6];
     }
 
+    /**
+     * Setter Methode um Spieler HPs neu zu setzen
+     * @param newhp neues HP
+     */
     public void sethps(int newhp){
         hp = newhp;
         hp2 = newhp;
@@ -291,10 +307,10 @@ public class Spieler implements Serializable {
 //------------------------SHOOT-METHODEN--------------------------------------------------------------------------------------------------
 
 
-    public void setTargetCoordinates(int x, int y){
+    /*public void setTargetCoordinates(int x, int y){
         this.x = x;
         this.y = y;
-   }
+   }*/
 
     /**
      *
@@ -324,7 +340,7 @@ public class Spieler implements Serializable {
         }
     }
 
-    public void shootRequest(int x, int y) {
+    /*public void shootRequest(int x, int y) {
         try{
             if (visibleBoard[x][y] instanceof TrefferObject || visibleBoard[x][y] instanceof MisfireObject) {
                 System.out.println("Bereits auf Feld geschossen!");
@@ -339,7 +355,7 @@ public class Spieler implements Serializable {
         }catch (ArrayIndexOutOfBoundsException E){
             System.out.println("Out of bounds!");
         }
-    }
+    }*/
 
     /**
      *
@@ -415,7 +431,10 @@ public class Spieler implements Serializable {
 
 //--------------------TERMINAL-DARSTELLUNGS-Methoden-----------------------------------------------------------------------------------
 
-
+    /**
+     *
+     * Gibt die verbleibenden Schiffe in der Konsole aus
+     */
     public void showRemainingShips(){
         for (int i = 0; i < this.remainingShips.length; i++) {
             if(this.remainingShips[i]>0){
@@ -486,6 +505,12 @@ public class Spieler implements Serializable {
         System.out.println("Player switcher: "+stringBuilder.toString());
     }
 
+    /**
+     *
+     * Gibt alle Felder der zwei Spieler in der Konsole aus
+     * @param one Spieler 1
+     * @param two Spieler 2
+     */
     public void oldPrintAll(Spieler one, Spieler two){
         Spieler temp;
         if(one.playerNumber > two.playerNumber){
@@ -534,6 +559,12 @@ public class Spieler implements Serializable {
         }
     }
 
+    /**
+     *
+     * Gibt visibleboard spezifische row aus
+     * @param player Spieler
+     * @param row Reihe
+     */
     public void printVisibleRow(Spieler player, int row){
 
         for (int x = 0; x < mapSize; x++) {
@@ -564,14 +595,29 @@ public class Spieler implements Serializable {
         }
     }
 
+    /**
+     *
+     * Hilfsklasse um fieldposition in einem Objekt zu speichern
+     *
+     */
     public static final class fieldposition {
         public int x, y;
+        /**
+         *
+         * fieldposition Konstruktor
+         *
+         */
         public fieldposition (int x,int y) {
             this.x = x;
             this.y = y;
         }
     }
 
+    /**
+     *
+     * Hilfsmethode fuer placerandom() zuefaelliger Int als Rueckgabewert
+     *
+     */
     public static int randInt(int min, int max) {
         Random rand = new Random();
         int randomNum = rand.nextInt((max - min + 1 ) - min);
@@ -579,11 +625,21 @@ public class Spieler implements Serializable {
         return randomNum;
     }
 
+    /**
+     *
+     * Hilfsmethode fuer placerandom() zuefaelliger boolean Rueckgabe wert
+     *
+     */
     public boolean getRandomBoolean() {
         Random random = new Random();
         return random.nextBoolean();
     }
 
+    /**
+     *
+     * Hilfsmethode fuer placerandom()
+     *
+     */
     public fieldposition RdmZielpos() throws Exception {
         Integer x;
         Integer y;
@@ -593,6 +649,11 @@ public class Spieler implements Serializable {
     }
 
 
+    /**
+     *
+     * Methode um alle Schiffe (remainingships) auf dem Spielfeld zu platzieren
+     *
+     */
     public void placerandom() {
         String Vergleich = "Here";
         int counter;

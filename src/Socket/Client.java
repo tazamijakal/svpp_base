@@ -15,7 +15,10 @@ import ladenspeichern.Laden;
 import ladenspeichern.Speichern;
 import javax.swing.*;
 
-
+/**
+ * Die Klasse Client enthaelt Methoden zum starten eines Client Socket und verbinden mit einem Server Socket, sowohl um Nachrichten an den Client
+ * zu senden und Nachrichten die vom Client kommen fuer normale Spieler und KI abzuarbeiten.
+ */
 public class Client implements Serializable{
 
     public final String ip;

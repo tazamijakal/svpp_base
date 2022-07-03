@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.net.URL;
 import javax.sound.sampled.*;
 
-
+/**
+ *
+ * Klasse um Audiodateien im Programm abzuspielen
+ *
+ */
 public class AudioPlayer implements LineListener {
 
     /**

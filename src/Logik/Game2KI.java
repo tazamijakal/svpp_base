@@ -5,6 +5,12 @@ import KI.leichte_KI_zufall;
 import KI.mittlere_KI;
 import java.util.Scanner;
 
+/**
+ *
+ * Hilfsklasse um Methoden in der Konsole zu testen
+ * Fuer EndProgramm nicht wichtig!
+ *
+ */
 public class Game2KI {
 
     public int mapSize; /** test */

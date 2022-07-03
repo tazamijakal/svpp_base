@@ -1,10 +1,12 @@
-import GUI.SpielStart;
 import GUI.Startbildschirm;
-import Logik.Game2KI;
-
 import javax.swing.*;
 import java.io.IOException;
 
+/**
+ *
+ * Main Klasse um das Programm zu starten :)
+ *
+ */
 public class Main {
     public static void main(String[] args) throws Exception {
         // Laut Swing-Dokumentation sollte die graphische Oberfläche
@@ -24,7 +26,6 @@ public class Main {
                 e.printStackTrace();
             }
         });
-
     }
 }
 

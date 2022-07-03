@@ -4,6 +4,11 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 
+/**
+ *
+ * Klasse um Spielstand zu laden aus txt File
+ *
+ */
 public class Laden implements Serializable{
     public static AllWeNeed load() throws IOException, ClassNotFoundException {
         //JFileChooser-Objekt erstellen
@@ -40,8 +45,4 @@ public class Laden implements Serializable{
         }
         return null;
     }
-
-    /*public static void main(String[] args) throws IOException, ClassNotFoundException {
-        load();
-    }*/
 }
